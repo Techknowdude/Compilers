@@ -39,13 +39,14 @@ class SymbolTable
 {
 public:
 	SymbolTable();
-	bool SymbolInCurScope(Symbol find);
-	bool SymbolExists(Symbol find);
+	bool SymbolInCurScope(Symbol* find);
+	bool SymbolExists(Symbol* find);
 	bool SymbolInCurScope(string find);
 	bool SymbolExists(string find);
 	void IncreaseScope();
 	void DecreaseScope();
-	void InsertSymbol(Symbol insert);
+	void InsertSymbol(string insert);
+	void InsertSymbol(Symbol* insert);
 
 protected:
 	list<HashTable*> SymbolHashes;

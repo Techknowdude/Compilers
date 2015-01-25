@@ -32,9 +32,9 @@ SymbolTable::SymbolTable() : SymbolHashes(), defaultHashSize(5)
 * Entry:
 * Exit:
 ************************************************************************/
-bool SymbolTable::SymbolInCurScope(Symbol find)
+bool SymbolTable::SymbolInCurScope(Symbol* find)
 {
-	return SymbolHashes.front()->Contains(find);
+	return (*SymbolHashes.front()).Contains(find);
 }
 
 /**********************************************************************
@@ -42,9 +42,19 @@ bool SymbolTable::SymbolInCurScope(Symbol find)
 * Entry:
 * Exit:
 ************************************************************************/
-void SymbolTable::InsertSymbol(Symbol newSymbol)
+void SymbolTable::InsertSymbol(string newSymbol)
 {
-	SymbolHashes.front()->Insert(newSymbol.GetIdentifier(), newSymbol);
+	SymbolHashes.front()->Insert(newSymbol, new Symbol(newSymbol));
+}
+
+/**********************************************************************
+* Purpose:  Returns true if the current scope contains the passed identifier
+* Entry:
+* Exit:
+************************************************************************/
+void SymbolTable::InsertSymbol(Symbol* newSymbol)
+{
+	SymbolHashes.front()->Insert(newSymbol->GetIdentifier(), newSymbol);
 }
 
 /**********************************************************************
@@ -52,7 +62,7 @@ void SymbolTable::InsertSymbol(Symbol newSymbol)
 * Entry:
 * Exit:
 ************************************************************************/
-bool SymbolTable::SymbolExists(Symbol find)
+bool SymbolTable::SymbolExists(Symbol* find)
 {
 	list<HashTable*>::iterator iter;
 	bool found = false;

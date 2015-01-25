@@ -73,7 +73,10 @@ close:  '}'                     {
 decls:      decls decl          {}
         |   decl                {}
 
-decl:       IDENTIFIER ';'      { std::cout << $1->toString() << "\n"; }
+decl:       IDENTIFIER ';'      { 
+                                  if(!symbolTableRoot->SymbolInCurScope($1))
+                                      symbolTableRoot->InsertSymbol($1);
+                                  std::cout << $1->toString() << "\n"; }
         |   block               {}
 %%
 

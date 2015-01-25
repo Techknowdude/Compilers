@@ -66,8 +66,8 @@ HashTable & HashTable::operator=(const HashTable & rhs)
 		Purge();
 		m_table.resize(rhs.m_table.size());
 		this->hash = rhs.hash;
-		list<HashNode<string, Symbol>*> temp;
-		list<HashNode<string, Symbol>*>::const_iterator Listiter;
+		list<HashNode<string, Symbol*>*> temp;
+		list<HashNode<string, Symbol*>*>::const_iterator Listiter;
 		// Move all the nodes into a temp list
 		int tableSize = m_table.size();
 		for (int bucket = 0; bucket < tableSize; ++bucket)
@@ -90,13 +90,13 @@ HashTable & HashTable::operator=(const HashTable & rhs)
 * Exit:		Data is returned or inserted depending on use.
 ************************************************************************/
 
-Symbol & HashTable::operator[](string key)
+Symbol* & HashTable::operator[](string key)
 {
 	int index = hash(key) % m_table.size();
-	HashNode<string, Symbol> * node = inList(key);
+	HashNode<string, Symbol*> * node = inList(key);
 	if (node == nullptr)
 	{
-		node = new HashNode<string, Symbol>();
+		node = new HashNode<string, Symbol*>();
 		node->m_key = key;
 		m_table[index].push_front(node);
 	}
@@ -113,12 +113,12 @@ Symbol & HashTable::operator[](string key)
 *			HashTable.
 ************************************************************************/
 
-void HashTable::Insert(string key, Symbol val)
+void HashTable::Insert(string key, Symbol* val)
 {
 	if (inList(key) == nullptr)
 	{
 		int index = hash(key) % m_table.size();
-		m_table[index].push_back(new HashNode<string, Symbol>(key, val));
+		m_table[index].push_back(new HashNode<string, Symbol*>(key, val));
 	}
 	else
 		throw "Error! Key already in list";
@@ -137,8 +137,8 @@ void HashTable::setHash(int(*hash)(string key))
 	if (this->hash != hash)
 	{
 		this->hash = hash;
-		list<HashNode<string, Symbol>*> temp;
-		vector<list<HashNode<string, Symbol>*>>::iterator iter;
+		list<HashNode<string, Symbol*>*> temp;
+		vector<list<HashNode<string, Symbol*>*>>::iterator iter;
 		// Move all the nodes into a temp list
 		for (iter = m_table.begin(); iter != m_table.end(); ++iter)
 		{
@@ -150,7 +150,7 @@ void HashTable::setHash(int(*hash)(string key))
 		}
 
 		// insert data back in deleting nodes as they are replaced.
-		HashNode<string, Symbol> * del = nullptr;
+		HashNode<string, Symbol*> * del = nullptr;
 		while (!temp.empty())
 		{
 			del = temp.front();
@@ -172,7 +172,7 @@ void HashTable::setHash(int(*hash)(string key))
 
 void HashTable::Delete(string key)
 {
-	HashNode<string, Symbol> * del = inList(key);
+	HashNode<string, Symbol*> * del = inList(key);
 	int index = hash(key) % m_table.size();
 
 	if (del != nullptr)
@@ -193,9 +193,9 @@ void HashTable::Delete(string key)
 * Exit:		Each HashNode is visited by the passed function.
 ************************************************************************/
 
-void HashTable::Traverse(void(*visit)(Symbol val))
+void HashTable::Traverse(void(*visit)(Symbol* val))
 {
-	list<HashNode<string, Symbol>*>::iterator iter;
+	list<HashNode<string, Symbol*>*>::iterator iter;
 	int size = m_table.size();
 	for (int bucket = 0; bucket < size; ++bucket)
 	{
@@ -216,7 +216,7 @@ void HashTable::Traverse(void(*visit)(Symbol val))
 
 void HashTable::Purge()
 {
-	HashNode<string, Symbol> * del = nullptr;
+	HashNode<string, Symbol*> * del = nullptr;
 	int size = m_table.size();
 	for (int bucket = 0; bucket < size; ++bucket)
 	{
@@ -236,11 +236,11 @@ void HashTable::Purge()
 *
 * Exit:		returns a pointer to the HashNode or nullptr.
 ************************************************************************/
-HashNode<string, Symbol> * HashTable::inList(string key)
+HashNode<string, Symbol*> * HashTable::inList(string key)
 {
 	int index = hash(key) % m_table.size();
-	list<HashNode<string, Symbol>*>::iterator iter;
-	HashNode<string, Symbol> * pointer = nullptr;
+	list<HashNode<string, Symbol*>*>::iterator iter;
+	HashNode<string, Symbol*> * pointer = nullptr;
 	for (iter = m_table[index].begin(); iter != m_table[index].end(); ++iter)
 	{
 		if ((*iter)->m_key == key)
@@ -259,10 +259,10 @@ HashNode<string, Symbol> * HashTable::inList(string key)
 * Exit:		This function creates an HashTable object.
 ************************************************************************/
 
-bool HashTable::Contains(Symbol value)
+bool HashTable::Contains(Symbol* value)
 {
-	vector<list<HashNode<string, Symbol>*>>::iterator vectIter;
-	list<HashNode<string, Symbol>*>::iterator listIter;
+	vector<list<HashNode<string, Symbol*>*>>::iterator vectIter;
+	list<HashNode<string, Symbol*>*>::iterator listIter;
 	bool found = false;
 
 	for (vectIter = m_table.begin(); !found && vectIter != m_table.end(); ++vectIter)
@@ -285,15 +285,15 @@ bool HashTable::Contains(Symbol value)
 ************************************************************************/
 bool HashTable::Contains(string value)
 {
-	vector<list<HashNode<string, Symbol>*>>::iterator vectIter;
-	list<HashNode<string, Symbol>*>::iterator listIter;
+	vector<list<HashNode<string, Symbol*>*>>::iterator vectIter;
+	list<HashNode<string, Symbol*>*>::iterator listIter;
 	bool found = false;
 
 	for (vectIter = m_table.begin(); !found && vectIter != m_table.end(); ++vectIter)
 	{
 		for (listIter = vectIter->begin(); !found && listIter != vectIter->end(); ++listIter)
 		{
-			if ((*listIter)->m_value.GetIdentifier() == value)
+			if ((*listIter)->m_value->GetIdentifier() == value)
 				found = true;
 		}
 	}

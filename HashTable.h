@@ -57,20 +57,20 @@ public:
 	HashTable( const HashTable & copy );
 	HashTable & operator=( const HashTable & rhs );
 
-	Symbol & operator[](string key);
-	void Insert(string key, Symbol val);
+	Symbol* & operator[](string key);
+	void Insert(string key, Symbol* val);
 	void setHash(int (*hash)(string key));
 	void Delete(string key);
-	void Traverse(void (*visit)(Symbol val));
+	void Traverse(void (*visit)(Symbol* val));
 	void Purge();
-	bool Contains(Symbol item);
+	bool Contains(Symbol* item);
 	bool Contains(string item);
 
 private:
-	HashNode<string,Symbol> * inList(string key);
+	HashNode<string,Symbol*> * inList(string key);
 
 	int (*hash)(string key);
-	vector<list<HashNode<string,Symbol>*>> m_table;
+	vector<list<HashNode<string,Symbol*>*>> m_table;
 };
 
 
