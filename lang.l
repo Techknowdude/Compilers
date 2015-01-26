@@ -2,14 +2,13 @@
 // lang lexer definition file
 //
 // Author: Phil Howard phil.howard@oit.edu
-
-#include "tokens.h"
+#include "lex.h"
+#include "langparse.h"
 #include "SymbolTable.h"
-
+#include "Symbol.h"
 
 #define RETURN(a) return Return(a);
 static int Return(int val);
-extern SymbolTable * symbolTableRoot;
 %}
 
 %option noyywrap
@@ -34,22 +33,23 @@ commentline     \/\/.*
 {float}         RETURN(FLOAT_VAL);
 {integer}       RETURN(INT_VAL);
 {whitespace}    {}
+"int"           RETURN(INTEGER);
+"float"         RETURN(FLOAT);
+"char"          RETURN(CHAR);
 "if"            RETURN(IF);
-"for"           RETURN(FOR);
-"then"          RETURN(THEN);
+"scan"          RETURN(SCAN);
+"while"         RETURN(WHILE);
 "else"          RETURN(ELSE);
 "while"         RETURN(WHILE);
 "print"         RETURN(PRINT);
-"scan"          RETURN(SCAN);
-"int"           RETURN(INT);
-"float"         RETURN(FLOAT);
-"char"          RETURN(CHAR);
 "struct"        RETURN(STRUCT);
 "return"        RETURN(RETURN_TOK);
-{identifier}                {
-                                return IDENTIFIER;
-                            }
-{junk}          RETURN(JUNK_TOKEN);
+{identifier}    {
+                    string ident(yytext);
+                    yylval.symbol = symbolTableRoot->InsertSymbol(ident);
+                    RETURN(IDENTIFIER);
+                }
+{junk}          RETURN(JUNK_TOK);
 %%
 
 // This function allows us to do extra processing on each token

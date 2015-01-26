@@ -45,9 +45,9 @@ public:
 	bool SymbolExists(string find);
 	void IncreaseScope();
 	void DecreaseScope();
-	void InsertSymbol(string insert);
+	Symbol* InsertSymbol(string insert);
 	void InsertSymbol(Symbol* insert);
-
+	Symbol* GetSymbol(string symbol);
 protected:
 	list<HashTable*> SymbolHashes;
 	int defaultHashSize;

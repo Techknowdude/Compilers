@@ -55,5 +55,5 @@ void Symbol::SetIdentifier(string newID)
 
 string Symbol::toString()
 {
-	return identifier;
+	return identifier + " " + std::to_string(sequence);
 }

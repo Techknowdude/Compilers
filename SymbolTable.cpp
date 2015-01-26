@@ -42,9 +42,21 @@ bool SymbolTable::SymbolInCurScope(Symbol* find)
 * Entry:
 * Exit:
 ************************************************************************/
-void SymbolTable::InsertSymbol(string newSymbol)
+Symbol* SymbolTable::InsertSymbol(string identifier)
 {
-	SymbolHashes.front()->Insert(newSymbol, new Symbol(newSymbol));
+	Symbol* newSymbol = nullptr;
+        
+	if(SymbolInCurScope(identifier))
+	{
+		newSymbol = GetSymbol(identifier);
+	}
+	else
+	{
+		newSymbol = new Symbol(identifier);
+		SymbolHashes.front()->Insert(identifier, newSymbol);
+	}
+
+	return newSymbol;
 }
 
 /**********************************************************************
@@ -54,7 +66,26 @@ void SymbolTable::InsertSymbol(string newSymbol)
 ************************************************************************/
 void SymbolTable::InsertSymbol(Symbol* newSymbol)
 {
+	if(newSymbol == nullptr)
+		newSymbol = new Symbol("");
 	SymbolHashes.front()->Insert(newSymbol->GetIdentifier(), newSymbol);
+}
+
+/**********************************************************************
+* Purpose:  Returns true if the current scope contains the passed identifier
+* Entry:
+* Exit:
+************************************************************************/
+Symbol* SymbolTable::GetSymbol(string symbol)
+{
+	Symbol* foundSymbol = nullptr;
+
+		if (SymbolHashes.front()->Contains(symbol))
+			{
+			foundSymbol = (*SymbolHashes.front())[symbol];
+			}
+	return foundSymbol;
+
 }
 
 /**********************************************************************

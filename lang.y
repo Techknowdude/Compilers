@@ -6,7 +6,6 @@
 #include "SymbolTable.h"
 #include "lex.h"
 
-extern SymbolTable * symbolTableRoot;
 %}
 
 %locations
@@ -15,14 +14,16 @@ extern SymbolTable * symbolTableRoot;
 %union{
     int             int_val;
     double          float_val;
-    Symbol*        symbol;
-    SymbolTable*   sym_table;
+    Symbol*         symbol;
+    SymbolTable*    sym_table;
     void*           ast_node;
     }
 
 %{
     int yyerror(const char *msg);
 
+    SymbolTable * symbolTableRoot;
+    
     void *yyast_root;
 %}
 
@@ -76,7 +77,7 @@ decls:      decls decl          {}
 decl:       IDENTIFIER ';'      { 
                                   if(!symbolTableRoot->SymbolInCurScope($1))
                                       symbolTableRoot->InsertSymbol($1);
-                                  std::cout << $1->toString() << "\n"; }
+                                  std::cout << "sym: " << $1->toString() << "\n"; }
         |   block               {}
 %%
 

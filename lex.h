@@ -1,4 +1,7 @@
 #pragma once
+#include "Symbol.h"
+#include "SymbolTable.h"
+
 int yyparse();
 int yylex();
 extern char *yytext;

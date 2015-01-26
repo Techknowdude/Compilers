@@ -14,11 +14,11 @@
 
 extern void *yyast_root;
     
-SymbolTable *symbolTableRoot = new SymbolTable();
-
 int main(int argc, char **argv)
 {
     std::cout << "Brandon Westmoreland" << std::endl;
+
+    symbolTableRoot = new SymbolTable();
 
     const char *outfile_name;
     int result = 0;
