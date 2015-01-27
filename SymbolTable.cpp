@@ -24,7 +24,7 @@ int AsciiHash(string key)
 SymbolTable::SymbolTable() : SymbolHashes(), defaultHashSize(5)
 {
 	SymbolHashes.push_front(new HashTable(defaultHashSize));
-	(*SymbolHashes.front()).setHash(AsciiHash);
+	SymbolHashes.front()->setHash(AsciiHash);
 }
 
 /**********************************************************************
@@ -34,7 +34,7 @@ SymbolTable::SymbolTable() : SymbolHashes(), defaultHashSize(5)
 ************************************************************************/
 bool SymbolTable::SymbolInCurScope(Symbol* find)
 {
-	return (*SymbolHashes.front()).Contains(find);
+	return SymbolHashes.front()->Contains(find);
 }
 
 /**********************************************************************
@@ -79,11 +79,14 @@ void SymbolTable::InsertSymbol(Symbol* newSymbol)
 Symbol* SymbolTable::GetSymbol(string symbol)
 {
 	Symbol* foundSymbol = nullptr;
-
-		if (SymbolHashes.front()->Contains(symbol))
-			{
-			foundSymbol = (*SymbolHashes.front())[symbol];
-			}
+	list<HashTable*>::iterator iter;
+	for (iter = SymbolHashes.begin(); foundSymbol == nullptr && iter != SymbolHashes.end(); ++iter)
+	{
+		if ((*iter)->Contains(symbol))
+		{
+			foundSymbol = (**iter)[symbol];
+		}
+	}
 	return foundSymbol;
 
 }
@@ -114,7 +117,7 @@ bool SymbolTable::SymbolExists(Symbol* find)
 void SymbolTable::IncreaseScope()
 {
 	SymbolHashes.push_front(new HashTable(defaultHashSize));
-	(*SymbolHashes.front()).setHash(AsciiHash);
+	SymbolHashes.front()->setHash(AsciiHash);
 }
 
 /**********************************************************************

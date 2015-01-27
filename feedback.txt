@@ -1,1 +1,24 @@
 Lab3 Feedback
+
+LATE
+
+Your feedback file should have the feedback from the previous labs.
+
+Git did not find the tag you gave me in the email, so I just pulled the most recent commit.
+
+Your build has warnings.
+
+Symbol::GetSequence() will probably never be used.
+
+I would consider using Symbol::SetSequence an error. The sequence number should be fixed by the constructor and immutable from there on.
+
+Instead of 
+(*SymbolHashes.front()).setHash(AsciiHash);
+I would use
+SymbolHashes.front()->setHash(AsciiHash);
+This form occurs multiple places in your code.
+
+Since you're using the STL for some of your underlying hash table functionality, you should have simply used unordered_map to do the whole thing.
+
+
+

@@ -44,10 +44,6 @@ string Symbol::GetIdentifier()
 	return identifier;
 }
 
-void Symbol::SetSequence(int seq)
-{
-	sequence = seq;
-}
 void Symbol::SetIdentifier(string newID)
 {
 	identifier = newID;

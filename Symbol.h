@@ -22,9 +22,6 @@
 *	string GetIdentifier()
 *		returns the identifier
 *
-*	void SetSequence(int seq)
-*		sets the sequence to the passed value
-*
 *	void SetIdentifier(string newID)
 *		sets the identifier to the passed value
 *
@@ -45,7 +42,6 @@ public:
 	int GetSequence();
 	string GetIdentifier();
 
-	void SetSequence(int seq);
 	void SetIdentifier(string newID);
 
 	string toString();
