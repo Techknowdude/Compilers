@@ -1,6 +1,6 @@
 #include "BlockNode.h"
 
-BlockNode::BlockNode(PrintNode* stmts, AstNode* decls) : _decls(decls), _stmts(stmts)
+BlockNode::BlockNode(AstNode* stmts, AstNode* decls) : _decls(decls), _stmts(stmts)
 {
 
 }
@@ -14,10 +14,10 @@ string BlockNode::toString()
     }
     if(_stmts != nullptr)
     {
-        stringVal += "STMTS:\n{\n" + _stmts->toString() + "\n}\n";
+        stringVal += _stmts->toString();
     }
-    
+   
     stringVal += "}\n";
-
+    
     return stringVal;
 }

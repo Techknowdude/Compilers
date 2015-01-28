@@ -76,10 +76,11 @@ typedef union YYSTYPE
     SymbolTable*    sym_table;
     PrintNode*      print_node;
     BlockNode*      block_node;
+    StmtsNode*      stmts_node;
     
 
 /* Line 2058 of yacc.c  */
-#line 83 "langparse.h"
+#line 84 "langparse.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -3,8 +3,9 @@
 #include "Symbol.h"
 #include "SymbolTable.h"
 #include "AstNode.h"
-#include "BlockNode.h"
 #include "PrintNode.h"
+#include "StmtsNode.h"
+#include "BlockNode.h"
 
 #include "langparse.h"
 

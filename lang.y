@@ -18,6 +18,7 @@ using std::endl;
     SymbolTable*    sym_table;
     PrintNode*      print_node;
     BlockNode*      block_node;
+    StmtsNode*      stmts_node;
     }
 
 %{
@@ -60,7 +61,7 @@ using std::endl;
 %type <ast_node> paramsspec
 %type <ast_node> paramspec
 %type <ast_node> arrayspec
-%type <print_node> stmts
+%type <stmts_node> stmts
 %type <print_node> stmt
 %type <ast_node> lval
 %type <ast_node> arrayval
@@ -136,9 +137,10 @@ arrayspec:  arrayspec '[' INT_VAL ']'
 
 stmts:      stmts stmt          {
                                     $$ = $1;
+                                    $$->AddNode($2);
                                 }
         |   stmt                {
-                                    $$ = $1;
+                                    $$ = new StmtsNode($1);
                                 }
 
 stmt:       IF '(' expr ')' stmt 

@@ -6,7 +6,8 @@ OBJS=main.o \
 	 Symbol.o \
 	 langparse.o \
 	 PrintNode.o \
-	 BlockNode.o
+	 BlockNode.o \
+	 StmtsNode.o
 
 all: lang
 
