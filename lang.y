@@ -2,10 +2,9 @@
 
 %{
 #include <iostream>
-#include "Symbol.h"
-#include "SymbolTable.h"
 #include "lex.h"
-
+using std::cout;
+using std::endl;
 %}
 
 %locations
@@ -14,9 +13,11 @@
 %union{
     int             int_val;
     double          float_val;
+    AstNode*        ast_node;
     Symbol*         symbol;
     SymbolTable*    sym_table;
-    void*           ast_node;
+    PrintNode*      print_node;
+    BlockNode*      block_node;
     }
 
 %{
@@ -40,12 +41,12 @@
 %token  SCAN PRINT
 %token  WHILE IF ELSE JUNK_TOK
 %token  STRUCT
-%token  RETURN_TOK
+%token  RETURN
 %token  JUNK_TOKEN
 
 
-%type <ast_node> program
-%type <ast_node> block
+%type <block_node> program
+%type <block_node> block
 %type <sym_table> open
 %type <sym_table> close
 %type <ast_node> decls
@@ -59,15 +60,15 @@
 %type <ast_node> paramsspec
 %type <ast_node> paramspec
 %type <ast_node> arrayspec
-%type <ast_node> stmts
-%type <ast_node> stmt
+%type <print_node> stmts
+%type <print_node> stmt
 %type <ast_node> lval
 %type <ast_node> arrayval
 %type <ast_node> params
 %type <ast_node> param
-%type <ast_node> expr
-%type <ast_node> term
-%type <ast_node> fact
+%type <int_val> expr
+%type <int_val> term
+%type <int_val> fact
 %type <ast_node> varref
 %type <ast_node> varpart
 
@@ -81,18 +82,26 @@ program: block                  { $$ = $1;
                                       YYABORT;
                                 }
         | /* empty */           { YYACCEPT; }
-block:  open decls stmts close  {}
-    |   open stmts close        {}
+block:  open decls stmts close  {
+                                    $$ = new BlockNode($3,$2);
+                                }
+    |   open stmts close        {
+                                    $$ = new BlockNode($2,nullptr);
+                                }
 open:   '{'                     { 
-                                   symbolTableRoot->IncreaseScope();
-                                   $$ = NULL;
+                                   //symbolTableRoot->IncreaseScope();
+                                   //$$ = NULL;
                                  }
 close:  '}'                     { 
-                                  symbolTableRoot->DecreaseScope();
-                                  $$ = NULL; // might want to change this
+                                  //symbolTableRoot->DecreaseScope();
+                                  //$$ = NULL; // might want to change this
                                 }
-decls:      decls decl          {}
-        |   decl                {}
+decls:      decls decl          {
+                                    $$ = nullptr; 
+                                }
+        |   decl                {
+                                    $$ = nullptr;
+                                }
 decl:       var_decl ';'        {}
         |   struct_decl ';'     {}
         |   func_decl           {}
@@ -125,17 +134,24 @@ arrayspec:  arrayspec '[' INT_VAL ']'
                                 {}
         |   /* empty */         {}
 
-stmts:      stmts stmt          {}
-        |   stmt                {}
+stmts:      stmts stmt          {
+                                    $$ = $1;
+                                }
+        |   stmt                {
+                                    $$ = $1;
+                                }
 
 stmt:       IF '(' expr ')' stmt 
-                                {}
+                                {
+                                }
         |   IF '(' expr ')' stmt ELSE stmt
                                 {}
         |   WHILE '(' expr ')' stmt
                                 {}
         |   PRINT '(' expr ')' ';'
-                                {}
+                                {
+                                    $$ = new PrintNode($3);
+                                }
         |   SCAN '(' lval ')' ';'
                                 {}
         |   lval '=' expr ';'   {}
@@ -163,16 +179,24 @@ param:      expr                {}
 
 expr:       expr '+' term       {}
         |   expr '-' term       {}
-        |   term                {}
+        |   term                {
+                                    $$ = $1;
+                                }
 
 term:       term '*' fact       {}
         |   term '/' fact       {}
         |   term '%' fact       {}
-        |   fact                {}
+        |   fact                {
+                                    $$ = $1;
+                                }
 
 fact:        '(' expr ')'       {}
-        |   INT_VAL             {}
-        |   FLOAT_VAL           {}
+        |   INT_VAL             {
+                                    $$ =  std::stoi(yytext);
+                                }
+        |   FLOAT_VAL           {
+                                    $$ = std::stof(yytext);
+                                }
         |   varref              {}
         |   func_call           {}
 

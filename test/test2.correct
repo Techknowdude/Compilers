@@ -1,4 +1,11 @@
-sym: a 1
-sym: b 2
-sym: a 1
-sym: b 2
+BLOCK: 
+{
+STMTS:
+{
+PRINT: (EXPR: 1)
+PRINT: (EXPR: 2)
+PRINT: (EXPR: 3)
+PRINT: (EXPR: 4)
+}
+}
+

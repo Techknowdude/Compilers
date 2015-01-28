@@ -4,7 +4,9 @@ OBJS=main.o \
 	 SymbolTable.o \
 	 HashTable.o \
 	 Symbol.o \
-	 langparse.o
+	 langparse.o \
+	 PrintNode.o \
+	 BlockNode.o
 
 all: lang
 

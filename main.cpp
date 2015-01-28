@@ -1,29 +1,25 @@
 // parser
 //
-// Phil Howard
+// Brandon Westmoreland 
 //
 // pwhoward@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
-#include "Symbol.h"
-#include "SymbolTable.h"
 #include "lex.h"
-#include "langparse.h"
 
-extern void *yyast_root;
-    
+extern AstNode *yyast_root;
+
 int main(int argc, char **argv)
 {
-    std::cout << "Brandon Westmoreland" << std::endl;
-
     symbolTableRoot = new SymbolTable();
+
+    std::cout << "Brandon Westmoreland" << std::endl;
 
     const char *outfile_name;
     int result = 0;
     std::streambuf *cout_buf = std::cout.rdbuf();
-
 
     if (argc > 1)
     {
@@ -51,17 +47,20 @@ int main(int argc, char **argv)
     std::cout.rdbuf(output.rdbuf());
 
     result = yyparse();
-    while (yyast_root != NULL)
+    if (yyast_root != NULL)
     {
         if (result == 0)
         {
-            output << "Successful compilation\n";
+            output << yyast_root->toString() << std::endl;
         } else {
             output << "Errors in compile\n";
             return result;
         }
+    }
 
-        result = yyparse();
+    if (yylex() != 0)
+    {
+        std::cout << "Junk at end of program\n";
     }
 
     output.close();

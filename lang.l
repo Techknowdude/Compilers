@@ -33,9 +33,6 @@ commentline     \/\/.*
 {float}         RETURN(FLOAT_VAL);
 {integer}       RETURN(INT_VAL);
 {whitespace}    {}
-"int"           RETURN(INTEGER);
-"float"         RETURN(FLOAT);
-"char"          RETURN(CHAR);
 "if"            RETURN(IF);
 "scan"          RETURN(SCAN);
 "while"         RETURN(WHILE);
@@ -43,7 +40,7 @@ commentline     \/\/.*
 "while"         RETURN(WHILE);
 "print"         RETURN(PRINT);
 "struct"        RETURN(STRUCT);
-"return"        RETURN(RETURN_TOK);
+"return"        RETURN(RETURN);
 {identifier}    {
                     string ident(yytext);
                     yylval.symbol = symbolTableRoot->InsertSymbol(ident);
