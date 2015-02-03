@@ -8,10 +8,11 @@ OBJS=main.o \
 	 PrintNode.o \
 	 BlockNode.o \
 	 StmtsNode.o \
-	 ExprNode.o \
 	 FloatNode.o \
 	 IntNode.o \
-	 BinaryExprNode.o
+	 BinaryExprNode.o \
+	 DeclsNode.o \
+	 VarDecl.o
 
 all: lang
 

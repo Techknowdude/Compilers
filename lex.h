@@ -8,7 +8,10 @@
 #include "BlockNode.h"
 #include "FloatNode.h"
 #include "IntNode.h"
+#include "ExprNode.h"
 #include "BinaryExprNode.h"
+#include "DeclsNode.h"
+#include "VarDecl.h"
 
 #include "langparse.h"
 

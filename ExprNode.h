@@ -9,11 +9,10 @@ using std::string;
 class ExprNode : public AstNode
 {
     public:
-        ExprNode(ExprNode* child = nullptr);
+        ExprNode();
         virtual string toString() = 0;
 
     protected:
-        ExprNode* _child;
 };
 
 #endif

@@ -21,6 +21,8 @@ using std::endl;
     StmtsNode*      stmts_node;
     ExprNode*       expr_node;
     BinaryExprNode* bin_expr_node;
+    DeclsNode*      decls_node;
+    VarDecl*        var_decl;
     }
 
 %{
@@ -52,9 +54,9 @@ using std::endl;
 %type <block_node> block
 %type <sym_table> open
 %type <sym_table> close
-%type <ast_node> decls
-%type <ast_node> decl
-%type <ast_node> var_decl
+%type <decls_node> decls
+%type <var_decl> decl
+%type <var_decl> var_decl
 %type <ast_node> struct_decl
 %type <ast_node> func_decl
 %type <ast_node>  func_header
@@ -92,26 +94,32 @@ block:  open decls stmts close  {
                                     $$ = new BlockNode($2,nullptr);
                                 }
 open:   '{'                     { 
-                                   //symbolTableRoot->IncreaseScope();
-                                   //$$ = NULL;
+                                    symbolTableRoot->IncreaseScope();
+                                    //$$ = NULL; //return current table
                                  }
 close:  '}'                     { 
-                                  //symbolTableRoot->DecreaseScope();
-                                  //$$ = NULL; // might want to change this
+                                    symbolTableRoot->DecreaseScope();
+                                    //$$ = NULL; //return current table
                                 }
 decls:      decls decl          {
-                                    $$ = nullptr; 
+                                    $$ = $1;
+                                    $$->AddNode($2);
                                 }
         |   decl                {
-                                    $$ = nullptr;
+                                    $$ = new DeclsNode($1);
                                 }
-decl:       var_decl ';'        {}
+decl:       var_decl ';'        {
+                                    $$ = $1;
+                                }
         |   struct_decl ';'     {}
         |   func_decl           {}
         |   error ';'           { // do whatever to not segfault 
                                 }
 var_decl:   TYPE_ID IDENTIFIER arrayspec    
-                                {}/* create symbol here  */
+                                {
+                                    symbolTableRoot->InsertSymbol($2);
+                                    $$ = new VarDecl($1,$2,$3);    
+                                }/* create symbol here  */
         |   struct_decl IDENTIFIER arrayspec
                                 {}
 struct_decl:  STRUCT open decls close IDENTIFIER    
