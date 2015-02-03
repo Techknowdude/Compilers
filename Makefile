@@ -7,7 +7,11 @@ OBJS=main.o \
 	 langparse.o \
 	 PrintNode.o \
 	 BlockNode.o \
-	 StmtsNode.o
+	 StmtsNode.o \
+	 ExprNode.o \
+	 FloatNode.o \
+	 IntNode.o \
+	 BinaryExprNode.o
 
 all: lang
 

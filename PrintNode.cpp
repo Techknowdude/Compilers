@@ -1,13 +1,13 @@
 #include "PrintNode.h"
 
-PrintNode::PrintNode(int expr) : _expr(expr)
+PrintNode::PrintNode(ExprNode* expr) : _expr(expr)
 {
 
 }
 
 string PrintNode::toString()
 {
-    return "PRINT: (EXPR: " + std::to_string(_expr) + ")";  
+    return "PRINT: " + _expr->toString();  
 }
 
 

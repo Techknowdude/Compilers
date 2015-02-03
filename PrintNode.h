@@ -2,14 +2,15 @@
 #define H_PRINTNODE
 
 #include "AstNode.h"
+#include "ExprNode.h"
 
 class PrintNode : public AstNode
 {
     public:
-    PrintNode(int expr);
+    PrintNode(ExprNode* expr);
     string toString();
     protected:
-    int _expr;
+    ExprNode* _expr;
 };
 
 #endif

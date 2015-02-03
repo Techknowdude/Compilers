@@ -1,0 +1,8 @@
+Create classes for test 3:
+
+for base class calls: use [base class] :: [base class func]
+
+fill in the toString() methods.
+fill in constructors
+fill in set/get
+

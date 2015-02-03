@@ -8,8 +8,9 @@
 
 int Symbol::SymbolCount = 0;
 
-Symbol::Symbol(string id)
+Symbol::Symbol(string id, bool isType)
 {
+        _isType = isType;
 	identifier = id;
 	sequence = ++SymbolCount;
 }
@@ -52,4 +53,9 @@ void Symbol::SetIdentifier(string newID)
 string Symbol::toString()
 {
 	return identifier + " " + std::to_string(sequence);
+}
+
+bool Symbol::IsType()
+{
+    return _isType;
 }

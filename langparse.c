@@ -138,10 +138,12 @@ typedef union YYSTYPE
     PrintNode*      print_node;
     BlockNode*      block_node;
     StmtsNode*      stmts_node;
+    ExprNode*       expr_node;
+    BinaryExprNode* bin_expr_node;
     
 
 /* Line 387 of yacc.c  */
-#line 145 "langparse.c"
+#line 147 "langparse.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -181,7 +183,7 @@ int yyparse ();
 
 /* Copy the second part of user declarations.  */
 /* Line 390 of yacc.c  */
-#line 24 "lang.y"
+#line 26 "lang.y"
 
     int yyerror(const char *msg);
 
@@ -190,7 +192,7 @@ int yyparse ();
     void *yyast_root;
 
 /* Line 390 of yacc.c  */
-#line 194 "langparse.c"
+#line 196 "langparse.c"
 
 #ifdef short
 # undef short
@@ -506,13 +508,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    78,    78,    85,    86,    89,    92,    96,   100,   103,
-     106,   107,   108,   109,   110,   112,   114,   116,   118,   120,
-     122,   124,   125,   128,   130,   132,   134,   136,   138,   142,
-     146,   149,   151,   153,   157,   159,   160,   161,   162,   163,
-     165,   167,   168,   170,   172,   173,   174,   176,   177,   179,
-     180,   182,   183,   184,   188,   189,   190,   191,   195,   196,
-     199,   202,   203
+       0,    80,    80,    87,    88,    91,    94,    98,   102,   105,
+     108,   109,   110,   111,   113,   115,   117,   119,   121,   123,
+     125,   127,   128,   131,   133,   135,   137,   139,   141,   145,
+     149,   152,   154,   156,   160,   162,   163,   164,   165,   166,
+     169,   171,   172,   174,   176,   177,   178,   180,   181,   183,
+     184,   186,   189,   192,   196,   199,   202,   205,   209,   210,
+     213,   216,   217
 };
 #endif
 
@@ -1606,7 +1608,7 @@ yyreduce:
     {
         case 2:
 /* Line 1792 of yacc.c  */
-#line 78 "lang.y"
+#line 80 "lang.y"
     { (yyval.block_node) = (yyvsp[(1) - (1)].block_node);
                                   yyast_root = (yyval.block_node);
                                   if (yynerrs == 0) 
@@ -1618,13 +1620,13 @@ yyreduce:
 
   case 3:
 /* Line 1792 of yacc.c  */
-#line 85 "lang.y"
+#line 87 "lang.y"
     { YYACCEPT; }
     break;
 
   case 4:
 /* Line 1792 of yacc.c  */
-#line 86 "lang.y"
+#line 88 "lang.y"
     {
                                     (yyval.block_node) = new BlockNode((yyvsp[(3) - (4)].stmts_node),(yyvsp[(2) - (4)].ast_node));
                                 }
@@ -1632,7 +1634,7 @@ yyreduce:
 
   case 5:
 /* Line 1792 of yacc.c  */
-#line 89 "lang.y"
+#line 91 "lang.y"
     {
                                     (yyval.block_node) = new BlockNode((yyvsp[(2) - (3)].stmts_node),nullptr);
                                 }
@@ -1640,7 +1642,7 @@ yyreduce:
 
   case 6:
 /* Line 1792 of yacc.c  */
-#line 92 "lang.y"
+#line 94 "lang.y"
     { 
                                    //symbolTableRoot->IncreaseScope();
                                    //$$ = NULL;
@@ -1649,7 +1651,7 @@ yyreduce:
 
   case 7:
 /* Line 1792 of yacc.c  */
-#line 96 "lang.y"
+#line 98 "lang.y"
     { 
                                   //symbolTableRoot->DecreaseScope();
                                   //$$ = NULL; // might want to change this
@@ -1658,7 +1660,7 @@ yyreduce:
 
   case 8:
 /* Line 1792 of yacc.c  */
-#line 100 "lang.y"
+#line 102 "lang.y"
     {
                                     (yyval.ast_node) = nullptr; 
                                 }
@@ -1666,7 +1668,7 @@ yyreduce:
 
   case 9:
 /* Line 1792 of yacc.c  */
-#line 103 "lang.y"
+#line 105 "lang.y"
     {
                                     (yyval.ast_node) = nullptr;
                                 }
@@ -1674,115 +1676,116 @@ yyreduce:
 
   case 10:
 /* Line 1792 of yacc.c  */
-#line 106 "lang.y"
+#line 108 "lang.y"
     {}
     break;
 
   case 11:
 /* Line 1792 of yacc.c  */
-#line 107 "lang.y"
+#line 109 "lang.y"
     {}
     break;
 
   case 12:
 /* Line 1792 of yacc.c  */
-#line 108 "lang.y"
+#line 110 "lang.y"
     {}
     break;
 
   case 13:
 /* Line 1792 of yacc.c  */
-#line 109 "lang.y"
-    {}
+#line 111 "lang.y"
+    { // do whatever to not segfault 
+                                }
     break;
 
   case 14:
 /* Line 1792 of yacc.c  */
-#line 111 "lang.y"
+#line 114 "lang.y"
     {}
     break;
 
   case 15:
 /* Line 1792 of yacc.c  */
-#line 113 "lang.y"
+#line 116 "lang.y"
     {}
     break;
 
   case 16:
 /* Line 1792 of yacc.c  */
-#line 115 "lang.y"
+#line 118 "lang.y"
     {}
     break;
 
   case 17:
 /* Line 1792 of yacc.c  */
-#line 117 "lang.y"
+#line 120 "lang.y"
     {}
     break;
 
   case 18:
 /* Line 1792 of yacc.c  */
-#line 119 "lang.y"
+#line 122 "lang.y"
     {}
     break;
 
   case 19:
 /* Line 1792 of yacc.c  */
-#line 121 "lang.y"
+#line 124 "lang.y"
     {}
     break;
 
   case 20:
 /* Line 1792 of yacc.c  */
-#line 123 "lang.y"
+#line 126 "lang.y"
     {}
     break;
 
   case 21:
 /* Line 1792 of yacc.c  */
-#line 124 "lang.y"
+#line 127 "lang.y"
     {}
     break;
 
   case 22:
 /* Line 1792 of yacc.c  */
-#line 126 "lang.y"
+#line 129 "lang.y"
     {}
     break;
 
   case 23:
 /* Line 1792 of yacc.c  */
-#line 129 "lang.y"
+#line 132 "lang.y"
     {}
     break;
 
   case 24:
 /* Line 1792 of yacc.c  */
-#line 130 "lang.y"
+#line 133 "lang.y"
     {}
     break;
 
   case 25:
 /* Line 1792 of yacc.c  */
-#line 132 "lang.y"
+#line 135 "lang.y"
     {}
     break;
 
   case 26:
 /* Line 1792 of yacc.c  */
-#line 135 "lang.y"
+#line 138 "lang.y"
     {}
     break;
 
   case 27:
 /* Line 1792 of yacc.c  */
-#line 136 "lang.y"
+#line 139 "lang.y"
     {}
     break;
 
   case 28:
 /* Line 1792 of yacc.c  */
-#line 138 "lang.y"
+#line 141 "lang.y"
     {
                                     (yyval.stmts_node) = (yyvsp[(1) - (2)].stmts_node);
                                     (yyval.stmts_node)->AddNode((yyvsp[(2) - (2)].print_node));
@@ -1791,7 +1794,7 @@ yyreduce:
 
   case 29:
 /* Line 1792 of yacc.c  */
-#line 142 "lang.y"
+#line 145 "lang.y"
     {
                                     (yyval.stmts_node) = new StmtsNode((yyvsp[(1) - (1)].print_node));
                                 }
@@ -1799,216 +1802,227 @@ yyreduce:
 
   case 30:
 /* Line 1792 of yacc.c  */
-#line 147 "lang.y"
+#line 150 "lang.y"
     {
                                 }
     break;
 
   case 31:
 /* Line 1792 of yacc.c  */
-#line 150 "lang.y"
+#line 153 "lang.y"
     {}
     break;
 
   case 32:
 /* Line 1792 of yacc.c  */
-#line 152 "lang.y"
+#line 155 "lang.y"
     {}
     break;
 
   case 33:
 /* Line 1792 of yacc.c  */
-#line 154 "lang.y"
+#line 157 "lang.y"
     {
-                                    (yyval.print_node) = new PrintNode((yyvsp[(3) - (5)].int_val));
+                                    (yyval.print_node) = new PrintNode((yyvsp[(3) - (5)].expr_node));
                                 }
     break;
 
   case 34:
 /* Line 1792 of yacc.c  */
-#line 158 "lang.y"
+#line 161 "lang.y"
     {}
     break;
 
   case 35:
 /* Line 1792 of yacc.c  */
-#line 159 "lang.y"
+#line 162 "lang.y"
     {}
     break;
 
   case 36:
 /* Line 1792 of yacc.c  */
-#line 160 "lang.y"
+#line 163 "lang.y"
     {}
     break;
 
   case 37:
 /* Line 1792 of yacc.c  */
-#line 161 "lang.y"
+#line 164 "lang.y"
     {}
     break;
 
   case 38:
 /* Line 1792 of yacc.c  */
-#line 162 "lang.y"
+#line 165 "lang.y"
     {}
     break;
 
   case 39:
 /* Line 1792 of yacc.c  */
-#line 163 "lang.y"
-    {}
+#line 166 "lang.y"
+    { // anything to prevent a segfault
+                                }
     break;
 
   case 40:
-/* Line 1792 of yacc.c  */
-#line 166 "lang.y"
-    {}
-    break;
-
-  case 41:
-/* Line 1792 of yacc.c  */
-#line 167 "lang.y"
-    {}
-    break;
-
-  case 42:
-/* Line 1792 of yacc.c  */
-#line 168 "lang.y"
-    {}
-    break;
-
-  case 43:
 /* Line 1792 of yacc.c  */
 #line 170 "lang.y"
     {}
     break;
 
-  case 44:
+  case 41:
+/* Line 1792 of yacc.c  */
+#line 171 "lang.y"
+    {}
+    break;
+
+  case 42:
 /* Line 1792 of yacc.c  */
 #line 172 "lang.y"
     {}
     break;
 
-  case 45:
-/* Line 1792 of yacc.c  */
-#line 173 "lang.y"
-    {}
-    break;
-
-  case 46:
+  case 43:
 /* Line 1792 of yacc.c  */
 #line 174 "lang.y"
     {}
     break;
 
-  case 47:
+  case 44:
 /* Line 1792 of yacc.c  */
 #line 176 "lang.y"
     {}
     break;
 
-  case 48:
+  case 45:
 /* Line 1792 of yacc.c  */
 #line 177 "lang.y"
     {}
     break;
 
-  case 49:
+  case 46:
 /* Line 1792 of yacc.c  */
-#line 179 "lang.y"
+#line 178 "lang.y"
     {}
     break;
 
-  case 50:
+  case 47:
 /* Line 1792 of yacc.c  */
 #line 180 "lang.y"
     {}
     break;
 
-  case 51:
+  case 48:
 /* Line 1792 of yacc.c  */
-#line 182 "lang.y"
+#line 181 "lang.y"
     {}
     break;
 
-  case 52:
+  case 49:
 /* Line 1792 of yacc.c  */
 #line 183 "lang.y"
     {}
     break;
 
-  case 53:
+  case 50:
 /* Line 1792 of yacc.c  */
 #line 184 "lang.y"
+    {}
+    break;
+
+  case 51:
+/* Line 1792 of yacc.c  */
+#line 186 "lang.y"
+    { 
+                                    (yyval.expr_node) = new BinaryExprNode((yyvsp[(1) - (3)].expr_node),"+",(yyvsp[(3) - (3)].expr_node));
+                                }
+    break;
+
+  case 52:
+/* Line 1792 of yacc.c  */
+#line 189 "lang.y"
     {
-                                    (yyval.int_val) = (yyvsp[(1) - (1)].int_val);
+                                    (yyval.expr_node) = new BinaryExprNode((yyvsp[(1) - (3)].expr_node),"-",(yyvsp[(3) - (3)].expr_node));
+                                }
+    break;
+
+  case 53:
+/* Line 1792 of yacc.c  */
+#line 192 "lang.y"
+    {
+                                    (yyval.expr_node) = (yyvsp[(1) - (1)].expr_node);
                                 }
     break;
 
   case 54:
 /* Line 1792 of yacc.c  */
-#line 188 "lang.y"
-    {}
+#line 196 "lang.y"
+    {
+                                    (yyval.expr_node) = new BinaryExprNode((yyvsp[(1) - (3)].expr_node),"*",(yyvsp[(3) - (3)].expr_node));
+                                }
     break;
 
   case 55:
 /* Line 1792 of yacc.c  */
-#line 189 "lang.y"
-    {}
+#line 199 "lang.y"
+    {
+                                    (yyval.expr_node) = new BinaryExprNode((yyvsp[(1) - (3)].expr_node),"/",(yyvsp[(3) - (3)].expr_node));
+                                }
     break;
 
   case 56:
 /* Line 1792 of yacc.c  */
-#line 190 "lang.y"
-    {}
+#line 202 "lang.y"
+    {
+                                    (yyval.expr_node) = new BinaryExprNode((yyvsp[(1) - (3)].expr_node),"%",(yyvsp[(3) - (3)].expr_node));
+                                }
     break;
 
   case 57:
 /* Line 1792 of yacc.c  */
-#line 191 "lang.y"
+#line 205 "lang.y"
     {
-                                    (yyval.int_val) = (yyvsp[(1) - (1)].int_val);
+                                    (yyval.expr_node) = (yyvsp[(1) - (1)].expr_node);
                                 }
     break;
 
   case 58:
 /* Line 1792 of yacc.c  */
-#line 195 "lang.y"
+#line 209 "lang.y"
     {}
     break;
 
   case 59:
 /* Line 1792 of yacc.c  */
-#line 196 "lang.y"
+#line 210 "lang.y"
     {
-                                    (yyval.int_val) =  std::stoi(yytext);
+                                    (yyval.expr_node) =  new IntNode(std::stoi(yytext));
                                 }
     break;
 
   case 60:
 /* Line 1792 of yacc.c  */
-#line 199 "lang.y"
+#line 213 "lang.y"
     {
-                                    (yyval.int_val) = std::stof(yytext);
+                                    (yyval.expr_node) = new FloatNode(std::stof(yytext));
                                 }
     break;
 
   case 61:
 /* Line 1792 of yacc.c  */
-#line 202 "lang.y"
+#line 216 "lang.y"
     {}
     break;
 
   case 62:
 /* Line 1792 of yacc.c  */
-#line 203 "lang.y"
+#line 217 "lang.y"
     {}
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 2012 "langparse.c"
+#line 2026 "langparse.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2247,7 +2261,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 205 "lang.y"
+#line 219 "lang.y"
 
 
 int yyerror(const char *msg)

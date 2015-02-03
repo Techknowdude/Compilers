@@ -34,7 +34,7 @@ using std::string;
 class Symbol
 {
 public:
-	Symbol(string id);
+	Symbol(string id, bool isType = false);
 	Symbol();
 	Symbol & operator=(const Symbol & rhs);
 	bool operator==(const Symbol & rhs);
@@ -46,9 +46,11 @@ public:
 
 	string toString();
 
+        bool IsType();
 protected:
 	int sequence;
 	string identifier;
+        bool _isType;
 	static int SymbolCount;
 
 };

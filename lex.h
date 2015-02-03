@@ -6,6 +6,9 @@
 #include "PrintNode.h"
 #include "StmtsNode.h"
 #include "BlockNode.h"
+#include "FloatNode.h"
+#include "IntNode.h"
+#include "BinaryExprNode.h"
 
 #include "langparse.h"
 

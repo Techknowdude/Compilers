@@ -19,6 +19,8 @@ using std::endl;
     PrintNode*      print_node;
     BlockNode*      block_node;
     StmtsNode*      stmts_node;
+    ExprNode*       expr_node;
+    BinaryExprNode* bin_expr_node;
     }
 
 %{
@@ -67,9 +69,9 @@ using std::endl;
 %type <ast_node> arrayval
 %type <ast_node> params
 %type <ast_node> param
-%type <int_val> expr
-%type <int_val> term
-%type <int_val> fact
+%type <expr_node> expr
+%type <expr_node> term
+%type <expr_node> fact
 %type <ast_node> varref
 %type <ast_node> varpart
 
@@ -106,7 +108,8 @@ decls:      decls decl          {
 decl:       var_decl ';'        {}
         |   struct_decl ';'     {}
         |   func_decl           {}
-        |   error ';'           {}
+        |   error ';'           { // do whatever to not segfault 
+                                }
 var_decl:   TYPE_ID IDENTIFIER arrayspec    
                                 {}/* create symbol here  */
         |   struct_decl IDENTIFIER arrayspec
@@ -160,7 +163,8 @@ stmt:       IF '(' expr ')' stmt
         |   func_call ';'       {}
         |   block               {}
         |   RETURN expr ';'     {}
-        |   error ';'           {}
+        |   error ';'           { // anything to prevent a segfault
+                                }
 
 func_call:  IDENTIFIER '(' params ')' 
                                 {}
@@ -179,25 +183,35 @@ params:     params',' param     {}
 param:      expr                {}
         |   /* empty */         {}
 
-expr:       expr '+' term       {}
-        |   expr '-' term       {}
+expr:       expr '+' term       { 
+                                    $$ = new BinaryExprNode($1,"+",$3);
+                                }
+        |   expr '-' term       {
+                                    $$ = new BinaryExprNode($1,"-",$3);
+                                }
         |   term                {
                                     $$ = $1;
                                 }
 
-term:       term '*' fact       {}
-        |   term '/' fact       {}
-        |   term '%' fact       {}
+term:       term '*' fact       {
+                                    $$ = new BinaryExprNode($1,"*",$3);
+                                }
+        |   term '/' fact       {
+                                    $$ = new BinaryExprNode($1,"/",$3);
+                                }
+        |   term '%' fact       {
+                                    $$ = new BinaryExprNode($1,"%",$3);
+                                }
         |   fact                {
                                     $$ = $1;
                                 }
 
 fact:        '(' expr ')'       {}
         |   INT_VAL             {
-                                    $$ =  std::stoi(yytext);
+                                    $$ =  new IntNode(std::stoi(yytext));
                                 }
         |   FLOAT_VAL           {
-                                    $$ = std::stof(yytext);
+                                    $$ = new FloatNode(std::stof(yytext));
                                 }
         |   varref              {}
         |   func_call           {}
