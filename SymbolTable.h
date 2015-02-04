@@ -43,11 +43,13 @@ public:
 	bool SymbolExists(Symbol* find);
 	bool SymbolInCurScope(string find);
 	bool SymbolExists(string find);
-	void IncreaseScope();
-	void DecreaseScope();
+	HashTable* IncreaseScope();
+	HashTable* DecreaseScope();
 	Symbol* InsertSymbol(string insert);
 	void InsertSymbol(Symbol* insert);
 	Symbol* GetSymbol(string symbol);
+        bool TypeExists(string symbol);
+	Symbol* InsertType(string insert);
 protected:
 	list<HashTable*> SymbolHashes;
 	int defaultHashSize;

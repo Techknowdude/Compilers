@@ -65,6 +65,7 @@ public:
 	void Purge();
 	bool Contains(Symbol* item);
 	bool Contains(string item);
+	bool ContainsType(string item);
 
 private:
 	HashNode<string,Symbol*> * inList(string key);

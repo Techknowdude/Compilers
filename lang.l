@@ -6,6 +6,9 @@
 #include "langparse.h"
 #include "SymbolTable.h"
 #include "Symbol.h"
+#include <iostream>
+using std::cout;
+using std::endl;
 
 #define RETURN(a) return Return(a);
 static int Return(int val);
@@ -37,14 +40,21 @@ commentline     \/\/.*
 "scan"          RETURN(SCAN);
 "while"         RETURN(WHILE);
 "else"          RETURN(ELSE);
-"while"         RETURN(WHILE);
 "print"         RETURN(PRINT);
 "struct"        RETURN(STRUCT);
 "return"        RETURN(RETURN);
 {identifier}    {
                     string ident(yytext);
-                    yylval.symbol = symbolTableRoot->InsertSymbol(ident);
-                    RETURN(IDENTIFIER);
+                    if(symbolTableRoot->TypeExists(ident))
+                    {
+                        yylval.symbol = symbolTableRoot->GetSymbol(ident);
+                        RETURN(TYPE_ID);
+                    }
+                    else
+                    {
+                        yylval.symbol = symbolTableRoot->InsertSymbol(ident);
+                        RETURN(IDENTIFIER);
+                    }
                 }
 {junk}          RETURN(JUNK_TOK);
 %%
@@ -52,7 +62,7 @@ commentline     \/\/.*
 // This function allows us to do extra processing on each token
 static int Return(int val)
 {
-//    printf("Scanned '%s': %d\n", yytext, val);
+ //   printf("Scanned '%s': %d\n", yytext, val);
     return val;
 }
 

@@ -52,7 +52,7 @@ void Symbol::SetIdentifier(string newID)
 
 string Symbol::toString()
 {
-	return identifier + " " + std::to_string(sequence);
+	return "sym: " + identifier + " " + std::to_string(sequence);
 }
 
 bool Symbol::IsType()

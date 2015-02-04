@@ -10,9 +10,12 @@ OBJS=main.o \
 	 StmtsNode.o \
 	 FloatNode.o \
 	 IntNode.o \
+	 ExprNode.o \
+	 VarRef.o \
 	 BinaryExprNode.o \
 	 DeclsNode.o \
-	 VarDecl.o
+	 VarDecl.o \
+	 StmtNode.o 
 
 all: lang
 
@@ -44,3 +47,6 @@ langlex.c: lang.l
 
 langlex.o: langlex.c
 	g++ $(COPTS) -Wno-sign-compare langlex.c -o $@
+
+SymbolTable.o: SymbolTable.cpp
+	g++ $(COPTS) -Wno-sign-compare SymbolTable.cpp -o $@

@@ -377,8 +377,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 17
-#define YY_END_OF_BUFFER 18
+#define YY_NUM_RULES 16
+#define YY_END_OF_BUFFER 17
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -388,11 +388,11 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[51] =
     {   0,
-        0,    0,   18,   16,    6,    6,    3,    2,    3,    3,
-        5,   15,   15,   15,   15,   15,   15,   15,    5,    1,
-        0,   15,   15,    7,   15,   15,   15,   15,   15,    1,
-        4,   15,   15,   15,   15,   15,   15,   10,   15,   15,
-        8,   15,   15,   12,   15,   15,    9,   14,   13,    0
+        0,    0,   17,   15,    6,    6,    3,    2,    3,    3,
+        5,   14,   14,   14,   14,   14,   14,   14,    5,    1,
+        0,   14,   14,    7,   14,   14,   14,   14,   14,    1,
+        4,   14,   14,   14,   14,   14,   14,   10,   14,   14,
+        8,   14,   14,   11,   14,   14,    9,   13,   12,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -481,9 +481,9 @@ static yyconst flex_int16_t yy_chk[87] =
     } ;
 
 /* Table of booleans, true if rule could match eol. */
-static yyconst flex_int32_t yy_rule_can_match_eol[18] =
+static yyconst flex_int32_t yy_rule_can_match_eol[17] =
     {   0,
-0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,     };
+0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,     };
 
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
@@ -508,12 +508,15 @@ char *yytext;
 #include "langparse.h"
 #include "SymbolTable.h"
 #include "Symbol.h"
+#include <iostream>
+using std::cout;
+using std::endl;
 
 #define RETURN(a) return Return(a);
 static int Return(int val);
 #define YY_NO_INPUT 1
 /* definitions go here. period is an example. */
-#line 517 "langlex.c"
+#line 520 "langlex.c"
 
 #define INITIAL 0
 
@@ -693,9 +696,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 29 "lang.l"
+#line 32 "lang.l"
 
-#line 699 "langlex.c"
+#line 702 "langlex.c"
 
 	if ( !(yy_init) )
 		{
@@ -790,95 +793,98 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 30 "lang.l"
+#line 33 "lang.l"
 {}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 31 "lang.l"
+#line 34 "lang.l"
 return yytext[0];
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 32 "lang.l"
+#line 35 "lang.l"
 return yytext[0];
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 33 "lang.l"
+#line 36 "lang.l"
 RETURN(FLOAT_VAL);
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 34 "lang.l"
+#line 37 "lang.l"
 RETURN(INT_VAL);
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 35 "lang.l"
+#line 38 "lang.l"
 {}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 36 "lang.l"
+#line 39 "lang.l"
 RETURN(IF);
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 37 "lang.l"
+#line 40 "lang.l"
 RETURN(SCAN);
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 38 "lang.l"
+#line 41 "lang.l"
 RETURN(WHILE);
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 39 "lang.l"
+#line 42 "lang.l"
 RETURN(ELSE);
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 40 "lang.l"
-RETURN(WHILE);
+#line 43 "lang.l"
+RETURN(PRINT);
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 41 "lang.l"
-RETURN(PRINT);
+#line 44 "lang.l"
+RETURN(STRUCT);
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 42 "lang.l"
-RETURN(STRUCT);
+#line 45 "lang.l"
+RETURN(RETURN);
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 43 "lang.l"
-RETURN(RETURN);
+#line 46 "lang.l"
+{
+                    string ident(yytext);
+                    if(symbolTableRoot->TypeExists(ident))
+                    {
+                        yylval.symbol = symbolTableRoot->GetSymbol(ident);
+                        RETURN(TYPE_ID);
+                    }
+                    else
+                    {
+                        yylval.symbol = symbolTableRoot->InsertSymbol(ident);
+                        RETURN(IDENTIFIER);
+                    }
+                }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 44 "lang.l"
-{
-                    string ident(yytext);
-                    yylval.symbol = symbolTableRoot->InsertSymbol(ident);
-                    RETURN(IDENTIFIER);
-                }
+#line 59 "lang.l"
+RETURN(JUNK_TOK);
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 49 "lang.l"
-RETURN(JUNK_TOK);
-	YY_BREAK
-case 17:
-YY_RULE_SETUP
-#line 50 "lang.l"
+#line 60 "lang.l"
 ECHO;
 	YY_BREAK
-#line 882 "langlex.c"
+#line 888 "langlex.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1843,14 +1849,14 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 50 "lang.l"
+#line 60 "lang.l"
 
 
 
 // This function allows us to do extra processing on each token
 static int Return(int val)
 {
-//    printf("Scanned '%s': %d\n", yytext, val);
+ //   printf("Scanned '%s': %d\n", yytext, val);
     return val;
 }
 

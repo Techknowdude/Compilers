@@ -1,17 +1,11 @@
-#ifndef H_STMTSNODE
-#define H_SMTTSNODE
+#ifndef H_STMTNODE
+#define H_STMTNODE
 
 #include "AstNode.h"
 
-class StmtsNode : public AstNode
+class StmtNode : public AstNode
 {
-    public:
-    StmtsNode();
-    AstNode* AddNode(AstNode* newNode);
-    string toString();
-    
-    private:
-    list<AstNode*> stmts;
+
 };
 
 #endif

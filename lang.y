@@ -19,6 +19,7 @@ using std::endl;
     PrintNode*      print_node;
     BlockNode*      block_node;
     StmtsNode*      stmts_node;
+    StmtNode*       stmt_node;
     ExprNode*       expr_node;
     BinaryExprNode* bin_expr_node;
     DeclsNode*      decls_node;
@@ -66,7 +67,7 @@ using std::endl;
 %type <ast_node> paramspec
 %type <ast_node> arrayspec
 %type <stmts_node> stmts
-%type <print_node> stmt
+%type <stmt_node> stmt
 %type <ast_node> lval
 %type <ast_node> arrayval
 %type <ast_node> params
@@ -74,8 +75,8 @@ using std::endl;
 %type <expr_node> expr
 %type <expr_node> term
 %type <expr_node> fact
-%type <ast_node> varref
-%type <ast_node> varpart
+%type <symbol> varref
+%type <symbol> varpart
 
 %%
 
@@ -117,7 +118,6 @@ decl:       var_decl ';'        {
                                 }
 var_decl:   TYPE_ID IDENTIFIER arrayspec    
                                 {
-                                    symbolTableRoot->InsertSymbol($2);
                                     $$ = new VarDecl($1,$2,$3);    
                                 }/* create symbol here  */
         |   struct_decl IDENTIFIER arrayspec
@@ -168,27 +168,42 @@ stmt:       IF '(' expr ')' stmt
         |   SCAN '(' lval ')' ';'
                                 {}
         |   lval '=' expr ';'   {}
-        |   func_call ';'       {}
+        |   func_call ';'       {
+                                    $$ = $1;
+                                }
         |   block               {}
         |   RETURN expr ';'     {}
         |   error ';'           { // anything to prevent a segfault
                                 }
 
 func_call:  IDENTIFIER '(' params ')' 
-                                {}
+                                {
+ //                                   $$ = new FuncCall($1,$3);
+                                }
 varref:   varref '.' varpart    {}
-        | varpart               {}
+        | varpart               {
+                                    $$ = $1;
+                                }
 
-varpart:  IDENTIFIER arrayval   {}
+varpart:  IDENTIFIER arrayval   {
+                                    $$ = $1;
+                                }
 
 lval:     varref                {}
 arrayval: arrayval '[' expr ']' {}
         |   /* empty */         {}
 
-params:     params',' param     {}
-        |   param               {}
+params:     params',' param     {
+   //                                 $$ = $1;
+     //                               $$->AddNode($3);
+                                }
+        |   param               {
+       //                             $$ = new ParamsNode($1);
+                                }
 
-param:      expr                {}
+param:      expr                {
+                                    $$ = $1;
+                                }
         |   /* empty */         {}
 
 expr:       expr '+' term       { 
@@ -221,7 +236,9 @@ fact:        '(' expr ')'       {}
         |   FLOAT_VAL           {
                                     $$ = new FloatNode(std::stof(yytext));
                                 }
-        |   varref              {}
+        |   varref              { // HACK: should make this do something else
+                                    $$ = new VarRef($1);
+                                }
         |   func_call           {}
 
 %%

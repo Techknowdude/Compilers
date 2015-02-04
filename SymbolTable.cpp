@@ -25,6 +25,10 @@ SymbolTable::SymbolTable() : SymbolHashes(), defaultHashSize(5)
 {
 	SymbolHashes.push_front(new HashTable(defaultHashSize));
 	SymbolHashes.front()->setHash(AsciiHash);
+
+        InsertType(string("char"));
+        InsertType(string("int"));
+        InsertType(string("float"));
 }
 
 /**********************************************************************
@@ -114,10 +118,11 @@ bool SymbolTable::SymbolExists(Symbol* find)
 * Entry:
 * Exit:
 ************************************************************************/
-void SymbolTable::IncreaseScope()
+HashTable* SymbolTable::IncreaseScope()
 {
 	SymbolHashes.push_front(new HashTable(defaultHashSize));
 	SymbolHashes.front()->setHash(AsciiHash);
+        return SymbolHashes.front();
 }
 
 /**********************************************************************
@@ -126,9 +131,10 @@ void SymbolTable::IncreaseScope()
 * Entry:
 * Exit:
 ************************************************************************/
-void SymbolTable::DecreaseScope()
+HashTable* SymbolTable::DecreaseScope()
 {
 	SymbolHashes.pop_front();
+        return SymbolHashes.front();
 }
 
 
@@ -158,4 +164,38 @@ bool SymbolTable::SymbolExists(string find)
 bool SymbolTable::SymbolInCurScope(string find)
 {
 	return SymbolHashes.front()->Contains(find);
+}
+  
+bool SymbolTable::TypeExists(string find)
+{
+	list<HashTable*>::iterator iter;
+	bool found = false;
+	for (iter = SymbolHashes.begin(); iter != SymbolHashes.end(); ++iter)
+	{
+		if ((*iter)->ContainsType(find))
+			found = true;
+	}
+	return found;
+}
+
+/**********************************************************************
+* Purpose:  Returns true if the current scope contains the passed identifier
+* Entry:
+* Exit:
+************************************************************************/
+Symbol* SymbolTable::InsertType(string identifier)
+{
+	Symbol* newSymbol = nullptr;
+        
+	if(SymbolInCurScope(identifier))
+	{
+		newSymbol = GetSymbol(identifier);
+	}
+	else
+	{
+		newSymbol = new Symbol(identifier,true);
+		SymbolHashes.front()->Insert(identifier, newSymbol);
+	}
+
+	return newSymbol;
 }

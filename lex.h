@@ -9,6 +9,7 @@
 #include "FloatNode.h"
 #include "IntNode.h"
 #include "ExprNode.h"
+#include "VarRef.h"
 #include "BinaryExprNode.h"
 #include "DeclsNode.h"
 #include "VarDecl.h"

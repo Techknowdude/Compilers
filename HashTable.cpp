@@ -299,3 +299,29 @@ bool HashTable::Contains(string value)
 	}
 	return found;
 }
+
+/**********************************************************************
+* Purpose:  This is the constructor for the HashTable object.
+*
+* Entry:	This is called when an HashTable object is declared.
+*
+* Exit:		This function creates an HashTable object.
+************************************************************************/
+bool HashTable::ContainsType(string value)
+{
+	vector<list<HashNode<string, Symbol*>*>>::iterator vectIter;
+	list<HashNode<string, Symbol*>*>::iterator listIter;
+	bool found = false;
+
+	for (vectIter = m_table.begin(); !found && vectIter != m_table.end(); ++vectIter)
+	{
+		for (listIter = vectIter->begin(); !found && listIter != vectIter->end(); ++listIter)
+		{
+                    Symbol* symbol = (*listIter)->m_value;
+
+		    if (symbol->IsType() == true & symbol->GetIdentifier() == value )
+				found = true;
+		}
+	}
+	return found;
+}

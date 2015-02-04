@@ -77,12 +77,15 @@ typedef union YYSTYPE
     PrintNode*      print_node;
     BlockNode*      block_node;
     StmtsNode*      stmts_node;
+    StmtNode*       stmt_node;
     ExprNode*       expr_node;
     BinaryExprNode* bin_expr_node;
+    DeclsNode*      decls_node;
+    VarDecl*        var_decl;
     
 
 /* Line 2058 of yacc.c  */
-#line 86 "langparse.h"
+#line 89 "langparse.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

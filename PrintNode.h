@@ -1,10 +1,10 @@
 #ifndef H_PRINTNODE
 #define H_PRINTNODE
 
-#include "AstNode.h"
+#include "StmtNode.h"
 #include "ExprNode.h"
 
-class PrintNode : public AstNode
+class PrintNode : public StmtNode
 {
     public:
     PrintNode(ExprNode* expr);
