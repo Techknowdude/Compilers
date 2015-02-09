@@ -1,0 +1,7 @@
+check output of test 6:
+
+check for symbol table issues with types, and varrefs.
+
+should only insert in a decl
+
+all others should get closest one

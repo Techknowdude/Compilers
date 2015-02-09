@@ -52,7 +52,10 @@ commentline     \/\/.*
                     }
                     else
                     {
-                        yylval.symbol = symbolTableRoot->InsertSymbol(ident);
+                        if(symbolTableRoot->SymbolExists(ident);
+                            yylval.symbol = symbolTableRoot->GetSymbol(ident);
+                        else
+                            yylval.symbol = symbolTableRoot->InsertSymbol(ident);
                         RETURN(IDENTIFIER);
                     }
                 }

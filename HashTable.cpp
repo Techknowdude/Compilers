@@ -319,7 +319,7 @@ bool HashTable::ContainsType(string value)
 		{
                     Symbol* symbol = (*listIter)->m_value;
 
-		    if (symbol->IsType() == true & symbol->GetIdentifier() == value )
+		    if (symbol->IsType() == true && symbol->GetIdentifier() == value )
 				found = true;
 		}
 	}
