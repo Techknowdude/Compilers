@@ -2,8 +2,9 @@
 #define H_BLOCKNODE
 
 #include "AstNode.h"
+#include "StmtNode.h"
 
-class BlockNode : public AstNode
+class BlockNode : public StmtNode
 {
 
     public:

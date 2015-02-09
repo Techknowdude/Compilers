@@ -7,7 +7,7 @@ using std::string;
 
 #include "Symbol.h"
 
-class VarRef : public ExprNode
+class VarRef : public Symbol
 {
     public:
         VarRef(Symbol* symbol);

@@ -31,7 +31,9 @@
 #include <string>
 using std::string;
 
-class Symbol
+#include "ExprNode.h"
+
+class Symbol : public ExprNode
 {
 public:
 	Symbol(string id, bool isType = false);

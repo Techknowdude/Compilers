@@ -13,6 +13,14 @@
 #include "BinaryExprNode.h"
 #include "DeclsNode.h"
 #include "VarDecl.h"
+#include "ParamsNode.h"
+#include "FuncCall.h"
+#include "ReturnNode.h"
+#include "IfStmt.h"
+#include "ScanStmt.h"
+#include "IfElseStmt.h"
+#include "WhileStmt.h"
+#include "AssignStmt.h"
 
 #include "langparse.h"
 

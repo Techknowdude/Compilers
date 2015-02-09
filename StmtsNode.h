@@ -1,21 +1,20 @@
 #ifndef H_STMTSNODE
-#define H_SMTTSNODE
+#define H_STMTSNODE
 #include <list>
 #include "AstNode.h"
-#include "PrintNode.h"
-
 using std::list;
 
+#include "StmtNode.h"
 
 class StmtsNode : public AstNode
 {
     public:
-    StmtsNode(PrintNode* newNode);
-    void AddNode(PrintNode* newNode);
+    StmtsNode(StmtNode* newNode);
+    void AddNode(StmtNode* newNode);
     string toString();
     
     private:
-    list<AstNode*> _stmts;
+    list<StmtNode*> _stmts;
 };
 
 #endif

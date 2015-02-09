@@ -1,12 +1,20 @@
+#include <iostream>
+using std::cout;
+using std::endl;
+
 #include "StmtsNode.h"
 
-StmtsNode::StmtsNode(PrintNode* newNode) : _stmts()
+StmtsNode::StmtsNode(StmtNode* newNode) : _stmts()
 {
     AddNode(newNode);
 }
 
-void StmtsNode::AddNode(PrintNode* newNode)
+void StmtsNode::AddNode(StmtNode* newNode)
 {
+    if(newNode == nullptr)
+        cout << "WARNING!: Node is null" << endl;
+   // else
+ //       cout << "New Stmt: " + newNode->toString() << endl;
     _stmts.push_back(newNode);
 }
 
@@ -14,11 +22,14 @@ string StmtsNode::toString()
 {
     string stringVal = "STMTS:\n{\n";
 
-    list<AstNode*>::iterator iter;
+    list<StmtNode*>::iterator iter;
 
     for(iter = _stmts.begin(); iter != _stmts.end(); ++iter)
     {
-        stringVal += (*iter)->toString() + "\n";
+        if((*iter) != nullptr)
+            stringVal += (*iter)->toString() + "\n";
+        else
+            cout << "Found empty stmt" << endl;
     }
 
     stringVal += "}\n";

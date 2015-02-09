@@ -2,8 +2,6 @@
   char aaa;
   int bbb;
   float ccc;
-
+  aaa = 5;
   if (aaa) return 5;
-  if (bbb+5)
-    return(5);
 }

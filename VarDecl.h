@@ -6,8 +6,9 @@ using std::string;
 
 #include "Symbol.h"
 #include "Decl.h"
+#include "ParamsNode.h"
 
-class VarDecl : public Decl
+class VarDecl : public ParamsNode
 {
     public:
         VarDecl(Symbol* type, Symbol* ident, AstNode* arrSpec = nullptr);

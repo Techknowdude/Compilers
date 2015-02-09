@@ -15,7 +15,15 @@ OBJS=main.o \
 	 BinaryExprNode.o \
 	 DeclsNode.o \
 	 VarDecl.o \
-	 StmtNode.o 
+	 StmtNode.o \
+	 FuncCall.o \
+	 ParamsNode.o \
+	 ReturnNode.o \
+	 IfStmt.o \
+	 ScanStmt.o \
+	 IfElseStmt.o \
+	 WhileStmt.o \
+	 AssignStmt.o
 
 all: lang
 
