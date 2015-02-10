@@ -82,8 +82,8 @@ using std::endl;
 %type <expr_node> expr
 %type <expr_node> term
 %type <expr_node> fact
-%type <var_ref> varref
-%type <var_ref> varpart
+%type <symbol> varref
+%type <symbol> varpart
 
 %%
 
@@ -344,7 +344,7 @@ varref:   varref '.' varpart    {
                                         cout << "varref: varref . varpart" << endl;
                                     #endif
                                     $$ = $1;
-                                    $$->AddPart($3);
+                                 //   $$->AddPart($3);
                                 }
         | varpart               {
                                     #ifdef DebugMode
@@ -357,7 +357,7 @@ varpart:  IDENTIFIER arrayval   {
                                     #ifdef DebugMode
                                         cout << "varpart: IDENTIFIER arrayval" << endl;
                                     #endif
-                                    $$ = new VarRef(symbolTableRoot->GetSymbol(*$1));
+                                    $$ = symbolTableRoot->GetSymbol(*$1);
                                 }
 
 lval:     varref                {

@@ -15,12 +15,14 @@ void VarRef::AddPart(VarRef* varRef)
         
 string VarRef::toString()
 {
-    string stringVal = "(VarRef: " + _sym->toString();
+    string stringVal;
 
-    if(_varPart != nullptr)
-        stringVal += "\n" + _varPart->toString();   
+        stringVal = "(VarRef: " + _sym->toString();
 
-    stringVal += ")";
+        if(_varPart != nullptr)
+            stringVal += "\n" + _varPart->toString();   
+
+        stringVal += ")";
 
     return stringVal;
 }
