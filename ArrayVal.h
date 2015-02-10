@@ -16,6 +16,8 @@ class ArrayVal : public AstNode
         void AddVal(ExprNode* val);
 
         string toString();
+
+        bool HasVals();
     protected:
         list<ExprNode*> _vals;
 };

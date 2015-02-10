@@ -28,3 +28,8 @@ string ArrayVal::toString()
     return stringVal;
 
 }
+
+bool ArrayVal::HasVals()
+{
+    return _vals.size() > 0;
+}

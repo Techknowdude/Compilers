@@ -23,8 +23,9 @@ string VarPart::GetID()
 
 string VarPart::GetArrVal()
 {
-    if(_arrVal != nullptr)
-        return _arrVal->toString();
+    if(_arrVal != nullptr && _arrVal->HasVals())
+        return "[" + _arrVal->toString() + "]";
     else
         return string("");
 }
+
