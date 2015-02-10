@@ -478,14 +478,14 @@ fact:        '(' expr ')'       {
                                     #ifdef DebugMode
                                         cout << "fact: INT_VAL" << endl;
                                     #endif
-                                    $$ =  new IntNode(std::stoi(yytext));
+                                    $$ =  new IntNode($1);
                                 }
         |   FLOAT_VAL           {
                                     
                                     #ifdef DebugMode
                                         cout << "fact: FLOAT_VAL" << endl;
                                     #endif
-                                    $$ = new FloatNode(std::stof(yytext));
+                                    $$ = new FloatNode($1);
                                 }
         |   varref              { 
                                     #ifdef DebugMode

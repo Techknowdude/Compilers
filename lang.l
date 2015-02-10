@@ -33,8 +33,15 @@ commentline     \/\/.*
 {commentline}   {}
 {punct}         return yytext[0];
 {operator}      return yytext[0];
-{float}         RETURN(FLOAT_VAL);
-{integer}       RETURN(INT_VAL);
+{float}         {
+                    yylval.float_val = std::stof(yytext);
+                    RETURN(FLOAT_VAL);
+                }
+
+{integer}       {
+                    yylval.int_val = std::stoi(yytext);
+                    RETURN(INT_VAL);
+                }
 {whitespace}    {}
 "if"            RETURN(IF);
 "scan"          RETURN(SCAN);
