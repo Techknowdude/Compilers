@@ -4,22 +4,46 @@
 using std::cout;
 using std::endl;
 
-VarRef::VarRef(Symbol* symbol, VarRef* varRef) : _sym(symbol), _varPart(varRef), _arrVal()
+VarRef::VarRef() : _varRefs()
 {
 }
 
-void VarRef::AddPart(VarRef* varRef)
+VarRef::VarRef(VarRef* varRef) : _varRefs()
 {
-    _varPart = varRef;
+    AddRef(varRef);
+}
+
+void VarRef::AddRef(VarRef* varRef)
+{
+    _varRefs.push_back(varRef);
 }
         
 string VarRef::toString()
 {
     string stringVal;
 
-        stringVal = "(VarRef: " + _sym->toString();
-
+    list<VarRef*>::iterator iter = _varRefs.begin();
+    
+    if(iter != _varRefs.end())
+    {
+        stringVal += "(VarRef: " + (*iter)->GetID() + (*iter)->GetArrVal();
+        iter++;
+    }
+    for(; iter != _varRefs.end(); ++iter)
+    {
+        stringVal += "\n(VarRef: " + (*iter)->GetID() + (*iter)->GetArrVal();
+    }
         stringVal += ")";
 
     return stringVal;
+}
+
+string VarRef::GetID()
+{
+    return string("");
+}
+
+string VarRef::GetArrVal()
+{
+    return string("");
 }

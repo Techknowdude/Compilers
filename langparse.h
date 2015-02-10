@@ -67,8 +67,9 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 13 "lang.y"
+#line 15 "lang.y"
 
+    string*          string_val;
     int             int_val;
     double          float_val;
     AstNode*        ast_node;
@@ -82,10 +83,22 @@ typedef union YYSTYPE
     BinaryExprNode* bin_expr_node;
     DeclsNode*      decls_node;
     VarDecl*        var_decl;
+    FuncCall*       func_call;
+    ParamsNode*     params_node;
+    ReturnNode*     ret_node;
+    VarRef*         var_ref;
+    FuncDecl*       func_decl;
+    FuncHeader*     func_head;
+    FuncPrefix*     func_pre;
+    Paramsspec*     paramsspec_node;
+    ArraySpec*      arr_spec;
+    Paramspec*      paramspec_node;
+    ArrayVal*       arr_val;
+    VarPart*        var_part;
     
 
 /* Line 2058 of yacc.c  */
-#line 89 "langparse.h"
+#line 102 "langparse.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

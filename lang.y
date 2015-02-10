@@ -37,6 +37,8 @@ using std::endl;
     Paramsspec*     paramsspec_node;
     ArraySpec*      arr_spec;
     Paramspec*      paramspec_node;
+    ArrayVal*       arr_val;
+    VarPart*        var_part;
     }
 
 %{
@@ -82,14 +84,14 @@ using std::endl;
 %type <stmts_node> stmts
 %type <stmt_node> stmt
 %type <var_ref> lval
-%type <ast_node> arrayval
+%type <arr_val> arrayval
 %type <params_node> params
 %type <expr_node> param
 %type <expr_node> expr
 %type <expr_node> term
 %type <expr_node> fact
-%type <symbol> varref
-%type <symbol> varpart
+%type <var_ref> varref
+%type <var_part> varpart
 
 %%
 
@@ -359,37 +361,41 @@ varref:   varref '.' varpart    {
                                         cout << "varref: varref . varpart" << endl;
                                     #endif
                                     $$ = $1;
-                                 //   $$->AddPart($3);
+                                    $$->AddRef($3);
                                 }
         | varpart               {
                                     #ifdef DebugMode
                                         cout << "varref: varpart" << endl;
                                     #endif
-                                    $$ = $1;
+                                    $$ = new VarRef($1);
                                 }
 
 varpart:  IDENTIFIER arrayval   {
                                     #ifdef DebugMode
                                         cout << "varpart: IDENTIFIER arrayval" << endl;
                                     #endif
-                                    $$ = symbolTableRoot->GetSymbol(*$1);
+                                    Symbol* newSymbol = symbolTableRoot->GetSymbol(*$1);
+                                    $$ = new VarPart(newSymbol, $2);
                                 }
 
 lval:     varref                {
                                     #ifdef DebugMode
                                         cout << "lval: varref" << endl;
                                     #endif
-                                    $$ = new VarRef($1);
+                                    $$ = $1;
                                 }
 arrayval: arrayval '[' expr ']' {
                                     #ifdef DebugMode
                                         cout << "arrayval: arrayval [ expr ]" << endl;
                                     #endif
+                                    $$ = $1;
+                                    $$->AddVal($3);
                                 }
         |   /* empty */         {
                                     #ifdef DebugMode
                                         cout << "arrayval: epsilon" << endl;
                                     #endif
+                                    $$ = new ArrayVal();
                                 }
 
 params:     params',' param     {
@@ -492,7 +498,7 @@ fact:        '(' expr ')'       {
                                         cout << "fact: varref => ";
                                         cout << $1->toString() << endl;
                                     #endif
-                                    $$ = new VarRef($1);
+                                    $$ = $1;
                                 }
         |   func_call           {
                                     #ifdef DebugMode

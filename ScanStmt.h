@@ -7,11 +7,11 @@
 class ScanStmt : public StmtNode
 {
     public:
-        ScanStmt(Symbol* varRef);
+        ScanStmt(VarRef* varRef);
 
         string toString();
     protected:
-        Symbol* _varRef;
+        VarRef* _varRef;
 };
 
 #endif

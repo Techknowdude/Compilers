@@ -29,7 +29,9 @@
 #include "Paramsspec.h"
 #include "Paramspec.h"
 #include "ArraySpec.h"
-
+#include "ArrayVal.h"
+#include "VarPart.h"
+#include "VarRef.h"
 
 #include "langparse.h"
 

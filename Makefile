@@ -11,7 +11,6 @@ OBJS=main.o \
 	 FloatNode.o \
 	 IntNode.o \
 	 ExprNode.o \
-	 VarRef.o \
 	 BinaryExprNode.o \
 	 DeclsNode.o \
 	 VarDecl.o \
@@ -30,7 +29,10 @@ OBJS=main.o \
 	 FuncDef.o \
 	 FuncDecl.o \
 	 Paramsspec.o \
-	 ArraySpec.o
+	 ArraySpec.o \
+	 ArrayVal.o \
+	 VarPart.o \
+	 VarRef.o
 
 all: lang
 

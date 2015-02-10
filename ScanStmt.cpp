@@ -1,6 +1,6 @@
 #include "ScanStmt.h"
 
-ScanStmt::ScanStmt(Symbol* varRef) : _varRef(varRef)
+ScanStmt::ScanStmt(VarRef* varRef) : _varRef(varRef)
 {
 }
 

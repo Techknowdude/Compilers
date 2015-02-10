@@ -70,8 +70,10 @@
 using std::cout;
 using std::endl;
 
+//#define DebugMode
+
 /* Line 371 of yacc.c  */
-#line 75 "langparse.c"
+#line 77 "langparse.c"
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -128,8 +130,9 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 387 of yacc.c  */
-#line 13 "lang.y"
+#line 15 "lang.y"
 
+    string*          string_val;
     int             int_val;
     double          float_val;
     AstNode*        ast_node;
@@ -143,10 +146,22 @@ typedef union YYSTYPE
     BinaryExprNode* bin_expr_node;
     DeclsNode*      decls_node;
     VarDecl*        var_decl;
+    FuncCall*       func_call;
+    ParamsNode*     params_node;
+    ReturnNode*     ret_node;
+    VarRef*         var_ref;
+    FuncDecl*       func_decl;
+    FuncHeader*     func_head;
+    FuncPrefix*     func_pre;
+    Paramsspec*     paramsspec_node;
+    ArraySpec*      arr_spec;
+    Paramspec*      paramspec_node;
+    ArrayVal*       arr_val;
+    VarPart*        var_part;
     
 
 /* Line 387 of yacc.c  */
-#line 150 "langparse.c"
+#line 165 "langparse.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -186,7 +201,7 @@ int yyparse ();
 
 /* Copy the second part of user declarations.  */
 /* Line 390 of yacc.c  */
-#line 29 "lang.y"
+#line 44 "lang.y"
 
     int yyerror(const char *msg);
 
@@ -195,7 +210,7 @@ int yyparse ();
     void *yyast_root;
 
 /* Line 390 of yacc.c  */
-#line 199 "langparse.c"
+#line 214 "langparse.c"
 
 #ifdef short
 # undef short
@@ -509,15 +524,15 @@ static const yytype_int8 yyrhs[] =
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
-       0,    83,    83,    90,    91,    94,    97,   101,   105,   109,
-     112,   115,   116,   117,   119,   123,   125,   127,   129,   131,
-     133,   135,   136,   139,   141,   143,   145,   147,   149,   153,
-     157,   160,   162,   164,   168,   170,   171,   174,   175,   176,
-     179,   183,   184,   188,   192,   193,   194,   196,   200,   204,
-     207,   209,   212,   215,   219,   222,   225,   228,   232,   233,
-     236,   239,   242
+       0,    98,    98,   105,   106,   111,   116,   123,   130,   137,
+     143,   149,   155,   162,   167,   175,   183,   191,   198,   205,
+     212,   219,   225,   235,   243,   250,   257,   265,   272,   279,
+     286,   293,   300,   307,   314,   321,   327,   333,   339,   345,
+     351,   359,   366,   373,   381,   387,   394,   401,   409,   417,
+     424,   431,   437,   443,   451,   457,   462,   468,   476,   483,
+     489,   496,   503
 };
 #endif
 
@@ -1611,7 +1626,7 @@ yyreduce:
     {
         case 2:
 /* Line 1792 of yacc.c  */
-#line 83 "lang.y"
+#line 98 "lang.y"
     { (yyval.block_node) = (yyvsp[(1) - (1)].block_node);
                                   yyast_root = (yyval.block_node);
                                   if (yynerrs == 0) 
@@ -1623,30 +1638,37 @@ yyreduce:
 
   case 3:
 /* Line 1792 of yacc.c  */
-#line 90 "lang.y"
+#line 105 "lang.y"
     { YYACCEPT; }
     break;
 
   case 4:
 /* Line 1792 of yacc.c  */
-#line 91 "lang.y"
+#line 106 "lang.y"
     {
+                                    #ifdef DebugMode
+                                    #endif
                                     (yyval.block_node) = new BlockNode((yyvsp[(3) - (4)].stmts_node),(yyvsp[(2) - (4)].decls_node));
                                 }
     break;
 
   case 5:
 /* Line 1792 of yacc.c  */
-#line 94 "lang.y"
+#line 111 "lang.y"
     {
+                                    #ifdef DebugMode
+                                    #endif
                                     (yyval.block_node) = new BlockNode((yyvsp[(2) - (3)].stmts_node),nullptr);
                                 }
     break;
 
   case 6:
 /* Line 1792 of yacc.c  */
-#line 97 "lang.y"
+#line 116 "lang.y"
     { 
+                                    #ifdef DebugMode
+                                        cout << "open: {" << endl;
+                                    #endif
                                     symbolTableRoot->IncreaseScope();
                                     //$$ = NULL; //return current table
                                  }
@@ -1654,8 +1676,11 @@ yyreduce:
 
   case 7:
 /* Line 1792 of yacc.c  */
-#line 101 "lang.y"
+#line 123 "lang.y"
     { 
+                                    #ifdef DebugMode
+                                        cout << "close: }" << endl;
+                                    #endif
                                     symbolTableRoot->DecreaseScope();
                                     //$$ = NULL; //return current table
                                 }
@@ -1663,8 +1688,11 @@ yyreduce:
 
   case 8:
 /* Line 1792 of yacc.c  */
-#line 105 "lang.y"
+#line 130 "lang.y"
     {
+                                    #ifdef DebugMode
+                                        cout << "decls: decls decl" << endl;
+                                    #endif
                                     (yyval.decls_node) = (yyvsp[(1) - (2)].decls_node);
                                     (yyval.decls_node)->AddNode((yyvsp[(2) - (2)].var_decl));
                                 }
@@ -1672,129 +1700,227 @@ yyreduce:
 
   case 9:
 /* Line 1792 of yacc.c  */
-#line 109 "lang.y"
+#line 137 "lang.y"
     {
+                                    #ifdef DebugMode
+                                        cout << "decls: decl" << endl;
+                                    #endif
                                     (yyval.decls_node) = new DeclsNode((yyvsp[(1) - (1)].var_decl));
                                 }
     break;
 
   case 10:
 /* Line 1792 of yacc.c  */
-#line 112 "lang.y"
+#line 143 "lang.y"
     {
+                                    #ifdef DebugMode
+                                        cout << "decl: var_decl" << endl;
+                                    #endif
                                     (yyval.var_decl) = (yyvsp[(1) - (2)].var_decl);
                                 }
     break;
 
   case 11:
 /* Line 1792 of yacc.c  */
-#line 115 "lang.y"
-    {}
+#line 149 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "decl: var_decl" << endl;
+                                    #endif
+                                    (yyval.var_decl) = (yyvsp[(1) - (2)].var_decl);
+                                }
     break;
 
   case 12:
 /* Line 1792 of yacc.c  */
-#line 116 "lang.y"
-    {}
+#line 155 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "decl: func_decl" << endl;
+                                    #endif
+                                    (yyval.var_decl) = (yyvsp[(1) - (1)].func_decl);
+                                    symbolTableRoot->DecreaseScope();
+                                }
     break;
 
   case 13:
 /* Line 1792 of yacc.c  */
-#line 117 "lang.y"
+#line 162 "lang.y"
     { // do whatever to not segfault 
+                                    #ifdef DebugMode
+                                        cout << "decl: error" << endl;
+                                    #endif
                                 }
     break;
 
   case 14:
 /* Line 1792 of yacc.c  */
-#line 120 "lang.y"
+#line 168 "lang.y"
     {
-                                    (yyval.var_decl) = new VarDecl((yyvsp[(1) - (3)].symbol),(yyvsp[(2) - (3)].symbol),(yyvsp[(3) - (3)].ast_node));    
+                                    #ifdef DebugMode
+                                        cout << "var_decl: TYPE_ID IDENTIFIER arrayspec" << endl;
+                                    #endif
+                                    Symbol* newSymbol = symbolTableRoot->InsertSymbol(*(yyvsp[(2) - (3)].string_val));
+                                    (yyval.var_decl) = new VarDecl((yyvsp[(1) - (3)].symbol),newSymbol,(yyvsp[(3) - (3)].arr_spec));    
                                 }
     break;
 
   case 15:
 /* Line 1792 of yacc.c  */
-#line 124 "lang.y"
-    {}
+#line 176 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "var_decl: struct_decl IDENTIFIER arrayspec" << endl;
+                                    #endif
+                                    //Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
+                                    //$$ = new VarDecl($1,newSymbol,$3);
+                                }
     break;
 
   case 16:
 /* Line 1792 of yacc.c  */
-#line 126 "lang.y"
-    {}
+#line 184 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "struct_decl: STRUCT open decls close IDENTIFIER" << endl;
+                                    #endif
+                                    Symbol* ident = symbolTableRoot->InsertType(*(yyvsp[(5) - (5)].string_val));
+                                    (yyval.var_decl) = new StructDecl(ident,(yyvsp[(3) - (5)].decls_node));
+                                }
     break;
 
   case 17:
 /* Line 1792 of yacc.c  */
-#line 128 "lang.y"
-    {}
+#line 192 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "func_decl: func_header" << endl;
+                                    #endif
+                                    (yyval.func_decl) = new FuncDecl((yyvsp[(1) - (2)].func_head));
+                                }
     break;
 
   case 18:
 /* Line 1792 of yacc.c  */
-#line 130 "lang.y"
-    {}
+#line 199 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "func_decl: { decls stmts }" << endl;
+                                    #endif
+                                    (yyval.func_decl) = new FuncDecl((yyvsp[(1) - (5)].func_head),(yyvsp[(3) - (5)].decls_node),(yyvsp[(4) - (5)].stmts_node));
+                                }
     break;
 
   case 19:
 /* Line 1792 of yacc.c  */
-#line 132 "lang.y"
-    {}
+#line 206 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "func_header { stmts }" << endl;
+                                    #endif
+                                    (yyval.func_decl) = new FuncDecl((yyvsp[(1) - (4)].func_head),(yyvsp[(3) - (4)].stmts_node));
+                                }
     break;
 
   case 20:
 /* Line 1792 of yacc.c  */
-#line 134 "lang.y"
-    {}
+#line 213 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "func_header: func_prefix paramsspec" << endl;
+                                    #endif
+                                    (yyval.func_head) = new FuncHeader((yyvsp[(1) - (3)].func_pre),(yyvsp[(2) - (3)].paramsspec_node));
+                                }
     break;
 
   case 21:
 /* Line 1792 of yacc.c  */
-#line 135 "lang.y"
-    {}
+#line 219 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "func_header: func_prefix )" << endl;
+                                    #endif
+                                    (yyval.func_head) = new FuncHeader((yyvsp[(1) - (2)].func_pre));
+                                }
     break;
 
   case 22:
 /* Line 1792 of yacc.c  */
-#line 137 "lang.y"
-    {}
+#line 226 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "func_prefix: TYPE_ID IDENTIFIER" << endl;
+                                    #endif
+                                    Symbol* newSymbol = symbolTableRoot->InsertSymbol(*(yyvsp[(2) - (3)].string_val));
+                                    symbolTableRoot->IncreaseScope();
+                                    (yyval.func_pre) = new FuncPrefix((yyvsp[(1) - (3)].symbol),newSymbol);
+                                }
     break;
 
   case 23:
 /* Line 1792 of yacc.c  */
-#line 140 "lang.y"
-    {}
+#line 236 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "paramsspec: paramsspec, paramspec" << endl;
+                                    #endif
+                                    (yyval.paramsspec_node) = (yyvsp[(1) - (3)].paramsspec_node);
+                                    (yyval.paramsspec_node)->AddNode((yyvsp[(3) - (3)].var_decl));
+                                }
     break;
 
   case 24:
 /* Line 1792 of yacc.c  */
-#line 141 "lang.y"
-    {}
+#line 243 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "paramsspec: paramspec" << endl;
+                                    #endif
+                                    (yyval.paramsspec_node) = new Paramsspec((yyvsp[(1) - (1)].var_decl));
+                                }
     break;
 
   case 25:
 /* Line 1792 of yacc.c  */
-#line 143 "lang.y"
-    {}
+#line 250 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "paramspec: var_decl" << endl;
+                                    #endif
+                                    (yyval.var_decl) = (yyvsp[(1) - (1)].var_decl);
+                                }
     break;
 
   case 26:
 /* Line 1792 of yacc.c  */
-#line 146 "lang.y"
-    {}
+#line 258 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "arrayspec: arrayspec [ INT_VAL ]" << endl;
+                                    #endif
+                                    (yyval.arr_spec) = (yyvsp[(1) - (4)].arr_spec);
+                                    (yyval.arr_spec)->AddSpec((yyvsp[(3) - (4)].int_val));
+                                }
     break;
 
   case 27:
 /* Line 1792 of yacc.c  */
-#line 147 "lang.y"
-    {}
+#line 265 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "arrayspec: epsilon" << endl;
+                                    #endif
+                                    (yyval.arr_spec) = new ArraySpec();
+                                }
     break;
 
   case 28:
 /* Line 1792 of yacc.c  */
-#line 149 "lang.y"
+#line 272 "lang.y"
     {
+                                    #ifdef DebugMode
+                                        cout << "stmts: stmts stmt" << endl;
+                                    #endif
                                     (yyval.stmts_node) = (yyvsp[(1) - (2)].stmts_node);
                                     (yyval.stmts_node)->AddNode((yyvsp[(2) - (2)].stmt_node));
                                 }
@@ -1802,252 +1928,393 @@ yyreduce:
 
   case 29:
 /* Line 1792 of yacc.c  */
-#line 153 "lang.y"
+#line 279 "lang.y"
     {
+                                    #ifdef DebugMode
+                                        cout << "stmts: stmt" << endl;
+                                    #endif
                                     (yyval.stmts_node) = new StmtsNode((yyvsp[(1) - (1)].stmt_node));
                                 }
     break;
 
   case 30:
 /* Line 1792 of yacc.c  */
-#line 158 "lang.y"
+#line 287 "lang.y"
     {
+                                    #ifdef DebugMode
+                                        cout << "stmt: IF ( expr ) stmt" << endl;
+                                    #endif
+                                    (yyval.stmt_node) = new IfStmt((yyvsp[(3) - (5)].expr_node),(yyvsp[(5) - (5)].stmt_node));
                                 }
     break;
 
   case 31:
 /* Line 1792 of yacc.c  */
-#line 161 "lang.y"
-    {}
+#line 294 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "stmt: IF ( expr ) stmt ELSE stmt" << endl;
+                                    #endif
+                                    (yyval.stmt_node) = new IfElseStmt((yyvsp[(3) - (7)].expr_node),(yyvsp[(5) - (7)].stmt_node),(yyvsp[(7) - (7)].stmt_node));
+                                }
     break;
 
   case 32:
 /* Line 1792 of yacc.c  */
-#line 163 "lang.y"
-    {}
+#line 301 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "stmt: WHILE ( expr ) stmt" << endl;
+                                    #endif
+                                    (yyval.stmt_node) = new WhileStmt((yyvsp[(3) - (5)].expr_node),(yyvsp[(5) - (5)].stmt_node));
+                                }
     break;
 
   case 33:
 /* Line 1792 of yacc.c  */
-#line 165 "lang.y"
+#line 308 "lang.y"
     {
+                                    #ifdef DebugMode
+                                        cout << "stmt: PRINT ( expr ) ;" << endl;
+                                    #endif
                                     (yyval.stmt_node) = new PrintNode((yyvsp[(3) - (5)].expr_node));
                                 }
     break;
 
   case 34:
 /* Line 1792 of yacc.c  */
-#line 169 "lang.y"
-    {}
+#line 315 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "stmt: SCAN ( lval ) ;" << endl;
+                                    #endif
+                                    (yyval.stmt_node) = new ScanStmt((yyvsp[(3) - (5)].var_ref));
+                                }
     break;
 
   case 35:
 /* Line 1792 of yacc.c  */
-#line 170 "lang.y"
-    {}
+#line 321 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "stmt: lval = expr ;" << endl;
+                                    #endif
+                                    (yyval.stmt_node) = new AssignStmt((yyvsp[(1) - (4)].var_ref),(yyvsp[(3) - (4)].expr_node));
+                                }
     break;
 
   case 36:
 /* Line 1792 of yacc.c  */
-#line 171 "lang.y"
+#line 327 "lang.y"
     {
-                                    (yyval.stmt_node) = (yyvsp[(1) - (2)].ast_node);
+                                    #ifdef DebugMode
+                                        cout << "stmt: func_call" << endl;
+                                    #endif
+                                    (yyval.stmt_node) = (yyvsp[(1) - (2)].func_call);
                                 }
     break;
 
   case 37:
 /* Line 1792 of yacc.c  */
-#line 174 "lang.y"
-    {}
+#line 333 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "stmt: block" << endl;
+                                    #endif
+                                    (yyval.stmt_node) = (yyvsp[(1) - (1)].block_node);
+                                }
     break;
 
   case 38:
 /* Line 1792 of yacc.c  */
-#line 175 "lang.y"
-    {}
+#line 339 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "stmt: RETURN expr" << endl;
+                                    #endif
+                                    (yyval.stmt_node) = new ReturnNode((yyvsp[(2) - (3)].expr_node));
+                                }
     break;
 
   case 39:
 /* Line 1792 of yacc.c  */
-#line 176 "lang.y"
+#line 345 "lang.y"
     { // anything to prevent a segfault
+                                    #ifdef DebugMode
+                                        cout << "stmt: error" << endl;
+                                    #endif
                                 }
     break;
 
   case 40:
 /* Line 1792 of yacc.c  */
-#line 180 "lang.y"
+#line 352 "lang.y"
     {
- //                                   $$ = new FuncCall($1,$3);
+                                    #ifdef DebugMode
+                                        cout << "func_call: IDENTIFIER ( params )" << endl;
+                                    #endif
+                                    Symbol* symbol = symbolTableRoot->GetSymbol(*(yyvsp[(1) - (4)].string_val));
+                                    (yyval.func_call) = new FuncCall(symbol,(yyvsp[(3) - (4)].params_node));
                                 }
     break;
 
   case 41:
 /* Line 1792 of yacc.c  */
-#line 183 "lang.y"
-    {}
+#line 359 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "varref: varref . varpart" << endl;
+                                    #endif
+                                    (yyval.var_ref) = (yyvsp[(1) - (3)].var_ref);
+                                    (yyval.var_ref)->AddRef((yyvsp[(3) - (3)].var_part));
+                                }
     break;
 
   case 42:
 /* Line 1792 of yacc.c  */
-#line 184 "lang.y"
+#line 366 "lang.y"
     {
-                                    (yyval.symbol) = (yyvsp[(1) - (1)].symbol);
+                                    #ifdef DebugMode
+                                        cout << "varref: varpart" << endl;
+                                    #endif
+                                    (yyval.var_ref) = new VarRef((yyvsp[(1) - (1)].var_part));
                                 }
     break;
 
   case 43:
 /* Line 1792 of yacc.c  */
-#line 188 "lang.y"
+#line 373 "lang.y"
     {
-                                    (yyval.symbol) = (yyvsp[(1) - (2)].symbol);
+                                    #ifdef DebugMode
+                                        cout << "varpart: IDENTIFIER arrayval" << endl;
+                                    #endif
+                                    Symbol* newSymbol = symbolTableRoot->GetSymbol(*(yyvsp[(1) - (2)].string_val));
+                                    (yyval.var_part) = new VarPart(newSymbol, (yyvsp[(2) - (2)].arr_val));
                                 }
     break;
 
   case 44:
 /* Line 1792 of yacc.c  */
-#line 192 "lang.y"
-    {}
+#line 381 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "lval: varref" << endl;
+                                    #endif
+                                    (yyval.var_ref) = (yyvsp[(1) - (1)].var_ref);
+                                }
     break;
 
   case 45:
 /* Line 1792 of yacc.c  */
-#line 193 "lang.y"
-    {}
+#line 387 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "arrayval: arrayval [ expr ]" << endl;
+                                    #endif
+                                    (yyval.arr_val) = (yyvsp[(1) - (4)].arr_val);
+                                    (yyval.arr_val)->AddVal((yyvsp[(3) - (4)].expr_node));
+                                }
     break;
 
   case 46:
 /* Line 1792 of yacc.c  */
-#line 194 "lang.y"
-    {}
+#line 394 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "arrayval: epsilon" << endl;
+                                    #endif
+                                    (yyval.arr_val) = new ArrayVal();
+                                }
     break;
 
   case 47:
 /* Line 1792 of yacc.c  */
-#line 196 "lang.y"
+#line 401 "lang.y"
     {
-   //                                 $$ = $1;
-     //                               $$->AddNode($3);
+                                    #ifdef DebugMode
+                                        cout << "params: params, param. ";
+                                        cout << (yyvsp[(3) - (3)].expr_node)->toString() << endl;
+                                    #endif
+                                    (yyval.params_node) = (yyvsp[(1) - (3)].params_node);
+                                    (yyval.params_node)->AddNode((yyvsp[(3) - (3)].expr_node));
                                 }
     break;
 
   case 48:
 /* Line 1792 of yacc.c  */
-#line 200 "lang.y"
+#line 409 "lang.y"
     {
-       //                             $$ = new ParamsNode($1);
+                                    #ifdef DebugMode
+                                        cout << "params: param. ";
+                                        cout << (yyvsp[(1) - (1)].expr_node)->toString() << endl;
+                                    #endif
+                                    (yyval.params_node) = new ParamsNode((yyvsp[(1) - (1)].expr_node));
                                 }
     break;
 
   case 49:
 /* Line 1792 of yacc.c  */
-#line 204 "lang.y"
+#line 417 "lang.y"
     {
-                                    (yyval.ast_node) = (yyvsp[(1) - (1)].expr_node);
+                                    #ifdef DebugMode
+                                        cout << "param: expr";
+                                        cout << (yyvsp[(1) - (1)].expr_node)->toString() << endl;
+                                    #endif
+                                    (yyval.expr_node) = (yyvsp[(1) - (1)].expr_node);
                                 }
     break;
 
   case 50:
 /* Line 1792 of yacc.c  */
-#line 207 "lang.y"
-    {}
+#line 424 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "param: epsilon" << endl;
+                                    #endif
+                                    (yyval.expr_node) = nullptr;
+                                }
     break;
 
   case 51:
 /* Line 1792 of yacc.c  */
-#line 209 "lang.y"
+#line 431 "lang.y"
     { 
+                                    #ifdef DebugMode
+                                        cout << "expr: expr + term" << endl;
+                                    #endif
                                     (yyval.expr_node) = new BinaryExprNode((yyvsp[(1) - (3)].expr_node),"+",(yyvsp[(3) - (3)].expr_node));
                                 }
     break;
 
   case 52:
 /* Line 1792 of yacc.c  */
-#line 212 "lang.y"
+#line 437 "lang.y"
     {
+                                    #ifdef DebugMode
+                                        cout << "expr: expr - term" << endl;
+                                    #endif
                                     (yyval.expr_node) = new BinaryExprNode((yyvsp[(1) - (3)].expr_node),"-",(yyvsp[(3) - (3)].expr_node));
                                 }
     break;
 
   case 53:
 /* Line 1792 of yacc.c  */
-#line 215 "lang.y"
+#line 443 "lang.y"
     {
+                                    #ifdef DebugMode
+                                        cout << "expr: term. ";
+                                        cout << (yyvsp[(1) - (1)].expr_node)->toString() << endl;
+                                    #endif
                                     (yyval.expr_node) = (yyvsp[(1) - (1)].expr_node);
                                 }
     break;
 
   case 54:
 /* Line 1792 of yacc.c  */
-#line 219 "lang.y"
+#line 451 "lang.y"
     {
+                                    #ifdef DebugMode
+                                        cout << "term: term * fact" << endl;
+                                    #endif
                                     (yyval.expr_node) = new BinaryExprNode((yyvsp[(1) - (3)].expr_node),"*",(yyvsp[(3) - (3)].expr_node));
                                 }
     break;
 
   case 55:
 /* Line 1792 of yacc.c  */
-#line 222 "lang.y"
+#line 457 "lang.y"
     {
+                                    #ifdef DebugMode
                                     (yyval.expr_node) = new BinaryExprNode((yyvsp[(1) - (3)].expr_node),"/",(yyvsp[(3) - (3)].expr_node));
+                                    #endif
                                 }
     break;
 
   case 56:
 /* Line 1792 of yacc.c  */
-#line 225 "lang.y"
+#line 462 "lang.y"
     {
+                                    #ifdef DebugMode
+                                        cout << "expr: term \% fact" << endl;
+                                    #endif
                                     (yyval.expr_node) = new BinaryExprNode((yyvsp[(1) - (3)].expr_node),"%",(yyvsp[(3) - (3)].expr_node));
                                 }
     break;
 
   case 57:
 /* Line 1792 of yacc.c  */
-#line 228 "lang.y"
+#line 468 "lang.y"
     {
+                                    #ifdef DebugMode
+                                        cout << "expr: fact => ";
+                                        cout << (yyvsp[(1) - (1)].expr_node)->toString() << endl;
+                                    #endif
                                     (yyval.expr_node) = (yyvsp[(1) - (1)].expr_node);
                                 }
     break;
 
   case 58:
 /* Line 1792 of yacc.c  */
-#line 232 "lang.y"
-    {}
+#line 476 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "fact: ( expr ) => ";
+                                        cout << (yyvsp[(2) - (3)].expr_node)->toString() << endl;
+                                    #endif
+                                    (yyval.expr_node) = (yyvsp[(2) - (3)].expr_node);
+                                }
     break;
 
   case 59:
 /* Line 1792 of yacc.c  */
-#line 233 "lang.y"
+#line 483 "lang.y"
     {
-                                    (yyval.expr_node) =  new IntNode(std::stoi(yytext));
+                                    #ifdef DebugMode
+                                        cout << "fact: INT_VAL" << endl;
+                                    #endif
+                                    (yyval.expr_node) =  new IntNode((yyvsp[(1) - (1)].int_val));
                                 }
     break;
 
   case 60:
 /* Line 1792 of yacc.c  */
-#line 236 "lang.y"
+#line 489 "lang.y"
     {
-                                    (yyval.expr_node) = new FloatNode(std::stof(yytext));
+                                    
+                                    #ifdef DebugMode
+                                        cout << "fact: FLOAT_VAL" << endl;
+                                    #endif
+                                    (yyval.expr_node) = new FloatNode((yyvsp[(1) - (1)].float_val));
                                 }
     break;
 
   case 61:
 /* Line 1792 of yacc.c  */
-#line 239 "lang.y"
-    { // HACK: should make this do something else
-                                    (yyval.expr_node) = new VarRef((yyvsp[(1) - (1)].symbol));
+#line 496 "lang.y"
+    { 
+                                    #ifdef DebugMode
+                                        cout << "fact: varref => ";
+                                        cout << (yyvsp[(1) - (1)].var_ref)->toString() << endl;
+                                    #endif
+                                    (yyval.expr_node) = (yyvsp[(1) - (1)].var_ref);
                                 }
     break;
 
   case 62:
 /* Line 1792 of yacc.c  */
-#line 242 "lang.y"
-    {}
+#line 503 "lang.y"
+    {
+                                    #ifdef DebugMode
+                                        cout << "fact: func_call => ";
+                                        cout << (yyvsp[(1) - (1)].func_call)->toString() << endl;
+                                    #endif
+                                    (yyval.expr_node) = (yyvsp[(1) - (1)].func_call);
+                                }
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 2051 "langparse.c"
+#line 2318 "langparse.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2286,7 +2553,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 244 "lang.y"
+#line 511 "lang.y"
 
 
 int yyerror(const char *msg)

@@ -7,18 +7,18 @@
 using std::string;
 using std::list;
 
-#include "Symbol.h"
+#include "ExprNode.h"
 
-class VarRef : public Symbol
+class VarRef : public ExprNode
 {
     public:
-        VarRef(Symbol* symbol, VarRef* varRef = nullptr);
-        void AddPart(VarRef* varRef);
+        VarRef();
+        VarRef(VarRef* varRef);
+        void AddRef(VarRef* varRef);
         virtual string toString();
-
+        virtual string GetID();
+        virtual string GetArrVal();
     protected:
-        Symbol* _sym;
-        VarRef* _varPart;
-        AstNode* _arrVal;
+        list<VarRef*> _varRefs;
 };
 #endif

@@ -809,57 +809,63 @@ return yytext[0];
 case 4:
 YY_RULE_SETUP
 #line 36 "lang.l"
-RETURN(FLOAT_VAL);
+{
+                    yylval.float_val = std::stof(yytext);
+                    RETURN(FLOAT_VAL);
+                }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 37 "lang.l"
-RETURN(INT_VAL);
+#line 41 "lang.l"
+{
+                    yylval.int_val = std::stoi(yytext);
+                    RETURN(INT_VAL);
+                }
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 38 "lang.l"
+#line 45 "lang.l"
 {}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 39 "lang.l"
+#line 46 "lang.l"
 RETURN(IF);
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 40 "lang.l"
+#line 47 "lang.l"
 RETURN(SCAN);
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 41 "lang.l"
+#line 48 "lang.l"
 RETURN(WHILE);
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 42 "lang.l"
+#line 49 "lang.l"
 RETURN(ELSE);
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 43 "lang.l"
+#line 50 "lang.l"
 RETURN(PRINT);
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 44 "lang.l"
+#line 51 "lang.l"
 RETURN(STRUCT);
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 45 "lang.l"
+#line 52 "lang.l"
 RETURN(RETURN);
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 46 "lang.l"
+#line 53 "lang.l"
 {
                     string ident(yytext);
                     if(symbolTableRoot->TypeExists(ident))
@@ -867,24 +873,22 @@ YY_RULE_SETUP
                         yylval.symbol = symbolTableRoot->GetSymbol(ident);
                         RETURN(TYPE_ID);
                     }
-                    else
-                    {
-                        yylval.symbol = symbolTableRoot->InsertSymbol(ident);
-                        RETURN(IDENTIFIER);
-                    }
+
+                    yylval.string_val = new string(yytext);
+                    RETURN(IDENTIFIER);
                 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 59 "lang.l"
+#line 64 "lang.l"
 RETURN(JUNK_TOK);
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 60 "lang.l"
+#line 65 "lang.l"
 ECHO;
 	YY_BREAK
-#line 888 "langlex.c"
+#line 892 "langlex.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1849,7 +1853,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 60 "lang.l"
+#line 65 "lang.l"
 
 
 

@@ -5,7 +5,7 @@
 #include "ParamsNode.h"
 #include "Symbol.h"
 
-class ParamsNode;
+//class ParamsNode;
 
 class FuncCall : public StmtNode, public ExprNode
 {
