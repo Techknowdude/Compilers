@@ -1,7 +1,8 @@
 {
-  char aaa;
-  int bbb;
-  float ccc;
-  aaa = 5;
-  if (aaa) return 5;
+    char aaa;
+    print(aaa);  
+    {
+        char b;
+        print(aaa);
+    }
 }

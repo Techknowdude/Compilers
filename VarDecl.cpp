@@ -1,5 +1,11 @@
 #include "VarDecl.h"
 
+VarDecl::VarDecl()
+    : _type(), _ident(), _arrSpec()
+{
+
+}
+
 VarDecl::VarDecl(Symbol* type, Symbol* ident, AstNode* arrSpec)
     : _type(type), _ident(ident), _arrSpec(arrSpec)
 {

@@ -11,6 +11,7 @@ using std::string;
 class VarDecl : public ParamsNode
 {
     public:
+        VarDecl();
         VarDecl(Symbol* type, Symbol* ident, AstNode* arrSpec = nullptr);
         virtual string toString();
         

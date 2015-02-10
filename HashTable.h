@@ -66,7 +66,8 @@ public:
 	bool Contains(Symbol* item);
 	bool Contains(string item);
 	bool ContainsType(string item);
-
+        //int Count();
+        //string toString();
 private:
 	HashNode<string,Symbol*> * inList(string key);
 

@@ -23,7 +23,8 @@ OBJS=main.o \
 	 ScanStmt.o \
 	 IfElseStmt.o \
 	 WhileStmt.o \
-	 AssignStmt.o
+	 AssignStmt.o \
+	 StructDecl.o 
 
 all: lang
 

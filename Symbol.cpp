@@ -13,11 +13,13 @@ Symbol::Symbol(string id, bool isType)
         _isType = isType;
 	identifier = id;
 	sequence = ++SymbolCount;
+#ifdef DebugMode
+        cout << "SYMBOL CREATED. Id: " + id + " Seq: " + std::to_string(sequence) << endl;
+#endif
 }
 
 Symbol::Symbol()
 {
-	sequence = ++SymbolCount;
 }
 
 Symbol & Symbol::operator=(const Symbol & rhs)

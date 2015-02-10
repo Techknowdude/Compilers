@@ -4,16 +4,22 @@
 using std::cout;
 using std::endl;
 
-VarRef::VarRef(Symbol* symbol) : _sym(symbol)
+VarRef::VarRef(Symbol* symbol, VarRef* varRef) : _sym(symbol), _varPart(varRef), _arrVal()
 {
+}
+
+void VarRef::AddPart(VarRef* varRef)
+{
+    _varPart = varRef;
 }
         
 string VarRef::toString()
 {
     string stringVal = "(VarRef: " + _sym->toString();
 
-    // Checking for other members here
-    //
+    if(_varPart != nullptr)
+        stringVal += "\n" + _varPart->toString();   
+
     stringVal += ")";
 
     return stringVal;

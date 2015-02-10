@@ -50,14 +50,9 @@ commentline     \/\/.*
                         yylval.symbol = symbolTableRoot->GetSymbol(ident);
                         RETURN(TYPE_ID);
                     }
-                    else
-                    {
-                        if(symbolTableRoot->SymbolExists(ident);
-                            yylval.symbol = symbolTableRoot->GetSymbol(ident);
-                        else
-                            yylval.symbol = symbolTableRoot->InsertSymbol(ident);
-                        RETURN(IDENTIFIER);
-                    }
+
+                    yylval.string_val = new string(yytext);
+                    RETURN(IDENTIFIER);
                 }
 {junk}          RETURN(JUNK_TOK);
 %%

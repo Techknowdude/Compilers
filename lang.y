@@ -13,6 +13,7 @@ using std::endl;
 
 // define semantic value type
 %union{
+    string*          string_val;
     int             int_val;
     double          float_val;
     AstNode*        ast_node;
@@ -44,7 +45,7 @@ using std::endl;
 %start  program
 
 // define token types that have an associated semantic value
-%token <symbol>     IDENTIFIER
+%token <string_val>     IDENTIFIER
 %token <symbol>     TYPE_ID
 %token <int_val>    INT_VAL
 %token <float_val>  FLOAT_VAL
@@ -81,8 +82,8 @@ using std::endl;
 %type <expr_node> expr
 %type <expr_node> term
 %type <expr_node> fact
-%type <symbol> varref
-%type <symbol> varpart
+%type <var_ref> varref
+%type <var_ref> varpart
 
 %%
 
@@ -159,13 +160,15 @@ var_decl:   TYPE_ID IDENTIFIER arrayspec
                                     #ifdef DebugMode
                                         cout << "var_decl: TYPE_ID IDENTIFIER arrayspec" << endl;
                                     #endif
-                                    $$ = new VarDecl($1,$2,$3);    
+                                    Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
+                                    $$ = new VarDecl($1,newSymbol,nullptr);    
                                 }/* create symbol here  */
         |   struct_decl IDENTIFIER arrayspec
                                 {
                                     #ifdef DebugMode
                                         cout << "var_decl: struct_decl IDENTIFIER arrayspec" << endl;
                                     #endif
+                                    symbolTableRoot->InsertSymbol(*$2);
                                     $$ = $1;
                                 }
 struct_decl:  STRUCT open decls close IDENTIFIER    
@@ -173,6 +176,8 @@ struct_decl:  STRUCT open decls close IDENTIFIER
                                     #ifdef DebugMode
                                         cout << "struct_decl: STRUCT open decls close IDENTIFIER" << endl;
                                     #endif
+                                    Symbol* ident = symbolTableRoot->InsertType(*$5);
+                                    $$ = new StructDecl(ident,$3);
                                 }
 func_decl:  func_header ';'
                                 {
@@ -331,13 +336,15 @@ func_call:  IDENTIFIER '(' params ')'
                                     #ifdef DebugMode
                                         cout << "func_call: IDENTIFIER ( params )" << endl;
                                     #endif
-                                    $$ = new FuncCall($1,$3);
+                                    Symbol* symbol = symbolTableRoot->GetSymbol(*$1);
+                                    $$ = new FuncCall(symbol,$3);
                                 }
 varref:   varref '.' varpart    {
                                     #ifdef DebugMode
                                         cout << "varref: varref . varpart" << endl;
                                     #endif
-                                    $$ = $3;
+                                    $$ = $1;
+                                    $$->AddPart($3);
                                 }
         | varpart               {
                                     #ifdef DebugMode
@@ -350,7 +357,7 @@ varpart:  IDENTIFIER arrayval   {
                                     #ifdef DebugMode
                                         cout << "varpart: IDENTIFIER arrayval" << endl;
                                     #endif
-                                    $$ = $1;
+                                    $$ = new VarRef(symbolTableRoot->GetSymbol(*$1));
                                 }
 
 lval:     varref                {
@@ -428,9 +435,8 @@ term:       term '*' fact       {
                                 }
         |   term '/' fact       {
                                     #ifdef DebugMode
-                                        cout << "expr: term / fact" << endl;
-                                    #endif
                                     $$ = new BinaryExprNode($1,"/",$3);
+                                    #endif
                                 }
         |   term '%' fact       {
                                     #ifdef DebugMode

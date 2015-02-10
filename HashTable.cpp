@@ -325,3 +325,35 @@ bool HashTable::ContainsType(string value)
 	}
 	return found;
 }
+
+/*
+int HashTable::Count()
+{
+    int count = 0;
+
+    vector<list<HashNode<string, Symbol*>*>>::iterator iter;
+
+    for(iter = m_table.begin(); iter != m_table.end(); ++iter)
+        count += iter->size();
+
+    return count;
+}
+
+string HashTable::toString()
+{
+    string stringVal;
+	
+    vector<list<HashNode<string, Symbol*>*>>::iterator vectIter;
+    list<HashNode<string, Symbol*>*>::iterator listIter;
+
+    for (vectIter = m_table.begin(); !found && vectIter != m_table.end(); ++vectIter)
+    {
+        for (listIter = vectIter->begin(); !found && listIter != vectIter->end(); ++listIter)
+    	{
+            Symbol* symbol = (*listIter)->m_value;
+            stringVal += symbol->toString();
+	}
+    }
+    return stringVal;
+}
+*/

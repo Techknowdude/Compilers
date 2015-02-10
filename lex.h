@@ -21,6 +21,7 @@
 #include "IfElseStmt.h"
 #include "WhileStmt.h"
 #include "AssignStmt.h"
+#include "StructDecl.h"
 
 #include "langparse.h"
 
