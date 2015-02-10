@@ -1,20 +1,21 @@
 #ifndef H_ARRAYSPEC
 #define H_ARRAYSPEC
 
+#include <string>
+using std::string;
 #include <list>
 using std::list;
 
-#include "VarDecl.h"
-
-class ArraySpec : public VarDecl
+class ArraySpec
 {
     public:
-        ArraySpec(int val);
+        ArraySpec();
         void AddSpec(int val);
-
+        int NumSpecs();
         string toString();
     protected:
         list<int> _arraySpecs;
+
 };
 
 #endif

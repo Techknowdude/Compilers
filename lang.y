@@ -35,6 +35,8 @@ using std::endl;
     FuncHeader*     func_head;
     FuncPrefix*     func_pre;
     Paramsspec*     paramsspec_node;
+    ArraySpec*      arr_spec;
+    Paramspec*      paramspec_node;
     }
 
 %{
@@ -76,7 +78,7 @@ using std::endl;
 %type <func_call> func_call
 %type <paramsspec_node> paramsspec
 %type <var_decl> paramspec
-%type <ast_node> arrayspec
+%type <arr_spec> arrayspec
 %type <stmts_node> stmts
 %type <stmt_node> stmt
 %type <var_ref> lval
@@ -166,15 +168,15 @@ var_decl:   TYPE_ID IDENTIFIER arrayspec
                                         cout << "var_decl: TYPE_ID IDENTIFIER arrayspec" << endl;
                                     #endif
                                     Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
-                                    $$ = new VarDecl($1,newSymbol,nullptr);    
+                                    $$ = new VarDecl($1,newSymbol,$3);    
                                 }/* create symbol here  */
         |   struct_decl IDENTIFIER arrayspec
                                 {
                                     #ifdef DebugMode
                                         cout << "var_decl: struct_decl IDENTIFIER arrayspec" << endl;
                                     #endif
-                                    symbolTableRoot->InsertSymbol(*$2);
-                                    $$ = $1;
+                                    //Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
+                                    //$$ = new VarDecl($1,newSymbol,$3);
                                 }
 struct_decl:  STRUCT open decls close IDENTIFIER    
                                 {
@@ -256,11 +258,13 @@ arrayspec:  arrayspec '[' INT_VAL ']'
                                         cout << "arrayspec: arrayspec [ INT_VAL ]" << endl;
                                     #endif
                                     $$ = $1;
+                                    $$->AddSpec($3);
                                 }
         |   /* empty */         {
                                     #ifdef DebugMode
                                         cout << "arrayspec: epsilon" << endl;
                                     #endif
+                                    $$ = new ArraySpec();
                                 }
 
 stmts:      stmts stmt          {

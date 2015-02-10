@@ -1,13 +1,18 @@
+#include <iostream>
 #include "ArraySpec.h"
 
-ArraySpec::ArraySpec(int val) : _arraySpecs()
+ArraySpec::ArraySpec() : _arraySpecs()
 {
-    AddSpec(val);
 }
 
 void ArraySpec::AddSpec(int val)
 {
     _arraySpecs.push_back(val);
+}
+
+int ArraySpec::NumSpecs()
+{
+    return _arraySpecs.size();
 }
 
 string ArraySpec::toString()
@@ -17,7 +22,11 @@ string ArraySpec::toString()
     list<int>::iterator iter;
 
     for(iter = _arraySpecs.begin(); iter != _arraySpecs.end(); ++iter)
-        stringVal += " " + std::to_string(*iter);
+    {
+        int val = *iter;
+        stringVal += " " + std::to_string(val);
+    }
+    
     stringVal += ")\n";
 
     return stringVal;
