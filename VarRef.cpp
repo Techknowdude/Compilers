@@ -31,9 +31,9 @@ string VarRef::toString()
     }
     for(; iter != _varRefs.end(); ++iter)
     {
-        stringVal += "\n(VarRef: " + (*iter)->GetID() + (*iter)->GetArrVal();
+        stringVal += "\n(VarRef: " + (*iter)->GetID() + (*iter)->GetArrVal() + ")";
     }
-        stringVal += ")";
+    stringVal += ")";
 
     return stringVal;
 }
