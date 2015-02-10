@@ -24,7 +24,13 @@ OBJS=main.o \
 	 IfElseStmt.o \
 	 WhileStmt.o \
 	 AssignStmt.o \
-	 StructDecl.o 
+	 StructDecl.o \
+	 FuncHeader.o \
+	 FuncPrefix.o \
+	 FuncDef.o \
+	 FuncDecl.o \
+	 Paramsspec.o \
+	 ArraySpec.o
 
 all: lang
 

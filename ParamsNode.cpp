@@ -35,7 +35,7 @@ string ParamsNode::toString()
         stringVal += (*iter)->toString() + " ";
     }
     
-    stringVal += ")";    
+    stringVal += ")\n";    
 
     return stringVal;
 }

@@ -31,6 +31,10 @@ using std::endl;
     ParamsNode*     params_node;
     ReturnNode*     ret_node;
     VarRef*         var_ref;
+    FuncDecl*       func_decl;
+    FuncHeader*     func_head;
+    FuncPrefix*     func_pre;
+    Paramsspec*     paramsspec_node;
     }
 
 %{
@@ -66,12 +70,12 @@ using std::endl;
 %type <var_decl> decl
 %type <var_decl> var_decl
 %type <var_decl> struct_decl
-%type <var_decl> func_decl
-%type <var_decl>  func_header
-%type <symbol>  func_prefix
+%type <func_decl> func_decl
+%type <func_head>  func_header
+%type <func_pre>  func_prefix
 %type <func_call> func_call
-%type <params_node> paramsspec
-%type <params_node> paramspec
+%type <paramsspec_node> paramsspec
+%type <var_decl> paramspec
 %type <ast_node> arrayspec
 %type <stmts_node> stmts
 %type <stmt_node> stmt
@@ -149,6 +153,7 @@ decl:       var_decl ';'        {
                                         cout << "decl: func_decl" << endl;
                                     #endif
                                     $$ = $1;
+                                    symbolTableRoot->DecreaseScope();
                                 }
         |   error ';'           { // do whatever to not segfault 
                                     #ifdef DebugMode
@@ -184,38 +189,43 @@ func_decl:  func_header ';'
                                     #ifdef DebugMode
                                         cout << "func_decl: func_header" << endl;
                                     #endif
-                                    $$ = $1;
+                                    $$ = new FuncDecl($1);
                                 }
         |   func_header  '{' decls stmts '}'
                                 {
                                     #ifdef DebugMode
                                         cout << "func_decl: { decls stmts }" << endl;
                                     #endif
-                                    $$ = $1;
+                                    $$ = new FuncDecl($1,$3,$4);
                                 }
         |   func_header  '{' stmts '}'
                                 {
                                     #ifdef DebugMode
                                         cout << "func_header { stmts }" << endl;
                                     #endif
-                                    $$ = $1;
+                                    $$ = new FuncDecl($1,$3);
                                 }
 func_header: func_prefix paramsspec ')'
                                 {
                                     #ifdef DebugMode
                                         cout << "func_header: func_prefix paramsspec" << endl;
                                     #endif
+                                    $$ = new FuncHeader($1,$2);
                                 }
         |    func_prefix ')'    {
                                     #ifdef DebugMode
                                         cout << "func_header: func_prefix )" << endl;
                                     #endif
+                                    $$ = new FuncHeader($1);
                                 }
 func_prefix: TYPE_ID IDENTIFIER '('
                                 {
                                     #ifdef DebugMode
                                         cout << "func_prefix: TYPE_ID IDENTIFIER" << endl;
                                     #endif
+                                    Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
+                                    symbolTableRoot->IncreaseScope();
+                                    $$ = new FuncPrefix($1,newSymbol);
                                 }
 paramsspec:     
             paramsspec',' paramspec 
@@ -224,12 +234,13 @@ paramsspec:
                                         cout << "paramsspec: paramsspec, paramspec" << endl;
                                     #endif
                                     $$ = $1;
+                                    $$->AddNode($3);
                                 }
         |   paramspec           {
                                     #ifdef DebugMode
                                         cout << "paramsspec: paramspec" << endl;
                                     #endif
-                                    $$ = $1;
+                                    $$ = new Paramsspec($1);
                                 }
 
 paramspec:  var_decl            {

@@ -19,9 +19,6 @@ string VarRef::toString()
 
         stringVal = "(VarRef: " + _sym->toString();
 
-        if(_varPart != nullptr)
-            stringVal += "\n" + _varPart->toString();   
-
         stringVal += ")";
 
     return stringVal;

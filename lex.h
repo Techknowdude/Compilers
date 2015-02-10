@@ -22,6 +22,14 @@
 #include "WhileStmt.h"
 #include "AssignStmt.h"
 #include "StructDecl.h"
+#include "FuncDecl.h"
+#include "FuncDef.h"
+#include "FuncHeader.h"
+#include "FuncPrefix.h"
+#include "Paramsspec.h"
+#include "Paramspec.h"
+#include "ArraySpec.h"
+
 
 #include "langparse.h"
 

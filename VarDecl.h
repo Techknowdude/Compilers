@@ -7,8 +7,9 @@ using std::string;
 #include "Symbol.h"
 #include "Decl.h"
 #include "ParamsNode.h"
+#include "Paramspec.h"
 
-class VarDecl : public ParamsNode
+class VarDecl : public ParamsNode, public Paramspec
 {
     public:
         VarDecl();

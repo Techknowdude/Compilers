@@ -12,7 +12,9 @@ FuncCall::FuncCall(Symbol* ident, ParamsNode* params) : _ident(ident), _params(p
          
 string FuncCall::toString()
 {
-    string stringVal = "(FUNC CALL: "; 
+    string stringVal = "(FUNC CALL: ";
+
+    stringVal += _ident->toString(); 
 
     stringVal += _params->toString();
 
