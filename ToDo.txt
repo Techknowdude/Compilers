@@ -1,5 +1,0 @@
-done Create varDecl class
-add includes to lex.h
-add decl stuff to makefile
-check for symbol table issues
-

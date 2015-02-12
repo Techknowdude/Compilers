@@ -50,6 +50,9 @@ commentline     \/\/.*
 "print"         RETURN(PRINT);
 "struct"        RETURN(STRUCT);
 "return"        RETURN(RETURN);
+"array"         {    
+                    RETURN(ARRAY);
+                }
 {identifier}    {
                     string ident(yytext);
                     if(symbolTableRoot->TypeExists(ident))

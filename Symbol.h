@@ -45,7 +45,7 @@ public:
 	string GetIdentifier();
 
 	void SetIdentifier(string newID);
-
+        void SetType(bool isType);
 	string toString();
 
         bool IsType();

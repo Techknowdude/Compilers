@@ -1,8 +1,0 @@
-BLOCK: 
-{
-STMTS:
-{
-PRINT: (EXPR: (EXPR: (EXPR: 1.700000) * (EXPR: 5)) + (EXPR: (EXPR: 2) * (EXPR: 3.500000)))
-}
-}
-

@@ -1,8 +1,11 @@
 {
-    char aaa;
-    print(aaa);  
-    {
-        char b;
-        print(aaa);
-    }
+   int val;
+   array int a1[2];
+   array int a2[2][5];
+   a1 arr1;
+   a2 arr2;
+
+   arr1[1] = 5;
+   arr1[2] = arr1[5];
+   arr2[1][4] = arr2[0][3];
 }

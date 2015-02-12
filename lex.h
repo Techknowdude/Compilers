@@ -32,6 +32,7 @@
 #include "ArrayVal.h"
 #include "VarPart.h"
 #include "VarRef.h"
+#include "ArrayDecl.h"
 
 #include "langparse.h"
 

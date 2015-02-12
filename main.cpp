@@ -2,7 +2,7 @@
 //
 // Brandon Westmoreland 
 //
-// pwhoward@
+// bwestmoreland@gmail.com
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>

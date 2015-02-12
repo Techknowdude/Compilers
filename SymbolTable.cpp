@@ -29,6 +29,7 @@ SymbolTable::SymbolTable() : SymbolHashes(), defaultHashSize(5)
         InsertType(string("char"));
         InsertType(string("int"));
         InsertType(string("float"));
+
 }
 
 /**********************************************************************
@@ -194,7 +195,7 @@ Symbol* SymbolTable::InsertType(string identifier)
 	else
 	{
 		newSymbol = new Symbol(identifier,true);
-		SymbolHashes.front()->Insert(identifier, newSymbol);
+		SymbolHashes.back()->Insert(identifier, newSymbol);
 	}
 
 	return newSymbol;

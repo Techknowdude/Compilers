@@ -3,22 +3,23 @@
 
 #include <string>
 #include <list>
-#include "ExprNode.h"
 using std::string;
 using std::list;
 
 #include "ExprNode.h"
+#include "ArrayVal.h"
+#include "Symbol.h"
 
 class VarRef : public ExprNode
 {
     public:
         VarRef();
-        VarRef(VarRef* varRef);
-        void AddRef(VarRef* varRef);
+        VarRef(Symbol* ident, ArrayVal* arrVal);
         virtual string toString();
-        virtual string GetID();
-        virtual string GetArrVal();
+        void SetRef(VarRef* varRef);
     protected:
-        list<VarRef*> _varRefs;
+        VarRef* _varRef;
+        Symbol* _ident;
+        ArrayVal* _arrVal;
 };
 #endif

@@ -39,6 +39,7 @@ using std::endl;
     Paramspec*      paramspec_node;
     ArrayVal*       arr_val;
     VarPart*        var_part;
+    ArrayDecl*      arr_decl;
     }
 
 %{
@@ -57,9 +58,8 @@ using std::endl;
 %token <symbol>     TYPE_ID
 %token <int_val>    INT_VAL
 %token <float_val>  FLOAT_VAL
-
 // define token types that don't have a semantic value
-%token  SCAN PRINT
+%token  SCAN PRINT ARRAY
 %token  WHILE IF ELSE JUNK_TOK
 %token  STRUCT
 %token  RETURN
@@ -91,11 +91,16 @@ using std::endl;
 %type <expr_node> term
 %type <expr_node> fact
 %type <var_ref> varref
-%type <var_part> varpart
+%type <var_ref> varpart
+%type <arr_decl> array_decl
 
 %%
 
-program: block                  { $$ = $1;
+program: block                  { 
+                                    #ifdef DebugMode
+                                        cout << "program: block" << endl;
+                                    #endif
+                                  $$ = $1;
                                   yyast_root = $$;
                                   if (yynerrs == 0) 
                                       YYACCEPT;
@@ -105,11 +110,13 @@ program: block                  { $$ = $1;
         | /* empty */           { YYACCEPT; }
 block:  open decls stmts close  {
                                     #ifdef DebugMode
+                                        cout << "block: open decls stmts close" << endl;
                                     #endif
                                     $$ = new BlockNode($3,$2);
                                 }
     |   open stmts close        {
                                     #ifdef DebugMode
+                                        cout << "block: open stmts close" << endl;
                                     #endif
                                     $$ = new BlockNode($2,nullptr);
                                 }
@@ -159,26 +166,33 @@ decl:       var_decl ';'        {
                                     $$ = $1;
                                     symbolTableRoot->DecreaseScope();
                                 }
+        |   array_decl ';'      {
+
+                                    #ifdef DebugMode
+                                        cout << "decl: array_decl" << endl;
+                                    #endif 
+                                    $$ = $1;
+                                }
         |   error ';'           { // do whatever to not segfault 
                                     #ifdef DebugMode
                                         cout << "decl: error" << endl;
                                     #endif
                                 }
-var_decl:   TYPE_ID IDENTIFIER arrayspec    
+var_decl:   TYPE_ID IDENTIFIER     
                                 {
                                     #ifdef DebugMode
                                         cout << "var_decl: TYPE_ID IDENTIFIER arrayspec" << endl;
                                     #endif
                                     Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
-                                    $$ = new VarDecl($1,newSymbol,$3);    
+                                    $$ = new VarDecl($1,newSymbol);    
                                 }/* create symbol here  */
-        |   struct_decl IDENTIFIER arrayspec
+array_decl:     ARRAY TYPE_ID IDENTIFIER arrayspec
                                 {
                                     #ifdef DebugMode
-                                        cout << "var_decl: struct_decl IDENTIFIER arrayspec" << endl;
+                                        cout << "array_decl: ARRAY TYPE_ID IDENTIFIER arrayspec" << endl;
                                     #endif
-                                    //Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
-                                    //$$ = new VarDecl($1,newSymbol,$3);
+                                    Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$3);
+                                    $$ = new ArrayDecl($2,newSymbol,$4);
                                 }
 struct_decl:  STRUCT open decls close IDENTIFIER    
                                 {
@@ -361,13 +375,13 @@ varref:   varref '.' varpart    {
                                         cout << "varref: varref . varpart" << endl;
                                     #endif
                                     $$ = $1;
-                                    $$->AddRef($3);
+                                    $$->SetRef($3);
                                 }
         | varpart               {
                                     #ifdef DebugMode
                                         cout << "varref: varpart" << endl;
                                     #endif
-                                    $$ = new VarRef($1);
+                                    $$ = $1;
                                 }
 
 varpart:  IDENTIFIER arrayval   {
@@ -375,7 +389,7 @@ varpart:  IDENTIFIER arrayval   {
                                         cout << "varpart: IDENTIFIER arrayval" << endl;
                                     #endif
                                     Symbol* newSymbol = symbolTableRoot->GetSymbol(*$1);
-                                    $$ = new VarPart(newSymbol, $2);
+                                    $$ = new VarRef(newSymbol, $2);
                                 }
 
 lval:     varref                {

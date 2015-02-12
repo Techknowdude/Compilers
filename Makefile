@@ -32,7 +32,8 @@ OBJS=main.o \
 	 ArraySpec.o \
 	 ArrayVal.o \
 	 VarPart.o \
-	 VarRef.o
+	 VarRef.o \
+	 ArrayDecl.o
 
 all: lang
 

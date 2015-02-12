@@ -4,46 +4,33 @@
 using std::cout;
 using std::endl;
 
-VarRef::VarRef() : _varRefs()
+VarRef::VarRef() : _varRef(), _ident(), _arrVal()
 {
 }
 
-VarRef::VarRef(VarRef* varRef) : _varRefs()
-{
-    AddRef(varRef);
-}
-
-void VarRef::AddRef(VarRef* varRef)
-{
-    _varRefs.push_back(varRef);
-}
         
+VarRef::VarRef(Symbol* ident, ArrayVal* arrVal) : _varRef(nullptr), _ident(ident), _arrVal(arrVal)
+{
+
+}
+
 string VarRef::toString()
 {
     string stringVal;
 
-    list<VarRef*>::iterator iter = _varRefs.begin();
-    
-    if(iter != _varRefs.end())
-    {
-        stringVal += "(VarRef: " + (*iter)->GetID() + (*iter)->GetArrVal();
-        iter++;
-    }
-    for(; iter != _varRefs.end(); ++iter)
-    {
-        stringVal += "\n(VarRef: " + (*iter)->GetID() + (*iter)->GetArrVal() + ")";
-    }
+    stringVal += "(VarRef: ";
+    if(_ident != nullptr)
+       stringVal += _ident->toString();
+    if(_arrVal != nullptr && _arrVal->HasVals())
+       stringVal += "[" + _arrVal->toString() + "]";
+    if(_varRef != nullptr)
+       stringVal += "\n" + _varRef->toString();
+   
     stringVal += ")";
-
     return stringVal;
 }
 
-string VarRef::GetID()
+void VarRef::SetRef(VarRef* varRef)
 {
-    return string("");
-}
-
-string VarRef::GetArrVal()
-{
-    return string("");
+    _varRef = varRef;
 }

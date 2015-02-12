@@ -18,7 +18,8 @@ string DeclsNode::toString()
 
     for(iter = _decls.begin(); iter != _decls.end(); ++iter)
     {
-        stringVal += (*iter)->toString() + "\n";
+        if((*iter) != nullptr)
+            stringVal += (*iter)->toString() + "\n";
     }
 
     stringVal += "}\n";

@@ -27,7 +27,7 @@ string ArraySpec::toString()
         stringVal += " " + std::to_string(val);
     }
     
-    stringVal += ")\n";
+    stringVal += ")";
 
     return stringVal;
 }

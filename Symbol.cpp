@@ -61,3 +61,8 @@ bool Symbol::IsType()
 {
     return _isType;
 }
+
+void Symbol::SetType(bool isType)
+{
+    _isType = isType;
+}

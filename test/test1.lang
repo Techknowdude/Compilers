@@ -1,3 +1,6 @@
 {
-   print(5);
+   int aaa;
+   char aaa;
+
+   print(bbb);
 }

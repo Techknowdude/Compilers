@@ -16,14 +16,18 @@ string ArrayVal::toString()
     if(_vals.size() == 0) return string("");
     string stringVal = "(ARRAYVAL:";
 
-    list<ExprNode*>::iterator iter;
+    list<ExprNode*>::iterator iter = _vals.begin();
+    if(iter != _vals.end())
+        stringVal += (*iter++)->toString() ;
 
-    for(iter = _vals.begin(); iter != _vals.end(); ++iter)
+    for(; iter != _vals.end(); ++iter)
     {
-        stringVal += (*iter)->toString() + " ";
+        stringVal += " " + (*iter)->toString() + ")";
     }
+    if(_vals.size() == 1)
+        stringVal += ")";
 
-    stringVal += ")\n";
+ //   stringVal += ")";
 
     return stringVal;
 
