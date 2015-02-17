@@ -12,3 +12,8 @@ string BinaryExprNode::toString()
     return "(EXPR: " + _lChild->toString() + " " +_op + " " + _rChild->toString() + ")";
 }
 
+// Get the type from left most child. 
+//Symbol* BinaryExprNode::GetType()
+//{
+//    return _lChild->GetType();
+//}

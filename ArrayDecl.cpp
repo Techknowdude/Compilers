@@ -1,3 +1,8 @@
+/*********************************
+*
+*   Brandon Westmoreland
+*
+**********************************/
 #include "ArrayDecl.h"
 
 ArrayDecl::ArrayDecl(Symbol* type, Symbol* name, ArraySpec* arrSpec)
@@ -17,4 +22,9 @@ string ArrayDecl::toString()
         stringVal += _arrSpec->toString();
     
     return stringVal;
+}
+
+Symbol* ArrayDecl::GetType()
+{
+    return _type;
 }

@@ -1,3 +1,8 @@
+/*********************************
+*
+*   Brandon Westmoreland
+*
+**********************************/
 #ifndef H_ARRAYVAL
 #define H_ARRAYVAL
 

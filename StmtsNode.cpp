@@ -11,11 +11,8 @@ StmtsNode::StmtsNode(StmtNode* newNode) : _stmts()
 
 void StmtsNode::AddNode(StmtNode* newNode)
 {
-    if(newNode == nullptr)
-        cout << "WARNING!: Node is null" << endl;
-   // else
- //       cout << "New Stmt: " + newNode->toString() << endl;
-    _stmts.push_back(newNode);
+    if(newNode != nullptr)
+        _stmts.push_back(newNode);
 }
 
 string StmtsNode::toString()

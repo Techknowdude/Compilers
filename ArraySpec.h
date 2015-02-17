@@ -1,3 +1,8 @@
+/*********************************
+*
+*   Brandon Westmoreland
+*
+**********************************/
 #ifndef H_ARRAYSPEC
 #define H_ARRAYSPEC
 

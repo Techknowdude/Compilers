@@ -21,4 +21,18 @@ This form occurs multiple places in your code.
 Since you're using the STL for some of your underlying hash table functionality, you should have simply used unordered_map to do the whole thing.
 
 
+//*********************************************
+Lab 4 Feedback
+
+Even though your initial submission was on time, your git history indicates you worked past the deadline. I won't give you the 50% penalty, but I will take away your 10% bonus for working individually.
+
+-5 Your git repository has intermediate files. It should only have source.
+
+-5 A function definition should have the same symbols for parameters as a previous declaration.
+
+It isn't clear why IfStmt inherits from ExprNode. There is no where in the gramar where an IF can be an EXPR.
+
+I prefer indenting declarations relative to public:, protected:, or private:. I think it makes the code easier to read. It looks like some places you did, others you didn't.
+
+-10 Your code is not properly documented.
 

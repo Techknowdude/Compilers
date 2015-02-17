@@ -29,6 +29,8 @@ SymbolTable::SymbolTable() : SymbolHashes(), defaultHashSize(5)
         InsertType(string("char"));
         InsertType(string("int"));
         InsertType(string("float"));
+        //InsertType(string("struct"));
+        //InsertType(string("array"));
 
 }
 

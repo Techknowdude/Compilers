@@ -1,3 +1,8 @@
+/*********************************
+*
+*   Brandon Westmoreland
+*
+**********************************/
 #ifndef H_ARRAYDECL
 #define H_ARRAYDECL
 
@@ -11,6 +16,7 @@ class ArrayDecl : public VarDecl, public ExprNode
     public:
         ArrayDecl(Symbol* type, Symbol* name, ArraySpec* arrSpec);
         string toString();
+        Symbol* GetType();
     protected:
         Symbol* _type;
         Symbol* _name;

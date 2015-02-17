@@ -1,3 +1,8 @@
+/*********************************
+*
+*   Brandon Westmoreland
+*
+**********************************/
 #include "ArrayVal.h"        
 
 ArrayVal::ArrayVal() : _vals()

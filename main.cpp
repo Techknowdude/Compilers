@@ -10,6 +10,7 @@
 #include "lex.h"
 
 extern AstNode *yyast_root;
+extern int yynerrs;
 
 int main(int argc, char **argv)
 {
@@ -53,8 +54,7 @@ int main(int argc, char **argv)
         {
             output << yyast_root->toString() << std::endl;
         } else {
-            output << "Errors in compile\n";
-            return result;
+            output << std::to_string(yynerrs) + " Errors in compile" << std::endl;
         }
     }
 

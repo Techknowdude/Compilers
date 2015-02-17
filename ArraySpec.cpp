@@ -1,3 +1,8 @@
+/*********************************
+*
+*   Brandon Westmoreland
+*
+**********************************/
 #include <iostream>
 #include "ArraySpec.h"
 

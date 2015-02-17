@@ -4,7 +4,7 @@
 #include "ExprNode.h"
 #include "StmtNode.h"
 
-class IfStmt : public ExprNode, public StmtNode
+class IfStmt : public StmtNode
 {
     public:
         IfStmt(ExprNode* expr, StmtNode* stmt);

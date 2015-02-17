@@ -40,10 +40,12 @@ using std::endl;
     ArrayVal*       arr_val;
     VarPart*        var_part;
     ArrayDecl*      arr_decl;
+    Decl*           decl_node;
     }
 
 %{
     int yyerror(const char *msg);
+    void semantic_error(std::string msg);
 
     SymbolTable * symbolTableRoot;
     
@@ -71,7 +73,7 @@ using std::endl;
 %type <sym_table> open
 %type <sym_table> close
 %type <decls_node> decls
-%type <var_decl> decl
+%type <decl_node> decl
 %type <var_decl> var_decl
 %type <var_decl> struct_decl
 %type <func_decl> func_decl
@@ -177,14 +179,24 @@ decl:       var_decl ';'        {
                                     #ifdef DebugMode
                                         cout << "decl: error" << endl;
                                     #endif
+                                    $$ = nullptr;
                                 }
 var_decl:   TYPE_ID IDENTIFIER     
                                 {
                                     #ifdef DebugMode
                                         cout << "var_decl: TYPE_ID IDENTIFIER arrayspec" << endl;
                                     #endif
-                                    Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
-                                    $$ = new VarDecl($1,newSymbol);    
+                                    // if exists, error
+                                    if(symbolTableRoot->SymbolInCurScope(*$2))
+                                    {
+                                        semantic_error("Symbol " + *$2 + " already defined in current scope");
+                                        YYERROR;
+                                    }
+                                    else
+                                    {
+                                        Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
+                                        $$ = new VarDecl($1,newSymbol);   
+                                    } 
                                 }/* create symbol here  */
 array_decl:     ARRAY TYPE_ID IDENTIFIER arrayspec
                                 {
@@ -360,6 +372,7 @@ stmt:       IF '(' expr ')' stmt
                                     #ifdef DebugMode
                                         cout << "stmt: error" << endl;
                                     #endif
+                                    $$ = nullptr;
                                 }
 
 func_call:  IDENTIFIER '(' params ')' 
@@ -388,8 +401,17 @@ varpart:  IDENTIFIER arrayval   {
                                     #ifdef DebugMode
                                         cout << "varpart: IDENTIFIER arrayval" << endl;
                                     #endif
-                                    Symbol* newSymbol = symbolTableRoot->GetSymbol(*$1);
-                                    $$ = new VarRef(newSymbol, $2);
+                                    Symbol* newSymbol = nullptr;
+                                    newSymbol = symbolTableRoot->GetSymbol(*$1);
+                                    if(newSymbol != nullptr)
+                                    {
+                                        $$ = new VarRef(newSymbol, $2);
+                                    }
+                                    else
+                                    {
+                                        semantic_error("Symbol " + *$1 + " not defined");
+                                        YYERROR;
+                                    }
                                 }
 
 lval:     varref                {
@@ -530,4 +552,12 @@ int yyerror(const char *msg)
         << yytext << " on line " << yylineno << "\n";
 
     return 0;
+}
+
+void semantic_error(std::string msg)
+{
+    std::cout << "ERROR: " << msg << 
+                " on line " << yylineno << std::endl;
+
+    yynerrs++;
 }

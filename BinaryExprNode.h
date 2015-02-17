@@ -11,7 +11,7 @@ class BinaryExprNode : public ExprNode
     public:
         BinaryExprNode(ExprNode* lChild = nullptr, string op = "", ExprNode* rChild = nullptr);
         virtual string toString();
-
+        Symbol* GetType();
     protected:
         ExprNode* _lChild;
         string _op;

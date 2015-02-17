@@ -5,13 +5,15 @@
 using std::string;
 
 #include "ExprNode.h"
+#include "SymbolTable.h"
+#include "Symbol.h"
 
 class FloatNode : public ExprNode
 {
     public:
         FloatNode(float floatVal);
         string toString();
-
+        Symbol* GetType();
         float GetVal();
 
     protected:

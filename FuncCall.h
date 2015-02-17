@@ -11,7 +11,7 @@ class FuncCall : public StmtNode, public ExprNode
 {
     public:
         FuncCall(Symbol* ident, ParamsNode* params);
-
+        Symbol* GetType();
         virtual string toString();
 
     protected:
