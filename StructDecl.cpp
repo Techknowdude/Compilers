@@ -3,8 +3,8 @@ using std::list;
 
 #include "StructDecl.h"
 
-StructDecl::StructDecl(Symbol* identifier, DeclsNode* decls)
-    : _identifier(identifier), _decls(decls)
+StructDecl::StructDecl(Symbol* identifier, DeclsNode* decls, HashTable* table)
+    : _identifier(identifier), _decls(decls), _table(table)
 {
 
 }
@@ -19,3 +19,9 @@ string StructDecl::toString()
 
     return stringVal;
 }
+
+bool StructDecl::IsMember(Symbol* check)
+{
+   return _table->Contains(check);
+}
+

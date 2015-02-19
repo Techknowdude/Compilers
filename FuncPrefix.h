@@ -11,6 +11,8 @@ class FuncPrefix : public FuncDef
 
         string toString();
 
+        virtual string GetName();
+
     protected:
         Symbol* _type;
         Symbol* _id;

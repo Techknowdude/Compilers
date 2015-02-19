@@ -32,5 +32,23 @@ string VarRef::toString()
 
 void VarRef::SetRef(VarRef* varRef)
 {
+    // if struct, verify child is in struct
+    Decl* decl = _ident->GetDecl();
+
+    if(decl->IsStruct())
+    {
+        StructDecl* str = dynamic_cast<StructDecl*>(decl);
+        if(!str->IsMember(varRef->GetIdent()))
+        {
+            _hasErr = true;
+            _err = varRef->GetIdent()->GetIdentifier() + " is not a field of " + _ident->GetIdentifier();
+        }
+    }
+    else
+    {
+        _hasErr = true;
+        _err = _ident->GetIdentifier() + " is not a struct";
+    }
+    
     _varRef = varRef;
 }

@@ -8,11 +8,11 @@
 
 int Symbol::SymbolCount = 0;
 
-Symbol::Symbol(string id, bool isType)
+Symbol::Symbol(string id, Decl* decl)
 {
-        _isType = isType;
-	identifier = id;
-	sequence = ++SymbolCount;
+    _decl = decl;
+    identifier = id;
+    sequence = ++SymbolCount;
 #ifdef DebugMode
         cout << "SYMBOL CREATED. Id: " + id + " Seq: " + std::to_string(sequence) << endl;
 #endif
@@ -24,45 +24,45 @@ Symbol::Symbol()
 
 Symbol & Symbol::operator=(const Symbol & rhs)
 {
-	if (this != &rhs)
-	{
-		this->identifier = rhs.identifier;
-		this->sequence = rhs.sequence;
+    if (this != &rhs)
+        {
+	    this->identifier = rhs.identifier;
+	    this->sequence = rhs.sequence;
 	}
 
-	return *this;
+    return *this;
 }
 
 bool Symbol::operator==(const Symbol & rhs)
 {
-	return identifier == rhs.identifier && sequence == rhs.sequence;
+    return identifier == rhs.identifier && sequence == rhs.sequence;
 }
 
 int Symbol::GetSequence()
 {
-	return sequence;
+    return sequence;
 }
 string Symbol::GetIdentifier()
 {
-	return identifier;
+    return identifier;
 }
 
 void Symbol::SetIdentifier(string newID)
 {
-	identifier = newID;
+    identifier = newID;
 }
 
 string Symbol::toString()
 {
-	return "sym: " + identifier + " " + std::to_string(sequence);
+    return "sym: " + identifier + " " + std::to_string(sequence);
 }
 
-bool Symbol::IsType()
+void Symbol::SetDecl(Decl* decl)
 {
-    return _isType;
+    _decl = decl;
 }
 
-void Symbol::SetType(bool isType)
+Decl* Symbol::GetDecl()
 {
-    _isType = isType;
+    return _decl;
 }

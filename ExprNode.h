@@ -4,15 +4,15 @@
 #include <string>
 using std::string;
 
-#include "AstNode.h"
 #include "Symbol.h"
+#include "ParamNode.h"
 
-class ExprNode : public AstNode
+class ExprNode : virtual public ParamNode
 {
     public:
         ExprNode();
         virtual string toString() = 0;
-        //virtual Symbol* GetType() = 0;
+        virtual Decl* GetType() = 0;
     protected:
 };
 

@@ -3,7 +3,7 @@
 
 #include "AstNode.h"
 
-class StmtNode : public AstNode
+class StmtNode : public virtual AstNode
 {
 
 };

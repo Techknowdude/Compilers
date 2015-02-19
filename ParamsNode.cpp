@@ -3,19 +3,19 @@ using std::cout;
 using std::endl;
 #include "ParamsNode.h"
 
-ParamsNode::ParamsNode(ExprNode* param) : _exprList()
+ParamsNode::ParamsNode(ParamNode* param) : _paramList()
 {
    // cout << "ParamsNode created" << endl;
     if(param != nullptr)
-        _exprList.push_front(param);
+        _paramList.push_front(param);
 }
         
-void ParamsNode::AddNode(ExprNode* newNode)
+void ParamsNode::AddNode(ParamNode* newNode)
 {
     if(newNode != nullptr)
     {
      //   cout << "Node being added: " + newNode->toString() << endl; 
-        _exprList.push_back(newNode);
+        _paramList.push_back(newNode);
     }
     else
     {
@@ -28,9 +28,9 @@ string ParamsNode::toString()
     string stringVal = "(PARAM:";
 
     
-    list<ExprNode*>::iterator iter;
+    list<ParamNode*>::iterator iter;
 
-    for(iter = _exprList.begin(); iter != _exprList.end(); ++iter)
+    for(iter = _paramList.begin(); iter != _paramList.end(); ++iter)
     {
         stringVal += (*iter)->toString() + " ";
     }

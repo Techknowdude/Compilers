@@ -8,7 +8,6 @@
 ArrayDecl::ArrayDecl(Symbol* type, Symbol* name, ArraySpec* arrSpec)
     : _type(type), _name(name), _arrSpec(arrSpec)
 {
-    _name->SetType(true);
 }
 
 string ArrayDecl::toString()
@@ -24,7 +23,17 @@ string ArrayDecl::toString()
     return stringVal;
 }
 
-Symbol* ArrayDecl::GetType()
+Decl* ArrayDecl::GetType()
 {
-    return _type;
+    return _type->GetDecl();
+}
+
+bool ArrayDecl::IsType()
+{
+    return true;
+}
+
+bool ArrayDecl::IsArray()
+{
+    return true;
 }

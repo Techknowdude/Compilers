@@ -3,7 +3,7 @@
 
 #include "AstNode.h"
 
-class Paramspec : public AstNode
+class Paramspec : public virtual AstNode
 {
     public:
     protected:

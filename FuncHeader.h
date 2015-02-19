@@ -11,6 +11,7 @@ class FuncHeader : public FuncDef
         FuncHeader(FuncPrefix* prefix, Paramsspec* params = nullptr);
 
         string toString();
+        string GetName() { return _prefix->GetName(); }
 
     protected:
         FuncPrefix* _prefix;

@@ -19,7 +19,7 @@ float FloatNode::GetVal()
     return _floatVal;
 }
 
-Symbol* FloatNode::GetType()
+Decl* FloatNode::GetType()
 {
-    return symbolTableRoot->GetSymbol("float");
+    return symbolTableRoot->GetSymbol("float")->GetDecl();
 }

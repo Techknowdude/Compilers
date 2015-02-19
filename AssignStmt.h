@@ -11,10 +11,15 @@ class AssignStmt : public StmtNode
         AssignStmt(VarRef* varRef, ExprNode* expr);
 
         string toString();
-
+        void CheckForError();
+        bool HasSemanticError() { return _hasErr; }
+        string GetError() { return _err; }
     protected:
         VarRef* _varRef;
         ExprNode* _expr;
+
+        string _err;
+        bool _hasErr;
 };
 
 #endif

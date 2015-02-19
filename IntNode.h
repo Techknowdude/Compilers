@@ -5,6 +5,10 @@
 using std::string;
 
 #include "ExprNode.h"
+#include "SymbolTable.h"
+#include "Symbol.h"
+
+extern SymbolTable* symbolTableRoot;
 
 class IntNode : public ExprNode
 {
@@ -14,7 +18,12 @@ class IntNode : public ExprNode
 
         int GetVal();
 
+        Decl* GetType() { return _type; }
+
+
+        
     protected:
         int _intVal;
+        Decl* _type;
 };
 #endif

@@ -13,7 +13,41 @@ string BinaryExprNode::toString()
 }
 
 // Get the type from left most child. 
-//Symbol* BinaryExprNode::GetType()
-//{
-//    return _lChild->GetType();
-//}
+Decl* BinaryExprNode::GetType()
+{
+    Decl* type = nullptr;
+    // if either are non-numeric, semantic error
+    Decl* lDecl = _lChild->GetType();
+    Decl* rDecl = _rChild->GetType();
+
+    if(lDecl->IsFunc() || lDecl->IsStruct() || lDecl->IsArray() || 
+            rDecl->IsFunc() || rDecl->IsStruct() || rDecl->IsArray())
+    {
+        // SEMANTIC ERROR
+ //       _err = "Operation: " + lDecl->GetName() + " " + _op + " " + rDecl-GetName() + " is not allowed";
+   //     _hasErr = true;
+    }
+    //
+    // if they are the same, return either
+    else if(lDecl == rDecl)
+    {
+        type = lDecl;
+    }
+    //
+    // if either is float, return float
+    else if(lDecl->IsFloat())
+    {
+        type = lDecl;
+    }
+    else if(rDecl->IsFloat())
+    {
+        type = rDecl;
+    }
+    //
+    // otherwise, return largest
+    else
+    {
+        type = static_cast<BaseDecl*>(lDecl)->Size() > static_cast<BaseDecl*>(rDecl)->Size() ? lDecl : rDecl;
+    }
+    return type;
+}

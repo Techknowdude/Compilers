@@ -4,19 +4,20 @@
 #include <list>
 using std::list;
 
-#include "ExprNode.h"
+#include "ParamNode.h"
 #include "Decl.h"
 
-class ParamsNode : public Decl
+class ParamsNode : public virtual Decl
 {
     public:
-        ParamsNode(ExprNode* param = nullptr);
-        void AddNode(ExprNode* newNode);
+        ParamsNode(ParamNode* param = nullptr);
+        void AddNode(ParamNode* newNode);
 
         virtual string toString();
 
+        virtual string GetName() { return ""; }
     protected:
-        list<ExprNode*> _exprList;
+        list<ParamNode*> _paramList;
 };
 
 #endif

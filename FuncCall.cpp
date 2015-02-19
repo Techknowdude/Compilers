@@ -23,7 +23,8 @@ string FuncCall::toString()
     return stringVal;
 }
 
-Symbol* FuncCall::GetType()
+Decl* FuncCall::GetType()
 {
-    return nullptr; // Maybe create a symbol with a fake type?
+    return _ident->GetDecl();
 }
+

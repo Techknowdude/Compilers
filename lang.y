@@ -18,7 +18,7 @@ using std::endl;
     double          float_val;
     AstNode*        ast_node;
     Symbol*         symbol;
-    SymbolTable*    sym_table;
+    HashTable*      hash_table;
     PrintNode*      print_node;
     BlockNode*      block_node;
     StmtsNode*      stmts_node;
@@ -29,6 +29,7 @@ using std::endl;
     VarDecl*        var_decl;
     FuncCall*       func_call;
     ParamsNode*     params_node;
+    ParamNode*      param_node;
     ReturnNode*     ret_node;
     VarRef*         var_ref;
     FuncDecl*       func_decl;
@@ -70,8 +71,8 @@ using std::endl;
 
 %type <block_node> program
 %type <block_node> block
-%type <sym_table> open
-%type <sym_table> close
+%type <hash_table> open
+%type <hash_table> close
 %type <decls_node> decls
 %type <decl_node> decl
 %type <var_decl> var_decl
@@ -88,7 +89,7 @@ using std::endl;
 %type <var_ref> lval
 %type <arr_val> arrayval
 %type <params_node> params
-%type <expr_node> param
+%type <param_node> param
 %type <expr_node> expr
 %type <expr_node> term
 %type <expr_node> fact
@@ -157,7 +158,7 @@ decl:       var_decl ';'        {
                                 }
         |   struct_decl ';'     {
                                     #ifdef DebugMode
-                                        cout << "decl: var_decl" << endl;
+                                        cout << "decl: struct_decl" << endl;
                                     #endif
                                     $$ = $1;
                                 }
@@ -196,6 +197,12 @@ var_decl:   TYPE_ID IDENTIFIER
                                     {
                                         Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
                                         $$ = new VarDecl($1,newSymbol);   
+                                        newSymbol->SetDecl($$);
+                                        if($$->HasSemanticError())
+                                        {
+                                            semantic_error($$->GetError());
+                                            YYERROR;
+                                        }
                                     } 
                                 }/* create symbol here  */
 array_decl:     ARRAY TYPE_ID IDENTIFIER arrayspec
@@ -203,16 +210,29 @@ array_decl:     ARRAY TYPE_ID IDENTIFIER arrayspec
                                     #ifdef DebugMode
                                         cout << "array_decl: ARRAY TYPE_ID IDENTIFIER arrayspec" << endl;
                                     #endif
+                                    
                                     Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$3);
                                     $$ = new ArrayDecl($2,newSymbol,$4);
+                                    newSymbol->SetDecl($$);
+                                    if($$->HasSemanticError())
+                                    {
+                                        semantic_error($$->GetError());
+                                        YYERROR;
+                                    }
                                 }
 struct_decl:  STRUCT open decls close IDENTIFIER    
                                 {
                                     #ifdef DebugMode
                                         cout << "struct_decl: STRUCT open decls close IDENTIFIER" << endl;
                                     #endif
-                                    Symbol* ident = symbolTableRoot->InsertType(*$5);
-                                    $$ = new StructDecl(ident,$3);
+                                    Symbol* ident = symbolTableRoot->InsertSymbol(*$5);
+                                    $$ = new StructDecl(ident,$3,$2);
+                                    ident->SetDecl($$);
+                                    if($$->HasSemanticError())
+                                    {
+                                        semantic_error($$->GetError());
+                                        YYERROR;
+                                    }
                                 }
 func_decl:  func_header ';'
                                 {
@@ -349,6 +369,8 @@ stmt:       IF '(' expr ')' stmt
                                         cout << "stmt: lval = expr ;" << endl;
                                     #endif
                                     $$ = new AssignStmt($1,$3);
+                                    if($$->HasSemanticError()) //ToDo: Check why this is not working
+                                        semantic_error($$->GetError());
                                 }
         |   func_call ';'       {
                                     #ifdef DebugMode
@@ -406,6 +428,7 @@ varpart:  IDENTIFIER arrayval   {
                                     if(newSymbol != nullptr)
                                     {
                                         $$ = new VarRef(newSymbol, $2);
+                                        newSymbol->SetDecl($$->GetType());
                                     }
                                     else
                                     {
@@ -521,6 +544,7 @@ fact:        '(' expr ')'       {
                                         cout << "fact: INT_VAL" << endl;
                                     #endif
                                     $$ =  new IntNode($1);
+                                    
                                 }
         |   FLOAT_VAL           {
                                     
@@ -540,7 +564,7 @@ fact:        '(' expr ')'       {
                                     #ifdef DebugMode
                                         cout << "fact: func_call => ";
                                         cout << $1->toString() << endl;
-                                    #endif
+                                  #endif
                                     $$ = $1;
                                 }
 

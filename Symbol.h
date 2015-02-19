@@ -32,11 +32,12 @@
 using std::string;
 
 #include "AstNode.h"
+#include "Decl.h"
 
 class Symbol : public AstNode
 {
 public:
-	Symbol(string id, bool isType = false);
+	Symbol(string id, Decl* decl = nullptr);
 	Symbol();
 	Symbol & operator=(const Symbol & rhs);
 	bool operator==(const Symbol & rhs);
@@ -45,14 +46,15 @@ public:
 	string GetIdentifier();
 
 	void SetIdentifier(string newID);
-        void SetType(bool isType);
 	string toString();
 
-        bool IsType();
+        Decl* GetDecl();
+        void SetDecl(Decl* decl);
+
 protected:
 	int sequence;
 	string identifier;
-        bool _isType;
+        Decl* _decl;
 	static int SymbolCount;
 
 };

@@ -318,8 +318,9 @@ bool HashTable::ContainsType(string value)
 		for (listIter = vectIter->begin(); !found && listIter != vectIter->end(); ++listIter)
 		{
                     Symbol* symbol = (*listIter)->m_value;
+                    Decl* decl = symbol->GetDecl();
 
-		    if (symbol->IsType() == true && symbol->GetIdentifier() == value )
+		    if (decl != nullptr && decl->IsType() == true && symbol->GetIdentifier() == value )
 				found = true;
 		}
 	}

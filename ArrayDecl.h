@@ -16,7 +16,9 @@ class ArrayDecl : public VarDecl, public ExprNode
     public:
         ArrayDecl(Symbol* type, Symbol* name, ArraySpec* arrSpec);
         string toString();
-        Symbol* GetType();
+        Decl* GetType();
+        bool IsType();
+        bool IsArray();
     protected:
         Symbol* _type;
         Symbol* _name;

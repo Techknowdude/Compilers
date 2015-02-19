@@ -30,6 +30,7 @@
 #include <list>
 #include "HashTable.h"
 #include "Symbol.h"
+#include "BaseDecl.h"
 
 using std::list;
 using std::vector;
@@ -50,9 +51,15 @@ public:
 	Symbol* GetSymbol(string symbol);
         bool TypeExists(string symbol);
 	Symbol* InsertType(string insert);
+
+        BaseDecl* GetIntDecl() { return _intDecl; }
+        BaseDecl* GetFloatDecl() { return _floatDecl; }
+        BaseDecl* GetCharDecl() { return _charDecl; }
 protected:
 	list<HashTable*> SymbolHashes;
 	int defaultHashSize;
-
+        BaseDecl* _intDecl;
+        BaseDecl* _floatDecl;
+        BaseDecl* _charDecl;
 };
 #endif

@@ -13,7 +13,7 @@ class FloatNode : public ExprNode
     public:
         FloatNode(float floatVal);
         string toString();
-        Symbol* GetType();
+        Decl* GetType();
         float GetVal();
 
     protected:

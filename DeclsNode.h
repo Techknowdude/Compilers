@@ -16,6 +16,7 @@ class DeclsNode : public Decl
         virtual string toString();
 
         void AddNode(Decl* newNode);
+        virtual string GetName() { return ""; }
 
     protected:
         list<Decl*> _decls;

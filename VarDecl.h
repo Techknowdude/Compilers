@@ -10,14 +10,16 @@ using std::string;
 #include "Paramspec.h"
 #include "ArraySpec.h"
 
-class VarDecl : public ParamsNode, public Paramspec
+class VarDecl : virtual public ParamsNode, virtual public Paramspec
 {
     public:
         VarDecl();
         VarDecl(Symbol* type, Symbol* ident, ArraySpec* arrSpec = nullptr);
         virtual string toString();
-        
-        
+        virtual bool IsFloat() { return _type->GetIdentifier() == "float"; }
+        virtual bool IsChar() { return _type->GetIdentifier() == "char"; }
+        virtual bool IsInt() { return _type->GetIdentifier() == "int"; }
+        virtual string GetName() { return _type->GetIdentifier(); }
     protected:
         Symbol* _type;
         Symbol* _ident;

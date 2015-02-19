@@ -4,6 +4,7 @@
 #include "StmtNode.h"
 #include "ParamsNode.h"
 #include "Symbol.h"
+#include "ExprNode.h"
 
 //class ParamsNode;
 
@@ -11,8 +12,8 @@ class FuncCall : public StmtNode, public ExprNode
 {
     public:
         FuncCall(Symbol* ident, ParamsNode* params);
-        Symbol* GetType();
         virtual string toString();
+        Decl* GetType(); // return the ident->GetType()
 
     protected:
         Symbol* _ident;

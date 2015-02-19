@@ -26,12 +26,21 @@ SymbolTable::SymbolTable() : SymbolHashes(), defaultHashSize(5)
 	SymbolHashes.push_front(new HashTable(defaultHashSize));
 	SymbolHashes.front()->setHash(AsciiHash);
 
-        InsertType(string("char"));
-        InsertType(string("int"));
-        InsertType(string("float"));
-        //InsertType(string("struct"));
-        //InsertType(string("array"));
-
+        Symbol* newSymbol = new Symbol("char");
+        BaseDecl* base = new BaseDecl(newSymbol,1,false);
+        _charDecl = base;
+        newSymbol->SetDecl(base);
+        InsertSymbol(newSymbol);
+        newSymbol = new Symbol("int");
+        base = new BaseDecl(newSymbol,4,false);
+        _intDecl = base;
+        newSymbol->SetDecl(base);
+        InsertSymbol(newSymbol);
+        newSymbol = new Symbol("float");
+        base = new BaseDecl(newSymbol,8,true);
+        _floatDecl = base;
+        newSymbol->SetDecl(base);
+        InsertSymbol(newSymbol);
 }
 
 /**********************************************************************
@@ -196,7 +205,7 @@ Symbol* SymbolTable::InsertType(string identifier)
 	}
 	else
 	{
-		newSymbol = new Symbol(identifier,true);
+		newSymbol = new Symbol(identifier);
 		SymbolHashes.back()->Insert(identifier, newSymbol);
 	}
 
