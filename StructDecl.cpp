@@ -20,8 +20,12 @@ string StructDecl::toString()
     return stringVal;
 }
 
-bool StructDecl::IsMember(Symbol* check)
+Symbol* StructDecl::GetMember(string check)
 {
-   return _table->Contains(check);
+    Symbol* sym = nullptr;
+    if(_table->Contains(check))
+        sym = (*_table)[check];
+
+    return sym;
 }
 

@@ -10,7 +10,7 @@ class StructDecl : public VarDecl
     public:
         StructDecl(Symbol* id, DeclsNode* decls, HashTable* table);
         string toString();
-        bool IsMember(Symbol* check);
+        Symbol* GetMember(string check);
         bool IsType() { return true; }
         bool IsStruct() { return true; }
     protected:

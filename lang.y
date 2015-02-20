@@ -127,7 +127,7 @@ open:   '{'                     {
                                     #ifdef DebugMode
                                         cout << "open: {" << endl;
                                     #endif
-                                    symbolTableRoot->IncreaseScope();
+                                    $$ = symbolTableRoot->IncreaseScope();
                                     //$$ = NULL; //return current table
                                  }
 close:  '}'                     { 
@@ -408,33 +408,38 @@ func_call:  IDENTIFIER '(' params ')'
 varref:   varref '.' varpart    {
                                     #ifdef DebugMode
                                         cout << "varref: varref . varpart" << endl;
+                                        cout << "varref(" + $1->toString() +") . varpart(" + $3->toString() << endl;
                                     #endif
                                     $$ = $1;
                                     $$->SetRef($3);
+
+                                    if($$->HasSemanticError())
+                                    {
+                                        semantic_error($$->GetError());
+                                    }
                                 }
         | varpart               {
                                     #ifdef DebugMode
                                         cout << "varref: varpart" << endl;
                                     #endif
                                     $$ = $1;
+                                    if($$->HasSemanticError())
+                                    {
+                                        semantic_error($$->GetError());
+                                        YYERROR;
+                                    }
                                 }
 
 varpart:  IDENTIFIER arrayval   {
                                     #ifdef DebugMode
-                                        cout << "varpart: IDENTIFIER arrayval" << endl;
+                                        cout << "varpart: IDENTIFIER arrayval. ID: " + *$1 << endl;
                                     #endif
                                     Symbol* newSymbol = nullptr;
                                     newSymbol = symbolTableRoot->GetSymbol(*$1);
                                     if(newSymbol != nullptr)
-                                    {
                                         $$ = new VarRef(newSymbol, $2);
-                                        newSymbol->SetDecl($$->GetType());
-                                    }
                                     else
-                                    {
-                                        semantic_error("Symbol " + *$1 + " not defined");
-                                        YYERROR;
-                                    }
+                                        $$ = new VarRef($1,$2);
                                 }
 
 lval:     varref                {

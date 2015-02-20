@@ -13,6 +13,11 @@ class FuncHeader : public FuncDef
         string toString();
         string GetName() { return _prefix->GetName(); }
 
+        virtual Decl* GetBaseType()
+        {
+            return _prefix->GetBaseType();
+        }
+
     protected:
         FuncPrefix* _prefix;
         Paramsspec* _params;

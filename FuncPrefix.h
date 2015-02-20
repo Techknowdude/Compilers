@@ -13,6 +13,11 @@ class FuncPrefix : public FuncDef
 
         virtual string GetName();
 
+        virtual Decl* GetBaseType()
+        {
+            return _id->GetDecl();
+        }
+
     protected:
         Symbol* _type;
         Symbol* _id;

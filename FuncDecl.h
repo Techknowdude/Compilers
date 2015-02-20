@@ -13,6 +13,10 @@ class FuncDecl : public FuncDef
         FuncDecl(FuncHeader* header, DeclsNode* decls, StmtsNode* stmts);
 
         string toString();
+        virtual Decl* GetBaseType()
+        {
+            return _header->GetBaseType();
+        }
     protected:
         FuncHeader* _header;
         StmtsNode* _stmts;

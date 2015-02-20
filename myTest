@@ -1,4 +1,9 @@
 {
-   int val;
-    print(aa);
+    char aa;
+    int bb;
+    float cc;
+
+    aa = 128;
+    aa = bb;
+    aa = cc;
 }

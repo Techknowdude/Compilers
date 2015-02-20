@@ -20,6 +20,16 @@ class VarDecl : virtual public ParamsNode, virtual public Paramspec
         virtual bool IsChar() { return _type->GetIdentifier() == "char"; }
         virtual bool IsInt() { return _type->GetIdentifier() == "int"; }
         virtual string GetName() { return _type->GetIdentifier(); }
+        
+        virtual bool IsStruct() { return _type->GetDecl()->IsStruct(); }
+        virtual bool IsType() { return false; }
+        virtual bool IsArray() { return _type->GetDecl()->IsArray(); }
+        virtual bool IsFunc() { return GetBaseType()->IsFunc(); }
+
+        virtual Decl* GetBaseType() 
+        {
+            return _type->GetDecl();
+        }
     protected:
         Symbol* _type;
         Symbol* _ident;

@@ -14,7 +14,7 @@ class Decl : public virtual AstNode
         virtual bool IsFloat() { return false; }
         virtual bool IsStruct() { return false; }
         virtual bool IsArray() { return false; }
-
+        virtual Decl* GetType() {return this; }
         virtual string GetName() = 0;
 
         virtual string toString()

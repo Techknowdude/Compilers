@@ -16,14 +16,22 @@ class VarRef : public ExprNode
     public:
         VarRef();
         VarRef(Symbol* ident, ArrayVal* arrVal);
+        VarRef(string* ident, ArrayVal* arrVal);
         virtual string toString();
         void SetRef(VarRef* varRef);
         Decl* GetType() 
             {
                if(_varRef != nullptr)
-                  return _varRef->GetType();
+               {
+                   return _varRef->GetType();
+               }
                else
-                   return _ident->GetDecl(); 
+               {
+                    if(_arrVal != nullptr)
+                        return _ident->GetDecl()->GetBaseType()->GetType();
+                    else
+                       return _ident->GetDecl(); 
+               }
             }
         Symbol* GetIdent() { return _ident; }
         bool HasSemanticError() { return _hasErr; }
@@ -34,5 +42,6 @@ class VarRef : public ExprNode
         ArrayVal* _arrVal;
         string _err;
         bool _hasErr;
+        string _name;
 };
 #endif
