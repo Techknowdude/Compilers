@@ -13,6 +13,11 @@ class StructDecl : public VarDecl
         Symbol* GetMember(string check);
         bool IsType() { return true; }
         bool IsStruct() { return true; }
+        bool IsChar() { return false; }
+        bool IsInt() { return false; }
+        bool IsFloat() { return false; }
+        bool IsArray() { return false; }
+        string GetName() { return _identifier->GetIdentifier(); }
     protected:
         Symbol* _identifier;
         DeclsNode* _decls;    

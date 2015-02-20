@@ -30,7 +30,7 @@ class VarRef : public ExprNode
                     if(_arrVal != nullptr)
                         return _ident->GetDecl()->GetBaseType()->GetType();
                     else
-                       return _ident->GetDecl(); 
+                       return _ident->GetDecl()->GetBaseType(); 
                }
             }
         Symbol* GetIdent() { return _ident; }
