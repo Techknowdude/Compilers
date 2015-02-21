@@ -12,7 +12,3 @@ string FuncPrefix::toString()
     return _id->toString();
 }
 
-string FuncPrefix::GetName()
-{
-    return _id->GetIdentifier();
-}

@@ -51,11 +51,15 @@ public:
         Decl* GetDecl();
         void SetDecl(Decl* decl);
 
+        string GetName();
+        void SetName(string name);
+
 protected:
 	int sequence;
 	string identifier;
         Decl* _decl;
 	static int SymbolCount;
+        string _name;
 
 };
 #endif

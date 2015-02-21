@@ -4,6 +4,7 @@
 #include "VarDecl.h"
 #include "HashTable.h"
 #include "DeclsNode.h"
+#include "Symbol.h"
 
 class StructDecl : public VarDecl
 {
@@ -18,10 +19,14 @@ class StructDecl : public VarDecl
         bool IsFloat() { return false; }
         bool IsArray() { return false; }
         string GetName() { return _identifier->GetIdentifier(); }
+
     protected:
         Symbol* _identifier;
         DeclsNode* _decls;    
         HashTable* _table;
+
+    private:
+        void SetDeclNames();
 };
 
 #endif

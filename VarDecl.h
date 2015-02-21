@@ -19,7 +19,10 @@ class VarDecl : virtual public ParamsNode, virtual public Paramspec
         virtual bool IsFloat() { return _type->GetIdentifier() == "float"; }
         virtual bool IsChar() { return _type->GetIdentifier() == "char"; }
         virtual bool IsInt() { return _type->GetIdentifier() == "int"; }
-        virtual string GetName() { return _type->GetIdentifier(); }
+        virtual string GetName() 
+        { 
+            return _type->GetName(); 
+        }
         
         virtual bool IsStruct() { return _type->GetDecl()->IsStruct(); }
         virtual bool IsType() { return false; }

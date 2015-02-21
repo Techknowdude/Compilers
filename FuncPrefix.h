@@ -11,12 +11,12 @@ class FuncPrefix : public FuncDef
 
         string toString();
 
-        virtual string GetName();
-
         virtual Decl* GetBaseType()
         {
             return _id->GetDecl();
         }
+
+        virtual string GetName() {return _id->GetIdentifier();}
 
     protected:
         Symbol* _type;

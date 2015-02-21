@@ -13,6 +13,7 @@ Symbol::Symbol(string id, Decl* decl)
     _decl = decl;
     identifier = id;
     sequence = ++SymbolCount;
+    _name = id;
 #ifdef DebugMode
         cout << "SYMBOL CREATED. Id: " + id + " Seq: " + std::to_string(sequence) << endl;
 #endif
@@ -65,4 +66,14 @@ void Symbol::SetDecl(Decl* decl)
 Decl* Symbol::GetDecl()
 {
     return _decl;
+}
+
+string Symbol::GetName()
+{
+    return _name;
+}
+
+void Symbol::SetName(string name)
+{
+    _name = name;
 }

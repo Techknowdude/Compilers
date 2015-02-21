@@ -206,6 +206,22 @@ void HashTable::Traverse(void(*visit)(Symbol* val))
 	}
 }
 
+// Set the prefix of the symbol name. Used by the struct decl to change the name to x.y.z...
+void HashTable::SetSymbolPrefix(string pre)
+{
+	list<HashNode<string, Symbol*>*>::iterator iter;
+	int size = m_table.size();
+	for (int bucket = 0; bucket < size; ++bucket)
+	{
+		for (iter = m_table[bucket].begin(); iter != m_table[bucket].end(); ++iter)
+		{
+                    Symbol* sym = (*iter)->m_value;
+                    sym->SetName(pre + sym->GetName());
+		}
+	}
+}
+
+
 /**********************************************************************
 * Purpose:  This function clears the hash table.
 *

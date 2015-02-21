@@ -49,6 +49,9 @@ using std::vector;
 #include "HashNode.h"
 #include "Symbol.h"
 
+//forward decl for traverse call
+class StructDecl;
+
 class HashTable
 {
 public:
@@ -66,6 +69,7 @@ public:
 	bool Contains(Symbol* item);
 	bool Contains(string item);
 	bool ContainsType(string item);
+        void SetSymbolPrefix(string pre);
         //int Count();
         //string toString();
 private:

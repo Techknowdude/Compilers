@@ -19,6 +19,12 @@ class ArrayDecl : public VarDecl, public ExprNode
         Decl* GetType();
         bool IsType();
         bool IsArray();
+        bool IsStruct() {return false;}
+        bool IsChar() {return false;}
+        bool IsInt() {return false;}
+        bool IsFloat() {return false;}
+        string GetName() { return _name->GetIdentifier(); }
+
     protected:
         Symbol* _type;
         Symbol* _name;

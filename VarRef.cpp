@@ -40,33 +40,48 @@ string VarRef::toString()
 void VarRef::SetRef(VarRef* varRef)
 {
     if(_hasErr) return;
-    if(_varRef != nullptr)
+    
+    // if struct, verify child is in struct
+    Decl* decl = _ident->GetDecl();
+    
+    // only structs have a "child"
+    if(!decl->IsStruct())
     {
-        _varRef->SetRef(varRef);
+        _hasErr = true;
+        _err = _name + " is not a struct";
     }
     else
     {
-
-        // if struct, verify child is in struct
-        Decl* decl = _ident->GetDecl();
-
-        if(decl->IsStruct())
+        // if this is not the lowest on the tree, add to the child instead
+        if(_varRef != nullptr)
         {
+            _varRef->SetRef(varRef);
+
+            // check if child had error
+            _hasErr = _varRef->_hasErr;
+            _err = _varRef->_err;
+        }
+        else // if this is the lowest, add the new ref
+        {
+            // get the decl of the ref (safe because we know this is a struct)
             StructDecl* str = dynamic_cast<StructDecl*>(decl->GetBaseType());
+
+            // set the type of the child to the symbol in the struct
             varRef->_ident = str->GetMember(varRef->_name);
+
+            // if the symbol was not found, error
             if(varRef->_ident == nullptr)
             {
                 _hasErr = true;
-                _err = varRef->_name + " is not a field of " + _ident->GetIdentifier();
+                _err =  varRef->_name + " is not a field of " + _name;
+            }
+            else
+            {   
+                _varRef = varRef;
+                _varRef->_name = _name + "." + _varRef->_name;
+                _varRef->_hasErr = false;
             }
         }
-        else
-        {
-            _hasErr = true;
-            _err = _ident->GetIdentifier() + " is not a struct";
-        }
-    
-        _varRef = varRef;
-        _varRef->_hasErr = false;
     }
 }
+

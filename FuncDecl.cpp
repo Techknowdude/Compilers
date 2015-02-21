@@ -3,7 +3,7 @@
 FuncDecl::FuncDecl(FuncHeader* header, StmtsNode* stmts) 
     : _header(header), _stmts(stmts), _decls()
 {
-
+    
 }
         
 FuncDecl::FuncDecl(FuncHeader* header, DeclsNode* decls, StmtsNode* stmts)

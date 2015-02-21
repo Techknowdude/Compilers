@@ -21,7 +21,7 @@ class VarRef : public ExprNode
         void SetRef(VarRef* varRef);
         Decl* GetType() 
             {
-               if(_varRef != nullptr)
+               if(_varRef != nullptr) // get last item's type
                {
                    return _varRef->GetType();
                }

@@ -240,6 +240,7 @@ func_decl:  func_header ';'
                                         cout << "func_decl: func_header" << endl;
                                     #endif
                                     $$ = new FuncDecl($1);
+                                    symbolTableRoot->DecreaseScope();
                                 }
         |   func_header  '{' decls stmts '}'
                                 {
@@ -247,6 +248,7 @@ func_decl:  func_header ';'
                                         cout << "func_decl: { decls stmts }" << endl;
                                     #endif
                                     $$ = new FuncDecl($1,$3,$4);
+                                    symbolTableRoot->DecreaseScope();
                                 }
         |   func_header  '{' stmts '}'
                                 {
@@ -254,6 +256,7 @@ func_decl:  func_header ';'
                                         cout << "func_header { stmts }" << endl;
                                     #endif
                                     $$ = new FuncDecl($1,$3);
+                                    symbolTableRoot->DecreaseScope();
                                 }
 func_header: func_prefix paramsspec ')'
                                 {
@@ -276,6 +279,7 @@ func_prefix: TYPE_ID IDENTIFIER '('
                                     Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
                                     symbolTableRoot->IncreaseScope();
                                     $$ = new FuncPrefix($1,newSymbol);
+                                    newSymbol->SetDecl($$);
                                 }
 paramsspec:     
             paramsspec',' paramspec 
@@ -392,7 +396,7 @@ stmt:       IF '(' expr ')' stmt
                                 }
         |   error ';'           { // anything to prevent a segfault
                                     #ifdef DebugMode
-                                        cout << "stmt: error" << endl;
+                                        cout << "stmt: error Line: " << yylineno << endl;
                                     #endif
                                     $$ = nullptr;
                                 }
@@ -400,7 +404,7 @@ stmt:       IF '(' expr ')' stmt
 func_call:  IDENTIFIER '(' params ')' 
                                 {
                                     #ifdef DebugMode
-                                        cout << "func_call: IDENTIFIER ( params )" << endl;
+                                        cout << "func_call: IDENTIFIER ( params ) Line: " << yylineno << endl;
                                     #endif
                                     Symbol* symbol = symbolTableRoot->GetSymbol(*$1);
                                     $$ = new FuncCall(symbol,$3);
@@ -408,7 +412,7 @@ func_call:  IDENTIFIER '(' params ')'
 varref:   varref '.' varpart    {
                                     #ifdef DebugMode
                                         cout << "varref: varref . varpart" << endl;
-                                        cout << "varref(" + $1->toString() +") . varpart(" + $3->toString() << endl;
+                                        cout << "varref(" + $1->toString() +") . varpart(" + $3->toString() + " Line: " << yylineno << endl;
                                     #endif
                                     $$ = $1;
                                     $$->SetRef($3);
@@ -416,11 +420,12 @@ varref:   varref '.' varpart    {
                                     if($$->HasSemanticError())
                                     {
                                         semantic_error($$->GetError());
+                                        YYERROR;
                                     }
                                 }
         | varpart               {
                                     #ifdef DebugMode
-                                        cout << "varref: varpart" << endl;
+                                        cout << "varref: varpart Line: " << yylineno << endl;
                                     #endif
                                     $$ = $1;
                                     if($$->HasSemanticError())
@@ -432,7 +437,7 @@ varref:   varref '.' varpart    {
 
 varpart:  IDENTIFIER arrayval   {
                                     #ifdef DebugMode
-                                        cout << "varpart: IDENTIFIER arrayval. ID: " + *$1 << endl;
+                                        cout << "varpart: IDENTIFIER arrayval. ID: " + *$1 + " Line: " << yylineno << endl;
                                     #endif
                                     Symbol* newSymbol = nullptr;
                                     newSymbol = symbolTableRoot->GetSymbol(*$1);
@@ -444,20 +449,20 @@ varpart:  IDENTIFIER arrayval   {
 
 lval:     varref                {
                                     #ifdef DebugMode
-                                        cout << "lval: varref" << endl;
+                                        cout << "lval: varref Line: " << yylineno << endl;
                                     #endif
                                     $$ = $1;
                                 }
 arrayval: arrayval '[' expr ']' {
                                     #ifdef DebugMode
-                                        cout << "arrayval: arrayval [ expr ]" << endl;
+                                        cout << "arrayval: arrayval [ expr ] Line: " << yylineno << endl;
                                     #endif
                                     $$ = $1;
                                     $$->AddVal($3);
                                 }
         |   /* empty */         {
                                     #ifdef DebugMode
-                                        cout << "arrayval: epsilon" << endl;
+                                        cout << "arrayval: epsilon Line: " << yylineno << endl;
                                     #endif
                                     $$ = new ArrayVal();
                                 }
@@ -465,7 +470,7 @@ arrayval: arrayval '[' expr ']' {
 params:     params',' param     {
                                     #ifdef DebugMode
                                         cout << "params: params, param. ";
-                                        cout << $3->toString() << endl;
+                                        cout << $3->toString() + " Line: " << yylineno << endl;
                                     #endif
                                     $$ = $1;
                                     $$->AddNode($3);
@@ -473,7 +478,7 @@ params:     params',' param     {
         |   param               {
                                     #ifdef DebugMode
                                         cout << "params: param. ";
-                                        cout << $1->toString() << endl;
+                                        cout << $1->toString() + " Line: " << yylineno << endl;
                                     #endif
                                     $$ = new ParamsNode($1);
                                 }
@@ -481,58 +486,59 @@ params:     params',' param     {
 param:      expr                {
                                     #ifdef DebugMode
                                         cout << "param: expr";
-                                        cout << $1->toString() << endl;
+                                        cout << $1->toString() + " Line: " << yylineno << endl;
                                     #endif
                                     $$ = $1;
                                 }
         |   /* empty */         {
                                     #ifdef DebugMode
-                                        cout << "param: epsilon" << endl;
+                                        cout << "param: epsilon Line: " << yylineno << endl;
                                     #endif
                                     $$ = nullptr;
                                 }
 
 expr:       expr '+' term       { 
                                     #ifdef DebugMode
-                                        cout << "expr: expr + term" << endl;
+                                        cout << "expr: expr + term Line: " << yylineno << endl;
                                     #endif
                                     $$ = new BinaryExprNode($1,"+",$3);
                                 }
         |   expr '-' term       {
                                     #ifdef DebugMode
-                                        cout << "expr: expr - term" << endl;
+                                        cout << "expr: expr - term Line: " << yylineno << endl;
                                     #endif
                                     $$ = new BinaryExprNode($1,"-",$3);
                                 }
         |   term                {
                                     #ifdef DebugMode
                                         cout << "expr: term. ";
-                                        cout << $1->toString() << endl;
+                                        cout << $1->toString() + " Line: " << yylineno << endl;
                                     #endif
                                     $$ = $1;
                                 }
 
 term:       term '*' fact       {
                                     #ifdef DebugMode
-                                        cout << "term: term * fact" << endl;
+                                        cout << "term: term * fact Line: " << yylineno << endl;
                                     #endif
                                     $$ = new BinaryExprNode($1,"*",$3);
                                 }
         |   term '/' fact       {
                                     #ifdef DebugMode
-                                    $$ = new BinaryExprNode($1,"/",$3);
+                                        cout << "term: term / fact Line: " << yylineno << endl;
                                     #endif
+                                    $$ = new BinaryExprNode($1,"/",$3);
                                 }
         |   term '%' fact       {
                                     #ifdef DebugMode
-                                        cout << "expr: term \% fact" << endl;
+                                        cout << "expr: term \% fact Line: " << yylineno << endl;
                                     #endif
                                     $$ = new BinaryExprNode($1,"%",$3);
                                 }
         |   fact                {
                                     #ifdef DebugMode
                                         cout << "expr: fact => ";
-                                        cout << $1->toString() << endl;
+                                        cout << $1->toString()  + " Line: " << yylineno << endl;
                                     #endif
                                     $$ = $1;
                                 }
@@ -540,13 +546,13 @@ term:       term '*' fact       {
 fact:        '(' expr ')'       {
                                     #ifdef DebugMode
                                         cout << "fact: ( expr ) => ";
-                                        cout << $2->toString() << endl;
+                                        cout << $2->toString()  + " Line: " << yylineno << endl;
                                     #endif
                                     $$ = $2;
                                 }
         |   INT_VAL             {
                                     #ifdef DebugMode
-                                        cout << "fact: INT_VAL" << endl;
+                                        cout << "fact: INT_VAL Line: " << yylineno << endl;
                                     #endif
                                     $$ =  new IntNode($1);
                                     
@@ -554,21 +560,21 @@ fact:        '(' expr ')'       {
         |   FLOAT_VAL           {
                                     
                                     #ifdef DebugMode
-                                        cout << "fact: FLOAT_VAL" << endl;
+                                        cout << "fact: FLOAT_VAL Line: " << yylineno << endl;
                                     #endif
                                     $$ = new FloatNode($1);
                                 }
         |   varref              { 
                                     #ifdef DebugMode
                                         cout << "fact: varref => ";
-                                        cout << $1->toString() << endl;
+                                        cout << $1->toString()  + " Line: " << yylineno << endl;
                                     #endif
                                     $$ = $1;
                                 }
         |   func_call           {
                                     #ifdef DebugMode
                                         cout << "fact: func_call => ";
-                                        cout << $1->toString() << endl;
+                                        cout << $1->toString() + " Line: " << yylineno << endl; 
                                   #endif
                                     $$ = $1;
                                 }

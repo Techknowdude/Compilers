@@ -1,9 +1,6 @@
 {
-    char aa;
-    int bb;
-    float cc;
+    int foo();
+    int a;
 
-    aa = 128;
-    aa = bb;
-    aa = cc;
+    a = foo();
 }

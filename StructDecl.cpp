@@ -6,7 +6,6 @@ using std::list;
 StructDecl::StructDecl(Symbol* identifier, DeclsNode* decls, HashTable* table)
     : _identifier(identifier), _decls(decls), _table(table)
 {
-
 }
 
 string StructDecl::toString()
@@ -27,5 +26,10 @@ Symbol* StructDecl::GetMember(string check)
         sym = (*_table)[check];
 
     return sym;
+}
+
+void StructDecl::SetDeclNames()
+{
+    _table->SetSymbolPrefix( _identifier->GetIdentifier() + ".");
 }
 
