@@ -17,7 +17,8 @@ class FuncPrefix : public FuncDef
         }
 
         virtual string GetName() {return _id->GetIdentifier();}
-
+    
+        Symbol* GetIdentifier() { return _id; }
     protected:
         Symbol* _type;
         Symbol* _id;

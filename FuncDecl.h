@@ -27,6 +27,7 @@ class FuncDecl : public FuncDef
         virtual bool IsFunc() {return true;}
         virtual string GetName() {return _header->GetName(); }
 
+        Symbol* GetIdentifier() { return _header->GetIdentifier();}
     protected:
         FuncHeader* _header;
         StmtsNode* _stmts;

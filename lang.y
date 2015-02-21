@@ -167,7 +167,6 @@ decl:       var_decl ';'        {
                                         cout << "decl: func_decl" << endl;
                                     #endif
                                     $$ = $1;
-                                    symbolTableRoot->DecreaseScope();
                                 }
         |   array_decl ';'      {
 
@@ -240,7 +239,6 @@ func_decl:  func_header ';'
                                         cout << "func_decl: func_header" << endl;
                                     #endif
                                     $$ = new FuncDecl($1);
-                                    symbolTableRoot->DecreaseScope();
                                 }
         |   func_header  '{' decls stmts '}'
                                 {
@@ -248,7 +246,6 @@ func_decl:  func_header ';'
                                         cout << "func_decl: { decls stmts }" << endl;
                                     #endif
                                     $$ = new FuncDecl($1,$3,$4);
-                                    symbolTableRoot->DecreaseScope();
                                 }
         |   func_header  '{' stmts '}'
                                 {
@@ -256,7 +253,6 @@ func_decl:  func_header ';'
                                         cout << "func_header { stmts }" << endl;
                                     #endif
                                     $$ = new FuncDecl($1,$3);
-                                    symbolTableRoot->DecreaseScope();
                                 }
 func_header: func_prefix paramsspec ')'
                                 {
@@ -277,9 +273,7 @@ func_prefix: TYPE_ID IDENTIFIER '('
                                         cout << "func_prefix: TYPE_ID IDENTIFIER" << endl;
                                     #endif
                                     Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
-                                    symbolTableRoot->IncreaseScope();
                                     $$ = new FuncPrefix($1,newSymbol);
-                                    newSymbol->SetDecl($$);
                                 }
 paramsspec:     
             paramsspec',' paramspec 
@@ -401,13 +395,12 @@ stmt:       IF '(' expr ')' stmt
                                     $$ = nullptr;
                                 }
 
-func_call:  IDENTIFIER '(' params ')' 
+func_call:  TYPE_ID '(' params ')' 
                                 {
                                     #ifdef DebugMode
                                         cout << "func_call: IDENTIFIER ( params ) Line: " << yylineno << endl;
                                     #endif
-                                    Symbol* symbol = symbolTableRoot->GetSymbol(*$1);
-                                    $$ = new FuncCall(symbol,$3);
+                                    $$ = new FuncCall($1,$3);
                                 }
 varref:   varref '.' varpart    {
                                     #ifdef DebugMode

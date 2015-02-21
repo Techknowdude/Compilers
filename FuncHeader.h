@@ -18,6 +18,7 @@ class FuncHeader : public FuncDef
             return _prefix->GetBaseType();
         }
 
+        Symbol* GetIdentifier() { return _prefix->GetIdentifier();}
     protected:
         FuncPrefix* _prefix;
         Paramsspec* _params;
