@@ -39,7 +39,6 @@ using std::endl;
     ArraySpec*      arr_spec;
     Paramspec*      paramspec_node;
     ArrayVal*       arr_val;
-    VarPart*        var_part;
     ArrayDecl*      arr_decl;
     Decl*           decl_node;
     }

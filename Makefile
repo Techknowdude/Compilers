@@ -31,7 +31,6 @@ OBJS=main.o \
 	 Paramsspec.o \
 	 ArraySpec.o \
 	 ArrayVal.o \
-	 VarPart.o \
 	 VarRef.o \
 	 ArrayDecl.o \
 	 BaseDecl.o
