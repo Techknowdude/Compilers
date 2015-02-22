@@ -18,13 +18,13 @@ class FuncDecl : public FuncDef
             return _header->GetBaseType();
         }
         
-        virtual bool IsFloat() {return false;}
-        virtual bool IsChar() {return false;}
-        virtual bool IsInt() {return false;}
-        virtual bool IsStruct() {return false;}
+        virtual bool IsFloat() {return GetBaseType()->IsFloat();}
+        virtual bool IsChar() {return GetBaseType()->IsFloat();}
+        virtual bool IsInt() {return GetBaseType()->IsFloat();}
+        virtual bool IsStruct() {return GetBaseType()->IsFloat();}
         virtual bool IsType() {return true;}
-        virtual bool IsArray() {return false;}
-        virtual bool IsFunc() {return true;}
+        virtual bool IsArray() {return GetBaseType()->IsFloat();}
+        virtual bool IsFunc() {return GetBaseType()->IsFloat();}
         virtual string GetName() {return _header->GetName(); }
 
         Symbol* GetIdentifier() { return _header->GetIdentifier();}

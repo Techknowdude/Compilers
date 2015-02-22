@@ -13,7 +13,7 @@ class FuncPrefix : public FuncDef
 
         virtual Decl* GetBaseType()
         {
-            return _id->GetDecl();
+            return _type->GetDecl();
         }
 
         virtual string GetName() {return _id->GetIdentifier();}

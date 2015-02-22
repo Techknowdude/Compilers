@@ -25,6 +25,6 @@ string FuncCall::toString()
 
 Decl* FuncCall::GetType()
 {
-    return _ident->GetDecl();
+    return _ident->GetDecl()->GetBaseType();
 }
 

@@ -5,11 +5,15 @@
 #include <list>
 using std::string;
 using std::list;
+#include <iostream>
+using std::cout;
+using std::endl;
 
 #include "ExprNode.h"
 #include "ArrayVal.h"
 #include "Symbol.h"
 #include "StructDecl.h"
+#include "ArrayDecl.h"
 
 class VarRef : public ExprNode
 {
@@ -27,8 +31,17 @@ class VarRef : public ExprNode
                }
                else
                {
-                    if(_arrVal != nullptr)
-                        return _ident->GetDecl()->GetBaseType()->GetType();
+                    if(_ident->GetDecl()->IsArray()) // check for array
+                    {
+                        if(!_arrVal->HasVals()) // if there are no []
+                        {
+                            return _ident->GetDecl()->GetBaseType();
+                        }                            
+                        else // if there are []
+                        {
+                            return dynamic_cast<ArrayDecl*>(_ident->GetDecl()->GetBaseType())->GetType();
+                        }                            
+                    } 
                     else
                        return _ident->GetDecl()->GetBaseType(); 
                }

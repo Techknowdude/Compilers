@@ -184,7 +184,7 @@ decl:       var_decl ';'        {
 var_decl:   TYPE_ID IDENTIFIER     
                                 {
                                     #ifdef DebugMode
-                                        cout << "var_decl: TYPE_ID IDENTIFIER arrayspec" << endl;
+                                        cout << "var_decl: TYPE_ID IDENTIFIER" << endl;
                                     #endif
                                     // if exists, error
                                     if(symbolTableRoot->SymbolInCurScope(*$2))
