@@ -27,7 +27,16 @@ class StmtsNode : public AstNode
     StmtsNode(StmtNode* newNode);
     void AddNode(StmtNode* newNode);
     string toString();
-    
+    virtual int ComputeOffsets(int base)
+    {
+        int offset = base;
+        list<StmtNode*>::iterator iter;
+        for(iter = _stmts.begin(); iter != _stmts.end(); ++iter)
+        {
+            offset = (*iter)->ComputeOffsets(offset);
+        }
+        return base;
+    }  
     private:
     list<StmtNode*> _stmts;
 };
