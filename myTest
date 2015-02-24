@@ -1,6 +1,21 @@
 {
-    int foo();
-    int a;
+    struct
+    {
+        int a;
+        char b;
+    } struct_1;
 
-    a = foo();
+    struct
+    {
+        int c;
+        char b;
+        struct_1 d;
+    } struct_2;
+
+    struct_1 aa;
+    struct_2 bb;
+    int cc;
+
+    cc = aa.b;
+    bb.d.a = aa.b;
 }

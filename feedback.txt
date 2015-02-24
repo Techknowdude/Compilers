@@ -36,3 +36,13 @@ I prefer indenting declarations relative to public:, protected:, or private:. I 
 
 -10 Your code is not properly documented.
 
+//********************************************
+Lab 5 feedback
+
+-5 It appears like you do not increase scope for a function prefix. This makes it appear like parameters are defined in the outer scope. func_prefix is a separate rule in the grammar specifically to allow you to increase scope at this point. This error is at least part of why you did not pass test0.
+
+It appears like you were working off an old version of the lab. I updated some of the error messages and you were generating the old version. I did not take off points for this.
+
+It is not clear to me why ExprNode is a subclass of ParamNode. ParamNode does not seem to add any functionality. You could have simple had a param defined as an expr in lang.y and eliminated ParamNode.
+
+Late: -20%

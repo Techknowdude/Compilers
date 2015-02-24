@@ -25,7 +25,6 @@ class IfElseStmt : public StmtNode
         IfElseStmt(ExprNode* expr, StmtNode* ifStmt, StmtNode* elStmt);
 
         string toString();
-        Decl* GetType() { return _expr->GetType(); }
 
     protected:
         ExprNode* _expr;
