@@ -34,6 +34,14 @@ class StructDecl : public VarDecl
         bool IsFloat() { return false; }
         bool IsArray() { return false; }
         string GetName() { return _identifier->GetIdentifier(); }
+        virtual int ComputeOffsets(int base) 
+        {
+            _offset = base;
+
+            _size = _decls->ComputeOffsets(0);
+
+            return base;
+        }
 
     protected:
         Symbol* _identifier;
