@@ -31,6 +31,8 @@ string StructDecl::toString()
     stringVal += _decls->toString();
 
     stringVal += " " + _identifier->toString();
+    if(_size != 0)
+        stringVal += " size: " + std::to_string(_size);
 
     return stringVal;
 }

@@ -17,21 +17,38 @@
 #define H_ASTNODE
 #include <string>
 using std::string;
+#include <iostream>
+using std::cout;
+using std::endl;
 
 class AstNode
 {
     public:
-    virtual string toString() = 0;
+        AstNode() : _offset(), _size()
+        {
+        }
 
-    // Since only some will throw errors, default to no error
-    virtual bool HasSemanticError()
-    {   
-        return false;
-    }
-    virtual string GetError()
-    {
-        return "Ast Error";
-    }
+        virtual string toString() = 0;
+
+        // Since only some will throw errors, default to no error
+        virtual bool HasSemanticError()
+        {   
+            return false;
+        }
+        virtual string GetError()
+        {
+            return "Ast Error";
+        }
+        virtual int ComputeOffsets(int base) 
+        {
+            return base;
+        }
+        virtual int GetOffset() {return _offset; }
+        virtual int GetSize() {return _size;}
+    protected:
+        int _offset;
+        int _size;
+
     private:
 
 };

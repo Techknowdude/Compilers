@@ -25,6 +25,8 @@ using std::string;
 #include "Paramspec.h"
 #include "ArraySpec.h"
 
+extern int WORD_SIZE;
+
 class VarDecl : virtual public ParamsNode, virtual public Paramspec
 {
     public:
@@ -47,6 +49,21 @@ class VarDecl : virtual public ParamsNode, virtual public Paramspec
         virtual Decl* GetBaseType() 
         {
             return _type->GetDecl();
+        }
+
+        virtual int ComputeOffsets(int base)
+        {
+            _offset = base;
+            // get size from the type
+            _size = GetBaseType()->GetSize();
+            if(_size >= WORD_SIZE)
+            {
+                // ensure offset is correct
+                if(_offset % WORD_SIZE != 0 )
+                    _offset += WORD_SIZE - (_offset % WORD_SIZE);
+            }
+
+            return _offset + _size;
         }
     protected:
         Symbol* _type;

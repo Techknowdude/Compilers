@@ -18,9 +18,14 @@
 
 #include "AstNode.h"
 
-class StmtNode : public virtual AstNode
+class StmtNode : public AstNode
 {
+    public:
+        StmtNode() : AstNode()
+        {
 
+        }
+        virtual int ComputeOffsets(int base) { return base; }
 };
 
 #endif

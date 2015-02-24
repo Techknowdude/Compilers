@@ -47,6 +47,8 @@ string VarRef::toString()
        stringVal += "[" + _arrVal->toString() + "]";
     if(_varRef != nullptr)
        stringVal += " " + _varRef->toString();
+    if(_size != 0)
+        stringVal += " size: " + std::to_string(_size) + " offset: " + std::to_string(_offset);
    
     stringVal += ")";
     return stringVal;

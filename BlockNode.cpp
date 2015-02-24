@@ -15,14 +15,17 @@
  */
 #include "BlockNode.h"
 
-BlockNode::BlockNode(AstNode* stmts, AstNode* decls) : _decls(decls), _stmts(stmts)
+BlockNode::BlockNode(AstNode* stmts, AstNode* decls) : StmtNode(), _decls(decls), _stmts(stmts)
 {
 
 }
 
 string BlockNode::toString()
 {
-    string stringVal = "BLOCK: \n{\n"; 
+    string stringVal = "BLOCK: ";
+    if(_size != 0)
+        stringVal += "size: " + std::to_string(_size);
+    stringVal += "\n{\n"; 
     if(_decls != nullptr)
     {
         stringVal +=  _decls->toString();

@@ -32,6 +32,10 @@ class BaseDecl : public Decl
 
         int Size() { return _size; }
         virtual string GetName();
+        virtual int GetSize()
+        {
+            return _size;
+        }
     protected:
         Symbol* _ident;
         int _size;

@@ -28,7 +28,8 @@ string ArrayDecl::toString()
         stringVal += _name->toString() + " ";
     if(_arrSpec != nullptr)
         stringVal += _arrSpec->toString();
-    
+    if(_size != 0)
+        stringVal += " size: " + std::to_string(_size);  
     return stringVal;
 }
 

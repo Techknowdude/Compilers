@@ -32,6 +32,23 @@ class DeclsNode : public Decl
 
         void AddNode(Decl* newNode);
         virtual string GetName() { return "DeclsNode"; }
+        virtual int ComputeOffsets(int base)
+        {
+            // starting point set
+            int offset = base;
+            list<Decl*>::iterator iter;
+
+            // compute offset for each child. track running offset
+            for(iter = _decls.begin(); iter != _decls.end(); ++iter)
+            {
+                offset = (*iter)->ComputeOffsets(offset);
+            }
+
+            // size of decls is the sum of the decls - starting point
+            _size = offset - base;
+
+            return offset;
+        }
 
     protected:
         list<Decl*> _decls;

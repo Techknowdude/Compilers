@@ -46,7 +46,7 @@ using std::endl;
 %{
     int yyerror(const char *msg);
     void semantic_error(std::string msg);
-
+    int WORD_SIZE = 4;
     SymbolTable * symbolTableRoot;
     
     void *yyast_root;
@@ -273,6 +273,7 @@ func_prefix: TYPE_ID IDENTIFIER '('
                                     #endif
                                     Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
                                     $$ = new FuncPrefix($1,newSymbol);
+                                    symbolTableRoot->IncreaseScope();
                                 }
 paramsspec:     
             paramsspec',' paramspec 

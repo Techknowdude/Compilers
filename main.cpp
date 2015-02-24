@@ -21,6 +21,7 @@
 
 extern AstNode *yyast_root;
 extern int yynerrs;
+extern int WORD_SIZE;
 
 int main(int argc, char **argv)
 {
@@ -62,6 +63,7 @@ int main(int argc, char **argv)
     {
         if (result == 0)
         {
+            yyast_root->ComputeOffsets(0);
             output << yyast_root->toString() << std::endl;
         } else {
             output << std::to_string(yynerrs) + " Errors in compile" << std::endl;

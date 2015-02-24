@@ -29,9 +29,11 @@ VarDecl::VarDecl(Symbol* type, Symbol* ident, ArraySpec* arrSpec)
 
 string VarDecl::toString()
 {
-    string stringVar = "VAR: " + _type->toString() + " " + _ident->toString();
+    string stringVal = "VAR: " + _type->toString() + " " + _ident->toString();
     if(_arrSpec != nullptr && _arrSpec->NumSpecs() > 0)
-        stringVar += " " + _arrSpec->toString();
+        stringVal += " " + _arrSpec->toString();
+    if(_size != 0)
+        stringVal += " size: " + std::to_string(_size) + " offset: " + std::to_string(_offset);
 
-    return stringVar;
+    return stringVal;
 }

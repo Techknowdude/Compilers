@@ -39,6 +39,9 @@ string FuncDecl::toString()
 
     if(_stmts != nullptr)
         stringVal += "\n" + _stmts->toString();
+    if(_size != 0)
+        stringVal += "\nsize: " + std::to_string(_size);
+
     stringVal += "\n)";
     return stringVal;   
 }

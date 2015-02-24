@@ -25,6 +25,19 @@ class BlockNode : public StmtNode
     public:
     BlockNode(AstNode* stmts, AstNode* decls);
     string toString();
+    virtual int ComputeOffsets(int base)
+    {
+        int offset = base;
+
+        if(_decls != nullptr)
+            offset = _decls->ComputeOffsets(offset);
+        if(_stmts != nullptr)
+            offset = _stmts->ComputeOffsets(offset);
+
+        _size = offset - base;
+
+        return base;
+    }
 
     private:
     AstNode* _decls;
