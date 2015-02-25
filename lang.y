@@ -37,7 +37,6 @@ using std::endl;
     FuncPrefix*     func_pre;
     Paramsspec*     paramsspec_node;
     ArraySpec*      arr_spec;
-    Paramspec*      paramspec_node;
     ArrayVal*       arr_val;
     ArrayDecl*      arr_decl;
     Decl*           decl_node;

@@ -19,28 +19,28 @@
 #include <list>
 using std::list;
 #include "VarDecl.h"
-#include "Paramspec.h"
+#include "AstNode.h"
 
-class Paramsspec 
+class Paramsspec : public AstNode
 {
     public:
-        Paramsspec(Paramspec* varDecl);
-        void AddNode(Paramspec* varDecl);
+        Paramsspec(VarDecl* varDecl);
+        void AddNode(VarDecl* varDecl);
         string toString();
         virtual int ComputeOffsets(int base)
         {
             int offset = base;
 
-            list<Paramspec*>::iterator iter;
+            list<VarDecl*>::iterator iter;
 
             for(iter = _decls.begin(); iter != _decls.end(); ++iter)
             {
-                offset = (*iter)->ComputeOffset(offset);
+                offset = (*iter)->ComputeOffsets(offset);
             }
             return offset;
         }
     protected:
-        list<Paramspec*> _decls;
+        list<VarDecl*> _decls;
 };
 
 #endif

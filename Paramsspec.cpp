@@ -15,12 +15,12 @@
  */
 #include "Paramsspec.h"
 
-Paramsspec::Paramsspec(Paramspec* varDecl) : _decls()
+Paramsspec::Paramsspec(VarDecl* varDecl) : _decls()
 {
     AddNode(varDecl);
 }
 
-void Paramsspec::AddNode(Paramspec* varDecl)
+void Paramsspec::AddNode(VarDecl* varDecl)
 {
     if(varDecl != nullptr)
         _decls.push_back(varDecl);
@@ -30,7 +30,7 @@ string Paramsspec::toString()
 {
     string stringVal = "(PARAMS:";
 
-    list<Paramspec*>::iterator iter;
+    list<VarDecl*>::iterator iter;
 
     for(iter = _decls.begin(); iter != _decls.end(); ++iter)
     {

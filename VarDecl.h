@@ -22,12 +22,11 @@ using std::string;
 #include "Symbol.h"
 #include "Decl.h"
 #include "ParamsNode.h"
-#include "Paramspec.h"
 #include "ArraySpec.h"
 
 extern int WORD_SIZE;
 
-class VarDecl : virtual public ParamsNode, virtual public Paramspec
+class VarDecl : virtual public ParamsNode
 {
     public:
         VarDecl();

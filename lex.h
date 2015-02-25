@@ -42,7 +42,6 @@
 #include "FuncHeader.h"
 #include "FuncPrefix.h"
 #include "Paramsspec.h"
-#include "Paramspec.h"
 #include "ArraySpec.h"
 #include "ArrayVal.h"
 #include "VarRef.h"

@@ -37,8 +37,10 @@ class FuncHeader : public FuncDef
 
         virtual int ComputeOffsets(int base)
         {
+            int offset = base;
             if(_params != nullptr)
-                _params->ComputeOffsets(base);
+                offset = _params->ComputeOffsets(base);
+            return offset;
         }
     protected:
         FuncPrefix* _prefix;

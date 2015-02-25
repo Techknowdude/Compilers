@@ -47,20 +47,21 @@ class FuncDecl : public FuncDef
         virtual int ComputeOffsets(int base)
         {
             // temp holder for offsets
-            int offset = base;
+            int offset = 0;
             _offset = base;
             
-            _header->ComputeOffsets(0);
+            int paramOffset = _header->ComputeOffsets(0);
 
             // compute decls offset
             if(_decls != nullptr)
-                offset = _decls->ComputeOffsets(offset);
+                offset = _decls->ComputeOffsets(paramOffset);
             // get size of function based on decls
-            _size = offset - base;
+            _size = offset - paramOffset;
 
             // compute stmts offsets
             if(_stmts != nullptr)
                 offset = _stmts->ComputeOffsets(offset);
+            return base;
         }
     protected:
         FuncHeader* _header;
