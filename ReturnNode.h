@@ -25,6 +25,10 @@ class ReturnNode : public StmtNode
         ReturnNode(ExprNode* expr);
         string toString();
 
+        virtual int ComputeOffsets(int base)
+        {
+            return _expr->ComputeOffsets(base);
+        }
     protected:
         ExprNode* _expr;
 };

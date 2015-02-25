@@ -24,6 +24,10 @@ class PrintNode : public StmtNode
     public:
     PrintNode(ExprNode* expr);
     string toString();
+    virtual int ComputeOffsets(int base)
+    {
+        return _expr->ComputeOffsets(base);
+    }
     protected:
     ExprNode* _expr;
 };

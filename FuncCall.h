@@ -30,6 +30,10 @@ class FuncCall : public StmtNode, public ExprNode
         virtual string toString();
         Decl* GetType(); // return the ident->GetType()
 
+        virtual int ComputeOffsets(int base)
+        {
+            return _params->ComputeOffsets(base);
+        }
     protected:
         Symbol* _ident;
         ParamsNode* _params;

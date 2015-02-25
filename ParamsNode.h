@@ -31,6 +31,16 @@ class ParamsNode : public virtual Decl
         virtual string toString();
 
         virtual string GetName() { return ""; }
+
+        virtual int ComputeOffsets(int base)
+        {
+            list<ParamNode*>::iterator iter;
+            for(iter = _paramList.begin(); iter != _paramList.end(); ++ iter)
+            {
+                (*iter)->ComputeOffsets(base);
+            }
+            return base;
+        }
     protected:
         list<ParamNode*> _paramList;
 };

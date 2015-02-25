@@ -29,6 +29,12 @@ class BinaryExprNode : public ExprNode
         BinaryExprNode(ExprNode* lChild = nullptr, string op = "", ExprNode* rChild = nullptr);
         virtual string toString();
         Decl* GetType();
+        virtual int ComputeOffsets(int base)
+        {
+            _lChild->ComputeOffsets(base);
+            _rChild->ComputeOffsets(base);
+            return base;
+        }
 
     protected:
         ExprNode* _lChild;
