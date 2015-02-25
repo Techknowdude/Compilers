@@ -23,14 +23,16 @@ VarRef::VarRef() : _varRef(), _ident(), _arrVal()
 {
 }
 
-VarRef::VarRef(string* ident, ArrayVal* arrVal) : _varRef(nullptr), _ident(), _arrVal(arrVal)
+VarRef::VarRef(string* ident, ArrayVal* arrVal) 
+    : _varRef(nullptr), _ident(), _arrVal(arrVal), _err(), _hasErr(), _name(), _isParent(false)    
 {
     _name = *ident;
     _err = "Symbol " + _name + " not defined";
     _hasErr = true;
 }
 
-VarRef::VarRef(Symbol* ident, ArrayVal* arrVal) : _varRef(nullptr), _ident(ident), _arrVal(arrVal)
+VarRef::VarRef(Symbol* ident, ArrayVal* arrVal) 
+    : _varRef(nullptr), _ident(ident), _arrVal(arrVal), _err(), _hasErr(), _name(), _isParent(false)    
 {
     _name = ident->GetIdentifier();
     _hasErr = false;
@@ -46,10 +48,13 @@ string VarRef::toString()
     if(_arrVal != nullptr && _arrVal->HasVals())
        stringVal += "[" + _arrVal->toString() + "]";
     if(_varRef != nullptr)
-       stringVal += " " + _varRef->toString();
-    if(_size != 0)
-        stringVal += " size: " + std::to_string(_size) + " offset: " + std::to_string(_offset);
-   
+    {
+        stringVal += " " + _varRef->toString();
+    }
+    if(_size != 0 && _isParent)
+            stringVal += " size: " + std::to_string(_size) + " offset: " + std::to_string(_offset);
+    
+
     stringVal += ")";
     return stringVal;
 }

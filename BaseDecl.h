@@ -20,6 +20,8 @@
 #include "ExprNode.h"
 #include "Symbol.h"
 
+extern int WORD_SIZE;
+
 class BaseDecl : public Decl
 {
     public:
@@ -35,6 +37,18 @@ class BaseDecl : public Decl
         virtual int GetSize()
         {
             return _size;
+        }
+        virtual int ComputeOffsets(int base)
+        {
+            _offset = base;
+        
+            if(_size >= WORD_SIZE)
+            {
+                if(_offset % WORD_SIZE != 0)
+                    _offset += WORD_SIZE = (_offset % WORD_SIZE);
+            }
+
+            return _offset + _size;
         }
     protected:
         Symbol* _ident;

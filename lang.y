@@ -421,6 +421,7 @@ varref:   varref '.' varpart    {
                                         cout << "varref: varpart Line: " << yylineno << endl;
                                     #endif
                                     $$ = $1;
+                                    $$->SetAsParent();
                                     if($$->HasSemanticError())
                                     {
                                         semantic_error($$->GetError());

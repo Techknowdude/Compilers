@@ -64,12 +64,36 @@ class VarRef : public ExprNode
         Symbol* GetIdent() { return _ident; }
         bool HasSemanticError() { return _hasErr; }
         string GetError() { return _err; }
+        virtual int ComputeOffsets(int base)
+        {
+            VarRef* childPtr = _varRef;
+
+            _offset = _ident->GetDecl()->GetOffset();
+            
+            _size = _ident->GetDecl()->GetSize();
+            
+            if(childPtr != nullptr)
+            {
+                childPtr->ComputeOffsets(base);
+                _offset += childPtr->_offset;
+                _size = childPtr->_size;
+            }
+
+            return base;
+        }
+
+        void SetAsParent()
+        {
+            _isParent = true;
+        }
     protected:
+
         VarRef* _varRef;
         Symbol* _ident;
         ArrayVal* _arrVal;
         string _err;
         bool _hasErr;
         string _name;
+        bool _isParent;
 };
 #endif

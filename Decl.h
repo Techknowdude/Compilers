@@ -17,6 +17,8 @@
 #define H_DECLBASE
 
 #include "AstNode.h"
+#include <iostream>
+using std::cout;
 
 class Decl : public virtual AstNode
 {
@@ -35,6 +37,12 @@ class Decl : public virtual AstNode
         virtual string toString()
         {
             return "";
+        }
+
+        virtual int ComputeOffsets(int base) 
+        {
+            cout << "POTENTIAL ERROR! ComputeOffsets called from Decl base class";
+            return base;
         }
     protected:
 };

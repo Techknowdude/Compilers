@@ -29,6 +29,14 @@ class AssignStmt : public StmtNode
         void CheckForError();
         bool HasSemanticError() { return _hasErr; }
         string GetError() { return _err; }
+        virtual int ComputeOffsets(int base)
+        {
+            if(_varRef != nullptr)
+                _varRef->ComputeOffsets(base);
+            if(_expr != nullptr)
+                _expr->ComputeOffsets(base);
+            return base;
+        }
     protected:
         VarRef* _varRef;
         ExprNode* _expr;
