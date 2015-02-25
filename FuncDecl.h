@@ -43,6 +43,25 @@ class FuncDecl : public FuncDef
         virtual string GetName() {return _header->GetName(); }
 
         Symbol* GetIdentifier() { return _header->GetIdentifier();}
+
+        virtual int ComputeOffsets(int base)
+        {
+            // temp holder for offsets
+            int offset = base;
+            _offset = base;
+            
+            _header->ComputeOffsets(0);
+
+            // compute decls offset
+            if(_decls != nullptr)
+                offset = _decls->ComputeOffsets(offset);
+            // get size of function based on decls
+            _size = offset - base;
+
+            // compute stmts offsets
+            if(_stmts != nullptr)
+                offset = _stmts->ComputeOffsets(offset);
+        }
     protected:
         FuncHeader* _header;
         StmtsNode* _stmts;

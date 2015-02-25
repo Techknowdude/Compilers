@@ -27,6 +27,18 @@ class Paramsspec
         Paramsspec(Paramspec* varDecl);
         void AddNode(Paramspec* varDecl);
         string toString();
+        virtual int ComputeOffsets(int base)
+        {
+            int offset = base;
+
+            list<Paramspec*>::iterator iter;
+
+            for(iter = _decls.begin(); iter != _decls.end(); ++iter)
+            {
+                offset = (*iter)->ComputeOffset(offset);
+            }
+            return offset;
+        }
     protected:
         list<Paramspec*> _decls;
 };

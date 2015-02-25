@@ -166,6 +166,7 @@ decl:       var_decl ';'        {
                                         cout << "decl: func_decl" << endl;
                                     #endif
                                     $$ = $1;
+                                    symbolTableRoot->DecreaseScope();
                                 }
         |   array_decl ';'      {
 

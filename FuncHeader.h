@@ -34,6 +34,12 @@ class FuncHeader : public FuncDef
         }
 
         Symbol* GetIdentifier() { return _prefix->GetIdentifier();}
+
+        virtual int ComputeOffsets(int base)
+        {
+            if(_params != nullptr)
+                _params->ComputeOffsets(base);
+        }
     protected:
         FuncPrefix* _prefix;
         Paramsspec* _params;
