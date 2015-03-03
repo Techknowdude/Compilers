@@ -41,7 +41,6 @@ class Decl : public virtual AstNode
 
         virtual int ComputeOffsets(int base) 
         {
-            cout << "POTENTIAL ERROR! ComputeOffsets called from Decl base class";
             return base;
         }
     protected:

@@ -395,12 +395,13 @@ stmt:       IF '(' expr ')' stmt
                                     $$ = nullptr;
                                 }
 
-func_call:  TYPE_ID '(' params ')' 
+func_call:  IDENTIFIER '(' params ')' 
                                 {
                                     #ifdef DebugMode
                                         cout << "func_call: IDENTIFIER ( params ) Line: " << yylineno << endl;
                                     #endif
-                                    $$ = new FuncCall($1,$3);
+                                    Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$1);
+                                    $$ = new FuncCall(newSymbol,$3);
                                 }
 varref:   varref '.' varpart    {
                                     #ifdef DebugMode

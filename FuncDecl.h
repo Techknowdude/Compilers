@@ -37,7 +37,7 @@ class FuncDecl : public FuncDef
         virtual bool IsChar() {return GetBaseType()->IsFloat();}
         virtual bool IsInt() {return GetBaseType()->IsFloat();}
         virtual bool IsStruct() {return GetBaseType()->IsFloat();}
-        virtual bool IsType() {return true;}
+        virtual bool IsType() {return false;}
         virtual bool IsArray() {return GetBaseType()->IsFloat();}
         virtual bool IsFunc() {return GetBaseType()->IsFloat();}
         virtual string GetName() {return _header->GetName(); }

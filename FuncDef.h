@@ -25,7 +25,7 @@ class FuncDef : public VarDecl
         virtual bool IsChar() {return false;}
         virtual bool IsInt() {return false;}
         virtual bool IsStruct() {return false;}
-        virtual bool IsType() {return true;}
+        virtual bool IsType() {return false;}
         virtual bool IsArray() {return false;}
         virtual bool IsFunc() {return true;}
 
