@@ -10,11 +10,15 @@ Frame_Pointer=0;
 Stack_Pointer=0;
 // Allocate space for local variables.
 Stack_Pointer += 8;
-(*(int *)(&Memory[0])) = 1;
-(*(int *)(&Memory[4])) = 5;
-Temp = (*(int *)(&Memory[0]));
+(*(int *)(&Memory[0])) = 5;
+(*(int *)(&Memory[4])) = (*(int *)(&Memory[0])) * 2 + 1;
+Temp = (*(int *)(&Memory[0])) - 3;
+printf("%d\n", Temp);
+Temp = (*(int *)(&Memory[0])) % 2;
 printf("%d\n", Temp);
 Temp = (*(int *)(&Memory[4]));
+printf("%d\n", Temp);
+Temp = (*(int *)(&Memory[4])) / 3;
 printf("%d\n", Temp);
   return 0;
 }

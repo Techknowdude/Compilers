@@ -36,6 +36,13 @@ class BinaryExprNode : public ExprNode
             return base;
         }
 
+        virtual void GenerateCode()
+        {
+            _lChild->GenerateCode();
+            EmitString(" " + _op + " ");
+            _rChild->GenerateCode();
+        }
+
     protected:
         ExprNode* _lChild;
         string _op;
