@@ -30,7 +30,11 @@ class FloatNode : public ExprNode
         string toString();
         Decl* GetType();
         float GetVal();
-
+        
+        void GenerateCode()
+        {
+            EmitFloat(_floatVal);
+        }
     protected:
         float _floatVal;
 };

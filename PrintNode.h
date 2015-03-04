@@ -31,10 +31,20 @@ class PrintNode : public StmtNode
     
     virtual void GenerateCode()
     {
-        EmitString("Temp = ");
-        _expr->GenerateCode();
-        EmitString(";\n");
-        EmitPrintTemp();
+        if(_expr->GetType()->IsInt())
+        {
+            EmitString("Temp = ");
+            _expr->GenerateCode();
+            EmitString(";\n");
+            EmitPrintTemp();
+        }
+        else if (_expr->GetType()->IsFloat())
+        {
+            EmitString("Temp_F = ");
+            _expr->GenerateCode();
+            EmitString(";\n");
+            EmitPrintTemp_F();
+        }
     }
 
     protected:
