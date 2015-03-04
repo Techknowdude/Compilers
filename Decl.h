@@ -43,6 +43,11 @@ class Decl : public virtual AstNode
         {
             return base;
         }
+
+        virtual void GenerateCode()
+        {
+
+        }
     protected:
 };
 

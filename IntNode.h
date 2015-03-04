@@ -35,7 +35,10 @@ class IntNode : public ExprNode
 
         Decl* GetType() { return _type; }
 
-
+        void GenerateCode()
+        {
+            EmitString(std::to_string(_intVal));
+        }
         
     protected:
         int _intVal;

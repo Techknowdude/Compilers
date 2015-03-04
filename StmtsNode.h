@@ -37,6 +37,15 @@ class StmtsNode : public AstNode
         }
         return base;
     }  
+
+    virtual void GenerateCode()
+    {
+        list<StmtNode*>::iterator iter;
+
+        for(iter = _stmts.begin(); iter != _stmts.end(); ++iter)
+            (*iter)->GenerateCode();
+    }
+
     private:
     list<StmtNode*> _stmts;
 };

@@ -21,6 +21,8 @@ using std::string;
 using std::cout;
 using std::endl;
 
+#include "codegen.h"
+
 class AstNode
 {
     public:
@@ -45,6 +47,11 @@ class AstNode
         }
         virtual int GetOffset() {return _offset; }
         virtual int GetSize() {return _size;}
+        virtual void GenerateCode()
+        {
+
+        }
+
     protected:
         int _offset;
         int _size;

@@ -362,12 +362,21 @@ stmt:       IF '(' expr ')' stmt
                                     #endif
                                     $$ = new ScanStmt($3);
                                 }
+        |   lval '=' func_call ';'
+                                {
+                                    #ifdef DebugMode
+                                        cout << "stmt: lval '=' func_call ;" << endl;
+                                    #endif
+                                    $$ = new AssignStmt($1,$3);
+                                    if($$->HasSemanticError())
+                                        semantic_error($$->GetError());
+                                }
         |   lval '=' expr ';'   {
                                     #ifdef DebugMode
                                         cout << "stmt: lval = expr ;" << endl;
                                     #endif
                                     $$ = new AssignStmt($1,$3);
-                                    if($$->HasSemanticError()) //ToDo: Check why this is not working
+                                    if($$->HasSemanticError())
                                         semantic_error($$->GetError());
                                 }
         |   func_call ';'       {
@@ -564,13 +573,6 @@ fact:        '(' expr ')'       {
                                         cout << "fact: varref => ";
                                         cout << $1->toString()  + " Line: " << yylineno << endl;
                                     #endif
-                                    $$ = $1;
-                                }
-        |   func_call           {
-                                    #ifdef DebugMode
-                                        cout << "fact: func_call => ";
-                                        cout << $1->toString() + " Line: " << yylineno << endl; 
-                                  #endif
                                     $$ = $1;
                                 }
 

@@ -37,6 +37,14 @@ class AssignStmt : public StmtNode
                 _expr->ComputeOffsets(base);
             return base;
         }
+
+        void GenerateCode()
+        {
+            _varRef->GenerateCode();
+            EmitString(" = ");
+            _expr->GenerateCode();
+            EmitString(";\n");
+        }
     protected:
         VarRef* _varRef;
         ExprNode* _expr;

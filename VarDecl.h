@@ -64,6 +64,13 @@ class VarDecl : virtual public ParamsNode
 
             return _offset + _size;
         }
+
+        virtual void GenerateCode()
+        {
+            // emit code for var push
+            EmitString("Stack_Pointer += " + std::to_string(GetBaseType()->GetSize()) + ";\n");
+
+        }
     protected:
         Symbol* _type;
         Symbol* _ident;

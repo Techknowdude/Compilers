@@ -39,6 +39,13 @@ class Paramsspec : public AstNode
             }
             return offset;
         }
+
+        virtual void GenerateCode()
+        {
+            list<VarDecl*>::iterator iter;
+            for(iter = _decls.begin(); iter != _decls.end(); ++iter)
+                (*iter)->GenerateCode();
+        }
     protected:
         list<VarDecl*> _decls;
 };

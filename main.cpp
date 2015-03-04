@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 
     const char *outfile_name;
     int result = 0;
-    std::streambuf *cout_buf = std::cout.rdbuf();
+    //std::streambuf *cout_buf = std::cout.rdbuf();
 
     if (argc > 1)
     {
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
         std::cerr << "ERROR: Unable to open file " << outfile_name << "\n";
         exit(-1);
     }
-    std::cout.rdbuf(output.rdbuf());
+    //std::cout.rdbuf(output.rdbuf());
 
     result = yyparse();
     if (yyast_root != NULL)
@@ -65,18 +65,16 @@ int main(int argc, char **argv)
         {
             yyast_root->ComputeOffsets(0);
             output << yyast_root->toString() << std::endl;
+            InitOutput("langout.c");
+            yyast_root->GenerateCode();
+            FinalizeOutput();
         } else {
-            output << std::to_string(yynerrs) + " Errors in compile" << std::endl;
+            std::cerr << yynerrs + " Errors in compile" << std::endl;
         }
     }
 
-    if (yylex() != 0)
-    {
-        std::cout << "Junk at end of program\n";
-    }
-
     output.close();
-    std::cout.rdbuf(cout_buf);
+    //std::cout.rdbuf(cout_buf);
 
     return result;
 }

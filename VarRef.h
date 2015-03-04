@@ -86,6 +86,19 @@ class VarRef : public ExprNode
         {
             _isParent = true;
         }
+
+        virtual void GenerateCode()
+        {
+            // emit reference to memory for var
+            if(_ident->GetDecl()->GetBaseType()->IsInt())
+            {
+                EmitIntRef(_offset);
+            }
+            else if(_ident->GetDecl()->GetBaseType()->IsFloat())
+            {
+                EmitFloatRef(_offset);
+            }
+        }
     protected:
 
         VarRef* _varRef;

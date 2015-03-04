@@ -41,6 +41,10 @@ class ParamsNode : public virtual Decl
             }
             return base;
         }
+        virtual void GenerateCode()
+        {
+
+        }
     protected:
         list<ParamNode*> _paramList;
 };

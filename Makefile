@@ -33,7 +33,8 @@ OBJS=main.o \
 	 ArrayVal.o \
 	 VarRef.o \
 	 ArrayDecl.o \
-	 BaseDecl.o
+	 BaseDecl.o \
+	 codegen.o
 
 all: lang
 

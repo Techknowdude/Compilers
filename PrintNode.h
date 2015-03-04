@@ -28,6 +28,15 @@ class PrintNode : public StmtNode
     {
         return _expr->ComputeOffsets(base);
     }
+    
+    virtual void GenerateCode()
+    {
+        EmitString("Temp = ");
+        _expr->GenerateCode();
+        EmitString(";\n");
+        EmitPrintTemp();
+    }
+
     protected:
     ExprNode* _expr;
 };

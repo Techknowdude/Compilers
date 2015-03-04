@@ -39,6 +39,14 @@ class BlockNode : public StmtNode
         return base;
     }
 
+    virtual void GenerateCode()
+    {
+        if(_decls != nullptr)
+            _decls->GenerateCode();
+        if(_stmts != nullptr)
+            _stmts->GenerateCode();
+    }
+
     private:
     AstNode* _decls;
     AstNode* _stmts;

@@ -50,6 +50,13 @@ class BaseDecl : public Decl
 
             return _offset + _size;
         }
+        
+        virtual void GenerateCode()
+        {
+            // emit code for var push
+            EmitString("Stack_Pointer += " + std::to_string(_size) + ";\n");
+        }
+
     protected:
         Symbol* _ident;
         int _size;

@@ -13,7 +13,8 @@
  *
  * =====================================================================================
  */
-#pragma once
+#ifndef H_LEX
+#define H_LEX
 
 #include "Symbol.h"
 #include "SymbolTable.h"
@@ -47,6 +48,7 @@
 #include "VarRef.h"
 #include "ArrayDecl.h"
 #include "BaseDecl.h"
+#include "codegen.h"
 
 #include "langparse.h"
 
@@ -56,3 +58,5 @@ extern char *yytext;
 extern int yylineno;
 extern FILE *yyin;
 extern SymbolTable *symbolTableRoot;
+
+#endif
