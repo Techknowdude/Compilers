@@ -26,6 +26,29 @@ class WhileStmt : public StmtNode
 
         string toString();
             
+        virtual int ComputeOffsets(int base)
+        {
+            int offset = base;
+            if(_expr != nullptr)
+                offset = _expr->ComputeOffsets(offset);
+            if(_stmt != nullptr)
+                offset = _stmt->ComputeOffsets(offset);
+            return base;
+        }
+        void GenerateCode()
+        {
+            string startLabel = GenerateLabel();
+            string endLabel = GenerateLabel();
+    
+            EmitString("/*While(" + _expr->toString() + ")*/\n");
+            EmitString(startLabel + ":\n");
+            EmitString("if (!(");
+            _expr->GenerateCode();
+            EmitString(")) goto " + endLabel + ";\n");
+            _stmt->GenerateCode();
+            EmitString("goto " + startLabel + ";\n");
+            EmitString(endLabel + ":\n");
+        }
     protected:
         ExprNode* _expr;
         StmtNode* _stmt;

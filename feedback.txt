@@ -46,3 +46,12 @@ It appears like you were working off an old version of the lab. I updated some o
 It is not clear to me why ExprNode is a subclass of ParamNode. ParamNode does not seem to add any functionality. You could have simple had a param defined as an expr in lang.y and eliminated ParamNode.
 
 Late: -20%
+
+//****************************************
+Lab 6 feedback
+
+I received a strange error when trying to pull that lab6 tag. I pulled the most recent commit and graded that.
+
+-20 It appears that you do not ComputeOffsets on the conditional expressions nor the statements in ifs and whiles.
+
+

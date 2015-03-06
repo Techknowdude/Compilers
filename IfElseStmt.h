@@ -26,6 +26,32 @@ class IfElseStmt : public StmtNode
 
         string toString();
 
+        virtual int ComputeOffsets(int base)
+        {
+            int offset = base;
+            if(_expr != nullptr)
+                offset = _expr->ComputeOffsets(offset);
+            if(_ifStmt != nullptr)
+                offset = _ifStmt->ComputeOffsets(offset);
+            if(_elStmt != nullptr)
+                offset = _elStmt->ComputeOffsets(offset);
+            return base;
+        }
+
+        void GenerateCode()
+        {
+            string endLabel = GenerateLabel();
+            string elseLabel = GenerateLabel();
+
+            EmitString("if (!(");
+            _expr->GenerateCode();
+            EmitString(")) goto " + elseLabel + ";\n");
+            _ifStmt->GenerateCode();
+            EmitString("goto " + endLabel + ";\n");
+            EmitString(elseLabel + ":\n");
+            _elStmt->GenerateCode();
+            EmitString(endLabel + ":\n");
+        }
     protected:
         ExprNode* _expr;
         StmtNode* _ifStmt;

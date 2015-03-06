@@ -26,6 +26,25 @@ class IfStmt : public StmtNode
 
         string toString();
 
+        virtual int ComputeOffsets(int base)
+        {
+            int offset = base;
+            if(_expr != nullptr)
+                offset = _expr->ComputeOffsets(offset);
+            if(_stmt != nullptr)
+                offset = _stmt->ComputeOffsets(offset);
+            return base;
+        }
+        void GenerateCode()
+        {
+            string endLabel = GenerateLabel();
+
+            EmitString("if (!(");
+            _expr->GenerateCode();
+            EmitString(")) goto " + endLabel + ";\n");
+            _stmt->GenerateCode();
+            EmitString(endLabel + ":\n");
+        }
     protected:
         ExprNode* _expr;
         StmtNode* _stmt;
