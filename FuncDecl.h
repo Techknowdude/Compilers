@@ -63,6 +63,24 @@ class FuncDecl : public FuncDef
                 offset = _stmts->ComputeOffsets(offset);
             return base;
         }
+
+        virtual void GenerateCode()
+        {
+            // start function
+            StartFunctionOutput();
+
+            EmitString("int " + GetName() + "()\n");
+            EmitString("{\n");
+            
+            if(_decls != nullptr)
+                _decls->GenerateCode();
+            if(_stmts != nullptr)
+                _stmts->GenerateCode();
+
+            EmitString("}\n");
+            // end function
+            EndFunctionOutput();
+        }
     protected:
         FuncHeader* _header;
         StmtsNode* _stmts;

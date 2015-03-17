@@ -31,5 +31,4 @@ void EmitPrintTemp_F();
 
 void EmitIntRef(int offset);
 void EmitFloatRef(int offset);
-
 #endif

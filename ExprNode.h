@@ -20,9 +20,9 @@
 using std::string;
 
 #include "Symbol.h"
-#include "ParamNode.h"
+#include "AstNode.h"
 
-class ExprNode : virtual public ParamNode
+class ExprNode : virtual public AstNode
 {
     public:
         ExprNode();

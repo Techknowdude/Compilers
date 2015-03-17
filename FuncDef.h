@@ -29,6 +29,8 @@ class FuncDef : public VarDecl
         virtual bool IsArray() {return false;}
         virtual bool IsFunc() {return true;}
 
+        virtual int ComputeOffsets(int base) { return base; }
+        virtual void GenerateCode() {}
 };
 
 #endif

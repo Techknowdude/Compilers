@@ -19,14 +19,14 @@
 #include <list>
 using std::list;
 
-#include "ParamNode.h"
+#include "ExprNode.h"
 #include "Decl.h"
 
 class ParamsNode : public virtual Decl
 {
     public:
-        ParamsNode(ParamNode* param = nullptr);
-        void AddNode(ParamNode* newNode);
+        ParamsNode(ExprNode* param = nullptr);
+        void AddNode(ExprNode* newNode);
 
         virtual string toString();
 
@@ -34,7 +34,7 @@ class ParamsNode : public virtual Decl
 
         virtual int ComputeOffsets(int base)
         {
-            list<ParamNode*>::iterator iter;
+            list<ExprNode*>::iterator iter;
             for(iter = _paramList.begin(); iter != _paramList.end(); ++ iter)
             {
                 (*iter)->ComputeOffsets(base);
@@ -43,10 +43,14 @@ class ParamsNode : public virtual Decl
         }
         virtual void GenerateCode()
         {
+            list<ExprNode*>::iterator iter;
 
+            for(iter = _paramList.begin(); iter != _paramList.end(); ++iter)
+                (*iter)->GenerateCode();
         }
+        
     protected:
-        list<ParamNode*> _paramList;
+        list<ExprNode*>_paramList;
 };
 
 #endif

@@ -42,6 +42,7 @@ class FuncHeader : public FuncDef
                 offset = _params->ComputeOffsets(base);
             return offset;
         }
+
     protected:
         FuncPrefix* _prefix;
         Paramsspec* _params;

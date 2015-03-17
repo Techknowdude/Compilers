@@ -34,6 +34,26 @@ class FuncCall : public StmtNode, public ExprNode
         {
             return _params->ComputeOffsets(base);
         }
+
+        void GenerateCode()
+        {
+            EmitString("/* Func call */");
+            // push FP
+            EmitString("(*(int *)(&Memory[Stack_Pointer])) = Frame_Pointer;\n");
+            EmitString("Stack_Pointer += 4;\n");
+            
+            // push params
+            //_params->GenerateCode();
+
+            // make call
+            EmitString( _ident->GetIdentifier() + "();\n");
+            
+            // pop params
+
+            // pop FP
+            EmitString("Stack_Pointer -= 4;\n");
+            EmitString("Frame_Pointer = (*(int *)(&Memory[Stack_Pointer]));\n");
+        }
     protected:
         Symbol* _ident;
         ParamsNode* _params;

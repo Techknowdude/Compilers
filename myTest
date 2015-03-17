@@ -1,0 +1,14 @@
+{
+    int a;
+    int b;
+    int c;
+    int Add(int x, int y)
+    {
+        return x + y;
+    }
+
+    a = 3;
+    b = 4;
+    c = Add(a,b);
+    print(c);
+}

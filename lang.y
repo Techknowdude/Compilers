@@ -29,7 +29,6 @@ using std::endl;
     VarDecl*        var_decl;
     FuncCall*       func_call;
     ParamsNode*     params_node;
-    ParamNode*      param_node;
     ReturnNode*     ret_node;
     VarRef*         var_ref;
     FuncDecl*       func_decl;
@@ -87,7 +86,7 @@ using std::endl;
 %type <var_ref> lval
 %type <arr_val> arrayval
 %type <params_node> params
-%type <param_node> param
+%type <expr_node> param
 %type <expr_node> expr
 %type <expr_node> term
 %type <expr_node> fact

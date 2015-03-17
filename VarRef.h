@@ -99,6 +99,9 @@ class VarRef : public ExprNode
                 EmitFloatRef(_offset);
             }
         }
+        int GetSize() {return _size;}
+        int GetOffset() {return _offset;}
+        string GetName() {return _name; }
     protected:
 
         VarRef* _varRef;
