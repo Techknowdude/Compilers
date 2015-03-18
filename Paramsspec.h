@@ -35,7 +35,8 @@ class Paramsspec : public AstNode
 
             for(iter = _decls.begin(); iter != _decls.end(); ++iter)
             {
-                offset = (*iter)->ComputeOffsets(offset);
+                (*iter)->ComputeOffsets(offset - (*iter)->GetSize());
+                offset -= (*iter)->GetSize();
             }
             return offset;
         }

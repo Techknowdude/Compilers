@@ -18,7 +18,14 @@
 AssignStmt::AssignStmt(VarRef* varRef, ExprNode* expr) 
     : _varRef(varRef), _expr(expr), _err(), _hasErr(false)
 {
+    _hasFunc = false;
+    CheckForError();
+}
 
+AssignStmt::AssignStmt(VarRef* varRef, FuncCall* func) 
+    : _varRef(varRef), _expr(func), _err(), _hasErr(false)
+{
+    _hasFunc = true;
     CheckForError();
 }
 

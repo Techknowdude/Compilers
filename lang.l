@@ -70,7 +70,7 @@ commentline     \/\/.*
 // This function allows us to do extra processing on each token
 static int Return(int val)
 {
- //   printf("Scanned '%s': %d\n", yytext, val);
+    //printf("Scanned '%s': %d\n", yytext, val);
     return val;
 }
 

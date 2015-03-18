@@ -31,6 +31,13 @@ class FuncPrefix : public FuncDef
             return _type->GetDecl();
         }
 
+        virtual bool IsFloat() {return GetBaseType()->IsFloat();}
+        virtual bool IsChar() {return GetBaseType()->IsChar();}
+        virtual bool IsInt() {return GetBaseType()->IsInt();}
+        virtual bool IsStruct() {return GetBaseType()->IsStruct();}
+        virtual bool IsType() {return false;}
+        virtual bool IsArray() {return GetBaseType()->IsArray();}
+        virtual bool IsFunc() {return GetBaseType()->IsFunc();}
         virtual string GetName() {return _id->GetIdentifier();}
     
         Symbol* GetIdentifier() { return _id; }

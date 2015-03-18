@@ -146,12 +146,25 @@ void EmitPrintTemp_F()
 // write a type cast memory ref as an int
 void EmitIntRef(int offset)
 {
-    EmitString("(*(int *)(&Memory[" + std::to_string(offset) + "]))");
+    EmitString("(*(int *)(&Memory[Frame_Pointer + " + std::to_string(offset) + "]))");
 }
 
 //*****************************************
 // write a type cast memory ref as a float
 void EmitFloatRef(int offset)
 {
-    EmitString("(*(float *)(&Memory[" + std::to_string(offset) + "]))");
+    EmitString("(*(float *)(&Memory[Frame_Pointer + " + std::to_string(offset) + "]))");
+}
+//*****************************************
+// write a type cast memory ref as an int
+void EmitIntStackRef()
+{
+    EmitString("(*(int *)(&Memory[Stack_Pointer]))");
+}
+
+//*****************************************
+// write a type cast memory ref as a float
+void EmitFloatStackRef()
+{
+    EmitString("(*(float *)(&Memory[Stack_Pointer]))");
 }

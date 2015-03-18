@@ -50,6 +50,8 @@ class VarDecl : virtual public ParamsNode
             return _type->GetDecl();
         }
 
+        int GetSize() {return GetBaseType()->GetSize();}
+
         virtual int ComputeOffsets(int base)
         {
             _offset = base;

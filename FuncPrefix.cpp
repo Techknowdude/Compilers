@@ -18,7 +18,7 @@
 FuncPrefix::FuncPrefix(Symbol* type, Symbol* id)
     : _type(type), _id(id)
 {
-
+    _id->SetDecl(this);
 }
 
         

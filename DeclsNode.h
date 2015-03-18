@@ -54,8 +54,6 @@ class DeclsNode : public Decl
         {
             EmitString("// Allocate space for local variables.\n");
              
-            EmitString("Stack_Pointer += " + std::to_string(_size) + ";\n");
-            
             list<Decl*>::iterator iter;
             for(iter = _decls.begin(); iter != _decls.end(); ++iter)
                 (*iter)->GenerateCode();

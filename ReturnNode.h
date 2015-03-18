@@ -29,6 +29,19 @@ class ReturnNode : public StmtNode
         {
             return _expr->ComputeOffsets(base);
         }
+        void GenerateCode()
+        {
+            EmitString("/* Return Node */");
+            if(_expr->GetType()->IsFloat())
+            {
+                EmitString("Temp_F = ");
+                _expr->GenerateCode();
+                EmitString(";\n");
+            }
+            EmitString("Temp = ");
+            _expr->GenerateCode();
+            EmitString(";\n");
+        }
     protected:
         ExprNode* _expr;
 };

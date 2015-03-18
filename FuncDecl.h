@@ -34,12 +34,12 @@ class FuncDecl : public FuncDef
         }
         
         virtual bool IsFloat() {return GetBaseType()->IsFloat();}
-        virtual bool IsChar() {return GetBaseType()->IsFloat();}
-        virtual bool IsInt() {return GetBaseType()->IsFloat();}
-        virtual bool IsStruct() {return GetBaseType()->IsFloat();}
+        virtual bool IsChar() {return GetBaseType()->IsChar();}
+        virtual bool IsInt() {return GetBaseType()->IsInt();}
+        virtual bool IsStruct() {return GetBaseType()->IsStruct();}
         virtual bool IsType() {return false;}
-        virtual bool IsArray() {return GetBaseType()->IsFloat();}
-        virtual bool IsFunc() {return GetBaseType()->IsFloat();}
+        virtual bool IsArray() {return GetBaseType()->IsArray();}
+        virtual bool IsFunc() {return GetBaseType()->IsFunc();}
         virtual string GetName() {return _header->GetName(); }
 
         Symbol* GetIdentifier() { return _header->GetIdentifier();}
@@ -47,14 +47,13 @@ class FuncDecl : public FuncDef
         virtual int ComputeOffsets(int base)
         {
             // temp holder for offsets
-            int offset = 0;
-            _offset = base;
+            int offset = base;
             
             int paramOffset = _header->ComputeOffsets(0);
 
             // compute decls offset
             if(_decls != nullptr)
-                offset = _decls->ComputeOffsets(paramOffset);
+                offset = _decls->ComputeOffsets(0);
             // get size of function based on decls
             _size = offset - paramOffset;
 
@@ -77,6 +76,9 @@ class FuncDecl : public FuncDef
             if(_stmts != nullptr)
                 _stmts->GenerateCode();
 
+            EmitString("/* Deallocate local var space */\n");
+            if(_decls != nullptr)
+                EmitString("Stack_Pointer -= " + std::to_string(_decls->GetSize()) + ";\n");
             EmitString("}\n");
             // end function
             EndFunctionOutput();

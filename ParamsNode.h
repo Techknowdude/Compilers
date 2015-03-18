@@ -20,6 +20,7 @@
 using std::list;
 
 #include "ExprNode.h"
+#include "codegen.h"
 #include "Decl.h"
 
 class ParamsNode : public virtual Decl
@@ -34,19 +35,40 @@ class ParamsNode : public virtual Decl
 
         virtual int ComputeOffsets(int base)
         {
+            
             list<ExprNode*>::iterator iter;
             for(iter = _paramList.begin(); iter != _paramList.end(); ++ iter)
             {
                 (*iter)->ComputeOffsets(base);
+                int size = (*iter)->GetSize();
+                if(size < 4) // make sure it's word aligned.
+                    size = 4;
+                _size += size;
             }
             return base;
         }
         virtual void GenerateCode()
         {
             list<ExprNode*>::iterator iter;
-
+            
             for(iter = _paramList.begin(); iter != _paramList.end(); ++iter)
+            {
+                // push each item onto stack
+                if((*iter)->GetType()->IsInt())
+                {
+                    EmitIntStackRef();
+                }
+                else if((*iter)->GetType()->IsFloat())
+                {
+                    EmitFloatStackRef();
+                }
+                EmitString(" = ");
                 (*iter)->GenerateCode();
+                EmitString(";\n");
+
+                // adjust stack pointer
+                EmitString("Stack_Pointer += " + std::to_string(_size) + ";\n");
+            }
         }
         
     protected:

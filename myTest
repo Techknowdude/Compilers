@@ -1,14 +1,16 @@
 {
-    int a;
+    float a;
     int b;
-    int c;
-    int Add(int x, int y)
+    int Add(int x)
     {
-        return x + y;
+        int next;
+        if(x)
+            next = Add(x - 1);
+        
+        return next;
     }
-
-    a = 3;
-    b = 4;
-    c = Add(a,b);
-    print(c);
+    
+    b = 2;
+    a = Add(b + 2);
+    print(a);
 }

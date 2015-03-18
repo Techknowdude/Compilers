@@ -19,11 +19,13 @@
 #include "StmtNode.h"
 #include "ExprNode.h"
 #include "VarRef.h"
+#include "FuncCall.h"
 
 class AssignStmt : public StmtNode
 {
     public:
         AssignStmt(VarRef* varRef, ExprNode* expr);
+        AssignStmt(VarRef* varRef, FuncCall* func);
 
         string toString();
         void CheckForError();
@@ -40,10 +42,30 @@ class AssignStmt : public StmtNode
 
         void GenerateCode()
         {
-            _varRef->GenerateCode();
-            EmitString(" = ");
-            _expr->GenerateCode();
-            EmitString(";\n");
+            // Check for function!!!
+            Decl* exprDecl = _expr->GetType();
+            if(_hasFunc)
+            {
+                // make call and get return in temp
+                _expr->GenerateCode();
+                // generate code for lhs
+                _varRef->GenerateCode();
+               if(exprDecl->IsFloat())
+               {
+                EmitString(" = Temp_F;\n");
+               } 
+               else if (exprDecl->IsInt())
+               {
+                EmitString(" = Temp;\n");
+               }
+            }
+            else
+            {
+                _varRef->GenerateCode();
+                EmitString(" = ");
+                _expr->GenerateCode();
+                EmitString(";\n");
+            }
         }
     protected:
         VarRef* _varRef;
@@ -51,6 +73,7 @@ class AssignStmt : public StmtNode
 
         string _err;
         bool _hasErr;
+        bool _hasFunc;
 };
 
 #endif

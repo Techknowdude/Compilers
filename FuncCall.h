@@ -37,20 +37,25 @@ class FuncCall : public StmtNode, public ExprNode
 
         void GenerateCode()
         {
-            EmitString("/* Func call */");
+            EmitString("/* Func call */\n");
             // push FP
+            EmitString("/* Pushing FP */\n");
             EmitString("(*(int *)(&Memory[Stack_Pointer])) = Frame_Pointer;\n");
             EmitString("Stack_Pointer += 4;\n");
             
             // push params
-            //_params->GenerateCode();
-
+            EmitString("/* Pushing Parameters */\n");
+            _params->GenerateCode();
+            EmitString("Frame_Pointer = Stack_Pointer;\n");
             // make call
+            EmitString("/* Making call */\n");
             EmitString( _ident->GetIdentifier() + "();\n");
             
             // pop params
-
+            EmitString("/* Deallocating Param space */\n");
+            EmitString("Stack_Pointer -= " + std::to_string(_params->GetSize()) + ";\n");
             // pop FP
+            EmitString("/* Popping FP */\n");
             EmitString("Stack_Pointer -= 4;\n");
             EmitString("Frame_Pointer = (*(int *)(&Memory[Stack_Pointer]));\n");
         }

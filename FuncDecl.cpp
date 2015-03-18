@@ -18,13 +18,13 @@
 FuncDecl::FuncDecl(FuncHeader* header, StmtsNode* stmts) 
     : _header(header), _stmts(stmts), _decls()
 {
-      GetIdentifier()->SetDecl(this); 
+      //GetIdentifier()->SetDecl(this); 
 }
         
 FuncDecl::FuncDecl(FuncHeader* header, DeclsNode* decls, StmtsNode* stmts)
     : _header(header), _stmts(stmts), _decls(decls)
 {
-      GetIdentifier()->SetDecl(this); 
+      //GetIdentifier()->SetDecl(this); 
 }
 
  
