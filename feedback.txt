@@ -54,4 +54,10 @@ I received a strange error when trying to pull that lab6 tag. I pulled the most 
 
 -20 It appears that you do not ComputeOffsets on the conditional expressions nor the statements in ifs and whiles.
 
+//***************************************
+Lab 7 Feedback
+
+-10 When calling a function, you do not set the Frame Pointer to the correct place. You need:
+Frame_Pointer = Stack_Pointer - <size of params>;
+
 

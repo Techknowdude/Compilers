@@ -34,7 +34,8 @@ OBJS=main.o \
 	 VarRef.o \
 	 ArrayDecl.o \
 	 BaseDecl.o \
-	 codegen.o
+	 codegen.o \
+	 ScanNode.o
 
 all: lang
 

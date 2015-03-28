@@ -273,6 +273,7 @@ func_prefix: TYPE_ID IDENTIFIER '('
                                     Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$2);
                                     $$ = new FuncPrefix($1,newSymbol);
                                     symbolTableRoot->IncreaseScope();
+                                    newSymbol->SetDecl($$);
                                 }
 paramsspec:     
             paramsspec',' paramspec 
@@ -347,19 +348,19 @@ stmt:       IF '(' expr ')' stmt
                                     #endif
                                     $$ = new WhileStmt($3,$5);
                                 }
+        |   SCAN '(' varref ')' ';'
+                                {
+                                    #ifdef DebugMode
+                                        cout << "stmt: SCAN ( expr ) ;" << endl;
+                                    #endif
+                                    $$ = new ScanNode($3);
+                                }
         |   PRINT '(' expr ')' ';'
                                 {
                                     #ifdef DebugMode
                                         cout << "stmt: PRINT ( expr ) ;" << endl;
                                     #endif
                                     $$ = new PrintNode($3);
-                                }
-        |   SCAN '(' lval ')' ';'
-                                {
-                                    #ifdef DebugMode
-                                        cout << "stmt: SCAN ( lval ) ;" << endl;
-                                    #endif
-                                    $$ = new ScanStmt($3);
                                 }
         |   lval '=' func_call ';'
                                 {
@@ -408,8 +409,14 @@ func_call:  IDENTIFIER '(' params ')'
                                     #ifdef DebugMode
                                         cout << "func_call: IDENTIFIER ( params ) Line: " << yylineno << endl;
                                     #endif
-                                    Symbol* newSymbol = symbolTableRoot->InsertSymbol(*$1);
-                                    $$ = new FuncCall(newSymbol,$3);
+                                    Symbol* newSymbol = symbolTableRoot->GetSymbol(*$1);
+                                    if(newSymbol == nullptr)
+                                    {
+                                        semantic_error("No function definition found for " + *$1);
+                                        YYERROR;
+                                    }
+                                    else
+                                        $$ = new FuncCall(newSymbol,$3);
                                 }
 varref:   varref '.' varpart    {
                                     #ifdef DebugMode

@@ -1,16 +1,14 @@
 {
     float a;
     int b;
-    int Add(int x)
+
+    struct
     {
-        int next;
-        if(x)
-            next = Add(x - 1);
-        
-        return next;
-    }
-    
+        int a;
+        float c;
+    } emp;
+
     b = 2;
-    a = Add(b + 2);
-    print(a);
+    scan(b);
+    print(b);
 }

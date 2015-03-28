@@ -42,7 +42,11 @@ class StructDecl : public VarDecl
 
             return base;
         }
+        
+        virtual void GenerateCode()
+        {
 
+        }
     protected:
         Symbol* _identifier;
         DeclsNode* _decls;    

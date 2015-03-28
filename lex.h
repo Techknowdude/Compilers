@@ -20,6 +20,7 @@
 #include "SymbolTable.h"
 #include "AstNode.h"
 #include "PrintNode.h"
+#include "ScanNode.h"
 #include "StmtsNode.h"
 #include "BlockNode.h"
 #include "FloatNode.h"
