@@ -48,13 +48,13 @@ clean:
 	rm -f out
 
 .cpp.o:
-	g++ $(COPTS) $? -o $@
+	g++ $(COPTS) -Wno-sign-compare $? -o $@
 
 .c.o:
-	g++ $(COPTS) $? -o $@
+	g++ $(COPTS) -Wno-sign-compare $? -o $@
 
 main.o: main.cpp langparse.c langlex.c
-	g++ $(COPTS) main.cpp -o $@
+	g++ $(COPTS) -Wno-sign-compare main.cpp -o $@
 
 langparse.c: lang.y
 	bison --defines=langparse.h lang.y -o langparse.c

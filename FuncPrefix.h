@@ -18,6 +18,7 @@
 
 #include "FuncDef.h"
 #include "Symbol.h"
+#include "ParamsNode.h"
 
 class FuncPrefix : public FuncDef
 {
@@ -41,9 +42,21 @@ class FuncPrefix : public FuncDef
         virtual string GetName() {return _id->GetIdentifier();}
     
         Symbol* GetIdentifier() { return _id; }
+
+        void SetParams(Paramsspec* params)
+        {
+            _params = params;
+        }
+
+        Paramsspec* GetParams() 
+        {
+            return _params;
+        }
+
     protected:
         Symbol* _type;
         Symbol* _id;
+        Paramsspec* _params;
 };
 
 #endif

@@ -21,12 +21,11 @@ using std::string;
 
 #include "Symbol.h"
 #include "Decl.h"
-#include "ParamsNode.h"
 #include "ArraySpec.h"
 
 extern int WORD_SIZE;
 
-class VarDecl : virtual public ParamsNode
+class VarDecl : virtual public Decl
 {
     public:
         VarDecl();
@@ -72,6 +71,19 @@ class VarDecl : virtual public ParamsNode
             // emit code for var push
             EmitString("Stack_Pointer += " + std::to_string(GetBaseType()->GetSize()) + ";\n");
 
+        }
+
+        virtual bool Equals(VarDecl* other)
+        {
+            // checks for basic type equivilence
+            bool areEqual = true;
+            if(IsFloat())
+                areEqual = other->IsFloat();
+            else if(IsChar())
+                areEqual = other->IsChar();
+            else if(IsInt())
+                areEqual = other->IsInt();
+            return areEqual;
         }
     protected:
         Symbol* _type;

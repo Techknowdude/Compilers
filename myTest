@@ -1,14 +1,12 @@
 {
-    float a;
     int b;
-
-    struct
+    float a;
+    int Add(int x, int y)
     {
-        int a;
-        float c;
-    } emp;
+        return x + y;
+    }
 
-    b = 2;
-    scan(b);
+    b = 1;
+    b = Add(4, b);
     print(b);
 }

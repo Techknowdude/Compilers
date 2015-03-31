@@ -56,7 +56,18 @@ class BaseDecl : public Decl
             // emit code for var push
             EmitString("Stack_Pointer += " + std::to_string(_size) + ";\n");
         }
-
+        
+        string toString()
+        {
+            if(IsInt())
+                return "int";
+            else if(IsFloat())
+                return "float";
+            else if(IsChar())
+                return "char";
+            else
+                return "nil";
+        }
     protected:
         Symbol* _ident;
         int _size;

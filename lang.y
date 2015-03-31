@@ -416,7 +416,14 @@ func_call:  IDENTIFIER '(' params ')'
                                         YYERROR;
                                     }
                                     else
+                                    {
                                         $$ = new FuncCall(newSymbol,$3);
+                                        if($$->HasError())
+                                        {
+                                            semantic_error($$->GetError());
+                                            YYERROR;
+                                        }
+                                    }
                                 }
 varref:   varref '.' varpart    {
                                     #ifdef DebugMode

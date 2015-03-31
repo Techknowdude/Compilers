@@ -22,6 +22,11 @@ using std::endl;
 FuncCall::FuncCall(Symbol* ident, ParamsNode* params) : _ident(ident), _params(params)
 {
  //   cout << "Func call created" << endl;
+    FuncPrefix* decl = dynamic_cast<FuncPrefix*>(_ident->GetDecl());
+    if(decl != nullptr)
+    {
+        CheckParamsMatch(decl->GetParams());
+    }
 }
 
          

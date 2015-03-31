@@ -18,7 +18,7 @@
 FuncHeader::FuncHeader(FuncPrefix* prefix, Paramsspec* params)
     : _prefix(prefix), _params(params)
 {
-
+    _prefix->SetParams(params);
 }
 
 string FuncHeader::toString()
