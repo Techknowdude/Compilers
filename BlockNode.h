@@ -18,12 +18,13 @@
 
 #include "AstNode.h"
 #include "StmtNode.h"
+#include "DeclsNode.h"
 
 class BlockNode : public StmtNode
 {
 
     public:
-    BlockNode(AstNode* stmts, AstNode* decls);
+    BlockNode(AstNode* stmts, DeclsNode* decls);
     string toString();
     virtual int ComputeOffsets(int base)
     {
@@ -45,10 +46,12 @@ class BlockNode : public StmtNode
             _decls->GenerateCode();
         if(_stmts != nullptr)
             _stmts->GenerateCode();
+        if(_decls != nullptr)
+            _decls->FreeMemory();
     }
 
     private:
-    AstNode* _decls;
+    DeclsNode* _decls;
     AstNode* _stmts;
 };
 

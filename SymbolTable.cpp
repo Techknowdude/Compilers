@@ -36,7 +36,7 @@ SymbolTable::SymbolTable() : SymbolHashes(), defaultHashSize(5)
 	SymbolHashes.front()->setHash(AsciiHash);
 
         Symbol* newSymbol = new Symbol("char");
-        BaseDecl* base = new BaseDecl(newSymbol,1,false);
+        BaseDecl* base = new BaseDecl(newSymbol,4,false);
         _charDecl = base;
         newSymbol->SetDecl(base);
         InsertSymbol(newSymbol);

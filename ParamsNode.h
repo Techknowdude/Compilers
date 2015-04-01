@@ -51,9 +51,9 @@ class ParamsNode : public virtual Decl
         }
         virtual void GenerateCode()
         {
-            list<ExprNode*>::iterator iter;
+            list<ExprNode*>::reverse_iterator iter;
             
-            for(iter = _paramList.begin(); iter != _paramList.end(); ++iter)
+            for(iter = _paramList.rbegin(); iter != _paramList.rend(); ++iter)
             {
                 // push each item onto stack
                 if((*iter)->GetType()->IsInt())
@@ -69,10 +69,20 @@ class ParamsNode : public virtual Decl
                 EmitString(";\n");
 
                 // adjust stack pointer
-                EmitString("Stack_Pointer += " + std::to_string((*iter)->GetSize()) + ";\n");
+                EmitString("Stack_Pointer += " + std::to_string((*iter)->GetType()->GetSize()) + ";\n");
             }
         }
         
+        void DeallocateMemory()
+        {
+            list<ExprNode*>::iterator iter;
+
+            for(iter = _paramList.begin(); iter != _paramList.end(); ++iter)
+            {
+                EmitString("Stack_Pointer -= " + std::to_string((*iter)->GetType()->GetSize()) + ";\n");
+            }
+        }
+
         int GetNumber() {return _paramList.size();}
 
 

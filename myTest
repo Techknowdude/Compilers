@@ -1,12 +1,21 @@
 {
+    int a;
     int b;
-    float a;
-    int Add(int x, int y)
+    int Mult(int x, int y)
     {
-        return x + y;
-    }
+        int result;
 
-    b = 1;
-    b = Add(4, b);
+        result = 0;
+        if ( y )
+        {
+            result = Mult(x, y - 1);
+            result = result + x;
+        }
+
+        return result;
+    }
+    scan(a);
+    scan(b);
+    b = Mult(a,b);
     print(b);
 }

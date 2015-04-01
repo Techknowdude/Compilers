@@ -1,0 +1,19 @@
+{
+    int factorial(int value)
+    {
+        int result;
+        result = 1;
+        if (value) 
+        {
+            int temp;
+            temp = factorial(value - 1);
+            result = value * temp;
+        }
+        return result;
+    }
+
+    int temp;
+
+    temp = factorial(2);
+    print(temp);
+}

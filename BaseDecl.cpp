@@ -16,9 +16,9 @@
 #include "BaseDecl.h"
 
 BaseDecl::BaseDecl(Symbol* ident, int size, bool isFloat) 
-    : _ident(ident), _size(size), _isFloat(isFloat)
+    : _ident(ident), _isFloat(isFloat)
 {
-
+    _size = size;
 }
 
 string BaseDecl::GetName()

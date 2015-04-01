@@ -60,6 +60,12 @@ class DeclsNode : public Decl
                 
         }
 
+        virtual void FreeMemory()
+        {
+            EmitString("// Free space for local variables.\n");
+            EmitString("Stack_Pointer -= " + std::to_string(_size) + ";\n");
+        }
+
     protected:
         list<Decl*> _decls;
 };

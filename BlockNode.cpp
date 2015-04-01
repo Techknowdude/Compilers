@@ -15,7 +15,7 @@
  */
 #include "BlockNode.h"
 
-BlockNode::BlockNode(AstNode* stmts, AstNode* decls) : StmtNode(), _decls(decls), _stmts(stmts)
+BlockNode::BlockNode(AstNode* stmts, DeclsNode* decls) : StmtNode(), _decls(decls), _stmts(stmts)
 {
 
 }

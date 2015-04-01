@@ -48,6 +48,7 @@ class Decl : public virtual AstNode
         {
 
         }
+        virtual int GetSize() {return _size;}
     protected:
 };
 

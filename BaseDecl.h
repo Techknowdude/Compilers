@@ -34,10 +34,6 @@ class BaseDecl : public Decl
 
         int Size() { return _size; }
         virtual string GetName();
-        virtual int GetSize()
-        {
-            return _size;
-        }
         virtual int ComputeOffsets(int base)
         {
             _offset = base;
@@ -70,7 +66,6 @@ class BaseDecl : public Decl
         }
     protected:
         Symbol* _ident;
-        int _size;
         bool _isFloat;
 };
 
